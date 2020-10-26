@@ -1,0 +1,656 @@
+@import "_null.scss";
+
+$db: #40407a;
+$r: #b33939;
+
+body {
+	background-color: black;
+	background: linear-gradient(#000 0%, $db 40%, $db 60%, #000 100%);
+	width: 70vw;
+	height: 70vh;
+	user-select: none;
+	font-size: 18px;
+	overflow: hidden;
+}
+.waves {
+}
+.wave {
+	background-image: url("../img/wave.png");
+	position: fixed;
+	width: 10000px;
+	height: 218px;
+	top: 400px;
+	opacity: 0.07;
+	background-repeat: repeat-x;
+	transform: scale(2, 1);
+
+	&_1 {
+		animation: wave 11s ease-in-out -3s infinite alternate;
+	}
+
+	&_2 {          
+		animation: long-wave 23s ease-in-out 0s infinite alternate;
+		transform: scale(3, 1);
+	}
+
+	&_3 {
+		animation: wave 36s linear -5s infinite alternate;
+	}
+
+	&_rev {
+		transform: scale(3, -1);
+		top: 618px;	  
+	}
+
+	&_4 {
+		animation: long-wave 16s ease-in-out -7s infinite alternate;
+	}
+
+	&_5 {
+		animation: wave 27s ease-in-out -2s infinite alternate;
+		transform: scale(2, -1);
+	}
+
+	&_6 {
+		animation: long-wave 41s ease-in-out -11s infinite alternate;
+	}
+}
+@keyframes wave {
+	0% {
+		left: 0;
+	}
+	100% {
+		left: -3876px;
+	}
+}
+@keyframes long-wave {
+	0% {
+		left: 0;
+	}
+	100% {
+		left: -5814px;
+	}
+}
+
+.horizontal {
+	position: fixed;
+	display: flex;
+	align-items: start;
+
+	&__button {
+		width: 200px;
+		transition: opacity 0.1s ease;
+
+		
+		&_1 {
+		}
+
+		&_2 {
+		}
+
+		&_3 {
+		}
+
+		&_4 {
+		}
+
+		&_5 {
+		}
+
+		&_6 {
+		}
+
+		&_7 {
+		}
+
+		&_8 {
+		}
+	}
+
+	&__selected {
+		opacity: 1;
+	}
+
+	&__selectable {
+		opacity: 0.7;
+
+		&>.horizontal__icon {
+			transform: scale(0.8);
+			filter: grayscale(80%);
+		}
+		&>.horizontal__text {
+			transform: scale(0);
+		}
+
+		&:hover {
+			opacity: 0.9;
+
+			&>.horizontal__icon {
+				transform: scale(1);
+				filter: grayscale(60%);
+			}
+			&>.horizontal__text {
+				transform: scale(1);
+			}
+		}
+	}
+
+	&__icon {
+		margin: 0 50px 0 50px;
+		width: 100px;
+		height: 100px;
+		background-repeat: none;
+		background-size: 100%;
+		transition: transform 0.1s ease-in-out, filter 0.1s ease;
+
+		&_1 {
+			background-image: url('../img/1.png');
+		}
+
+		&_2 {
+			background-image: url('../img/2.png');
+		}
+
+		&_3 {
+			background-image: url('../img/3.png');
+		}
+
+		&_4 {
+			background-image: url('../img/4.png');
+		}
+
+		&_5 {
+			background-image: url('../img/5.png');
+		}
+
+		&_6 {
+			background-image: url('../img/6.png');
+		}
+
+		&_7 {
+			background-image: url('../img/7.png');
+		}
+
+		&_8 {
+			background-image: url('../img/8.png');
+		}
+	}
+
+	&__text {
+		text-transform: uppercase;
+		font-size: 24px;
+		margin-top: 10px;
+		transition: transform 0.2s ease-in-out;
+	}
+}
+.allvertical {
+}
+.vertical {
+	position: absolute;
+	top: 150px;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+
+	&_1 {
+		left: 50px;
+	}
+
+	&_2 {
+		left: 250px;
+	}
+
+	&_3 {
+		left: 450px;
+	}
+
+	&_4 {
+		left: 650px;
+	}
+
+	&_5 {
+		left: 850px;
+	}
+
+	&_6 {
+		left: 1050px;
+	}
+
+	&_7 {
+		left: 1250px;
+	}
+
+	&_8 {
+		left: 1450px;
+	}
+
+	&__button {
+		display: flex;
+		align-items: center;
+		justify-content: start;
+		transition: opacity 0.1s ease;
+
+		&_1 {
+		}
+
+		&_2 {
+		}
+
+		&_3 {
+		}
+
+		&_4 {
+		}
+
+		&_5 {
+		}
+
+		&_6 {
+		}
+
+		&_7 {
+		}
+
+		&_8 {
+		}
+	}
+
+	&__selected {
+		opacity: 1;
+	}
+	
+	&__selectable {
+		opacity: 0.7;
+		font-size: 14px;
+
+		&>.vertical__icon {
+			transform: scale(0.8);
+			filter: grayscale(80%);
+		}
+
+		&:hover {
+			opacity: 0.9;
+
+			&>.vertical__icon {
+				transform: scale(1);
+				filter: grayscale(60%);
+			}
+			&>.vertical__text {
+				font-size: 18px;
+			}
+		}
+	}
+
+	&__icon {
+		margin: 15px;
+		width: 70px;
+		height: 70px;
+		background-repeat: no-repeat;
+		background-size: 100%;
+		float: left;
+		transition: transform 0.1s ease-in-out, filter 0.1s ease;
+
+		&_11 {
+			background-image: url("../img/icons/11.jpg");
+			border-radius: 50%;
+		}
+
+		&_12 {
+			background-image: url("../img/icons/12.png");
+		}
+
+		&_21 {
+			background-image: url("../img/icons/no.png");
+		}
+
+		&_22 {
+			background-image: url("../img/icons/no.png");
+		}
+
+		&_31 {
+			background-image: url("../img/icons/no.png");
+		}
+
+		&_32 {
+			background-image: url("../img/icons/32.png");
+		}
+
+		&_33 {
+			background-image: url("../img/icons/33.png");
+		}
+
+		&_34 {
+			background-image: url("../img/icons/34.png");
+		}
+
+		&_35 {
+			background-image: url("../img/icons/no.png");
+		}
+
+		&_36 {
+			background-image: url("../img/icons/36.png");
+		}
+
+		&_37 {
+			background-image: url("../img/icons/37.png");
+		}
+
+		&_38 {
+			background-image: url("../img/icons/38.png");
+		}
+
+		&_39 {
+		}
+
+		&_41 {
+			background-image: url("../img/icons/no.png");
+		}
+
+		&_42 {
+			background-image: url("../img/icons/no.png");
+		}
+
+		&_43 {
+			background-image: url("../img/icons/no.png");
+		}
+
+		&_51 {
+			background-image: url("../img/icons/51.png");
+		}
+
+		&_52 {
+			background-image: url("../img/icons/52.png");
+		}
+
+		&_61 {
+			background-image: url("../img/icons/61.png");
+		}
+
+		&_71 {
+			background-image: url("../img/icons/71.png");
+		}
+
+		&_72 {
+			background-image: url("../img/icons/72.png");
+		}
+
+		&_73 {
+			background-image: url("../img/icons/73.png");
+		}
+
+		&_74 {
+			background-image: url("../img/icons/74.png");
+		}
+
+		&_75 {
+			background-image: url("../img/icons/75.png");
+		}
+
+		&_81 {
+			background-image: url("../img/icons/no.png");
+		}
+
+		&_82 {
+		}
+	}
+
+	&__text {
+		text-transform: uppercase;
+		text-align: left;
+		transition: font-size 0.1s ease;
+	}
+
+	&__undertext {
+		text-transform: none;
+	}
+}
+.inprocess {
+}
+.typenoclick {
+}
+.typelink {
+}
+.typeflip {
+	background-color: #fff;
+}
+.typeflip-reverse {
+
+}
+.main {
+}
+.tapfield {
+}
+.group {
+	&_1 {
+	}
+
+	&_2 {
+	}
+
+	&_3 {
+	}
+
+	&_4 {
+	}
+
+	&_5 {
+	}
+
+	&_6 {
+	}
+
+	&_7 {
+	}
+
+	&_8 {
+	}
+}
+.info {
+	&__1 {
+		&_1 {
+		}
+
+		&_2 {
+		}
+
+		&_3 {
+		}
+
+		&_4 {
+		}
+
+		&_5 {
+		}
+
+		&_6 {
+		}
+
+		&_7 {
+		}
+
+		&_8 {
+		}
+	}
+
+	&__2 {
+		&_1 {
+		}
+
+		&_2 {
+		}
+
+		&_3 {
+		}
+
+		&_4 {
+		}
+
+		&_5 {
+		}
+
+		&_6 {
+		}
+
+		&_7 {
+		}
+
+		&_8 {
+		}
+	}
+
+	&__3 {
+		&_1 {
+		}
+
+		&_2 {
+		}
+
+		&_3 {
+		}
+
+		&_4 {
+		}
+
+		&_5 {
+		}
+
+		&_6 {
+		}
+
+		&_7 {
+		}
+
+		&_8 {
+		}
+	}
+
+	&__4 {
+		&_1 {
+		}
+
+		&_2 {
+		}
+
+		&_3 {
+		}
+
+		&_4 {
+		}
+
+		&_5 {
+		}
+
+		&_6 {
+		}
+
+		&_7 {
+		}
+
+		&_8 {
+		}
+	}
+
+	&__5 {
+		&_1 {
+		}
+
+		&_2 {
+		}
+
+		&_3 {
+		}
+
+		&_4 {
+		}
+
+		&_5 {
+		}
+
+		&_6 {
+		}
+
+		&_7 {
+		}
+
+		&_8 {
+		}
+	}
+
+	&__6 {
+		&_1 {
+		}
+
+		&_2 {
+		}
+
+		&_3 {
+		}
+
+		&_4 {
+		}
+
+		&_5 {
+		}
+
+		&_6 {
+		}
+
+		&_7 {
+		}
+
+		&_8 {
+		}
+	}
+
+	&__7 {
+		&_1 {
+		}
+
+		&_2 {
+		}
+
+		&_3 {
+		}
+
+		&_4 {
+		}
+
+		&_5 {
+		}
+
+		&_6 {
+		}
+
+		&_7 {
+		}
+
+		&_8 {
+		}
+	}
+
+	&__8 {
+		&_1 {
+		}
+
+		&_2 {
+		}
+
+		&_3 {
+		}
+
+		&_4 {
+		}
+
+		&_5 {
+		}
+
+		&_6 {
+		}
+
+		&_7 {
+		}
+
+		&_8 {
+		}
+	}
+}

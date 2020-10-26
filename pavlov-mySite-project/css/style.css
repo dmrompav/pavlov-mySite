@@ -1,0 +1,546 @@
+@charset "UTF-8";
+
+/*Обнуление*/
+
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+body {
+  background-color: black;
+  background: -webkit-gradient(linear, left top, left bottom, from(#000), color-stop(40%, #40407a), color-stop(60%, #40407a), to(#000));
+  background: -o-linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%);
+  background: linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%);
+  width: 70vw;
+  height: 70vh;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-size: 18px;
+  overflow: hidden;
+}
+
+.wave {
+  background-image: url("../img/wave.png");
+  position: fixed;
+  width: 10000px;
+  height: 218px;
+  top: 400px;
+  opacity: 0.07;
+  background-repeat: repeat-x;
+  -webkit-transform: scale(2, 1);
+      -ms-transform: scale(2, 1);
+          transform: scale(2, 1);
+}
+
+.wave_1 {
+  -webkit-animation: wave 11s ease-in-out -3s infinite alternate;
+          animation: wave 11s ease-in-out -3s infinite alternate;
+}
+
+.wave_2 {
+  -webkit-animation: long-wave 23s ease-in-out 0s infinite alternate;
+          animation: long-wave 23s ease-in-out 0s infinite alternate;
+  -webkit-transform: scale(3, 1);
+      -ms-transform: scale(3, 1);
+          transform: scale(3, 1);
+}
+
+.wave_3 {
+  -webkit-animation: wave 36s linear -5s infinite alternate;
+          animation: wave 36s linear -5s infinite alternate;
+}
+
+.wave_rev {
+  -webkit-transform: scale(3, -1);
+      -ms-transform: scale(3, -1);
+          transform: scale(3, -1);
+  top: 618px;
+}
+
+.wave_4 {
+  -webkit-animation: long-wave 16s ease-in-out -7s infinite alternate;
+          animation: long-wave 16s ease-in-out -7s infinite alternate;
+}
+
+.wave_5 {
+  -webkit-animation: wave 27s ease-in-out -2s infinite alternate;
+          animation: wave 27s ease-in-out -2s infinite alternate;
+  -webkit-transform: scale(2, -1);
+      -ms-transform: scale(2, -1);
+          transform: scale(2, -1);
+}
+
+.wave_6 {
+  -webkit-animation: long-wave 41s ease-in-out -11s infinite alternate;
+          animation: long-wave 41s ease-in-out -11s infinite alternate;
+}
+
+@-webkit-keyframes wave {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -3876px;
+  }
+}
+
+@keyframes wave {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -3876px;
+  }
+}
+
+@-webkit-keyframes long-wave {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -5814px;
+  }
+}
+
+@keyframes long-wave {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -5814px;
+  }
+}
+
+.horizontal {
+  position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+}
+
+.horizontal__button {
+  width: 200px;
+  -webkit-transition: opacity 0.1s ease;
+  -o-transition: opacity 0.1s ease;
+  transition: opacity 0.1s ease;
+}
+
+.horizontal__selected {
+  opacity: 1;
+}
+
+.horizontal__selectable {
+  opacity: 0.7;
+}
+
+.horizontal__selectable > .horizontal__icon {
+  -webkit-transform: scale(0.8);
+      -ms-transform: scale(0.8);
+          transform: scale(0.8);
+  -webkit-filter: grayscale(80%);
+          filter: grayscale(80%);
+}
+
+.horizontal__selectable > .horizontal__text {
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+          transform: scale(0);
+}
+
+.horizontal__selectable:hover {
+  opacity: 0.9;
+}
+
+.horizontal__selectable:hover > .horizontal__icon {
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
+  -webkit-filter: grayscale(60%);
+          filter: grayscale(60%);
+}
+
+.horizontal__selectable:hover > .horizontal__text {
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
+}
+
+.horizontal__icon {
+  margin: 0 50px 0 50px;
+  width: 100px;
+  height: 100px;
+  background-repeat: none;
+  background-size: 100%;
+  -webkit-transition: -webkit-transform 0.1s ease-in-out, -webkit-filter 0.1s ease;
+  transition: -webkit-transform 0.1s ease-in-out, -webkit-filter 0.1s ease;
+  -o-transition: transform 0.1s ease-in-out, filter 0.1s ease;
+  transition: transform 0.1s ease-in-out, filter 0.1s ease;
+  transition: transform 0.1s ease-in-out, filter 0.1s ease, -webkit-transform 0.1s ease-in-out, -webkit-filter 0.1s ease;
+}
+
+.horizontal__icon_1 {
+  background-image: url("../img/1.png");
+}
+
+.horizontal__icon_2 {
+  background-image: url("../img/2.png");
+}
+
+.horizontal__icon_3 {
+  background-image: url("../img/3.png");
+}
+
+.horizontal__icon_4 {
+  background-image: url("../img/4.png");
+}
+
+.horizontal__icon_5 {
+  background-image: url("../img/5.png");
+}
+
+.horizontal__icon_6 {
+  background-image: url("../img/6.png");
+}
+
+.horizontal__icon_7 {
+  background-image: url("../img/7.png");
+}
+
+.horizontal__icon_8 {
+  background-image: url("../img/8.png");
+}
+
+.horizontal__text {
+  text-transform: uppercase;
+  font-size: 24px;
+  margin-top: 10px;
+  -webkit-transition: -webkit-transform 0.2s ease-in-out;
+  transition: -webkit-transform 0.2s ease-in-out;
+  -o-transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+}
+
+.vertical {
+  position: absolute;
+  top: 150px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+}
+
+.vertical_1 {
+  left: 50px;
+}
+
+.vertical_2 {
+  left: 250px;
+}
+
+.vertical_3 {
+  left: 450px;
+}
+
+.vertical_4 {
+  left: 650px;
+}
+
+.vertical_5 {
+  left: 850px;
+}
+
+.vertical_6 {
+  left: 1050px;
+}
+
+.vertical_7 {
+  left: 1250px;
+}
+
+.vertical_8 {
+  left: 1450px;
+}
+
+.vertical__button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-transition: opacity 0.1s ease;
+  -o-transition: opacity 0.1s ease;
+  transition: opacity 0.1s ease;
+}
+
+.vertical__selected {
+  opacity: 1;
+}
+
+.vertical__selectable {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+.vertical__selectable > .vertical__icon {
+  -webkit-transform: scale(0.8);
+      -ms-transform: scale(0.8);
+          transform: scale(0.8);
+  -webkit-filter: grayscale(80%);
+          filter: grayscale(80%);
+}
+
+.vertical__selectable:hover {
+  opacity: 0.9;
+}
+
+.vertical__selectable:hover > .vertical__icon {
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
+  -webkit-filter: grayscale(60%);
+          filter: grayscale(60%);
+}
+
+.vertical__selectable:hover > .vertical__text {
+  font-size: 18px;
+}
+
+.vertical__icon {
+  margin: 15px;
+  width: 70px;
+  height: 70px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  float: left;
+  -webkit-transition: -webkit-transform 0.1s ease-in-out, -webkit-filter 0.1s ease;
+  transition: -webkit-transform 0.1s ease-in-out, -webkit-filter 0.1s ease;
+  -o-transition: transform 0.1s ease-in-out, filter 0.1s ease;
+  transition: transform 0.1s ease-in-out, filter 0.1s ease;
+  transition: transform 0.1s ease-in-out, filter 0.1s ease, -webkit-transform 0.1s ease-in-out, -webkit-filter 0.1s ease;
+}
+
+.vertical__icon_11 {
+  background-image: url("../img/icons/11.jpg");
+  border-radius: 50%;
+}
+
+.vertical__icon_12 {
+  background-image: url("../img/icons/12.png");
+}
+
+.vertical__icon_21 {
+  background-image: url("../img/icons/no.png");
+}
+
+.vertical__icon_22 {
+  background-image: url("../img/icons/no.png");
+}
+
+.vertical__icon_31 {
+  background-image: url("../img/icons/no.png");
+}
+
+.vertical__icon_32 {
+  background-image: url("../img/icons/32.png");
+}
+
+.vertical__icon_33 {
+  background-image: url("../img/icons/33.png");
+}
+
+.vertical__icon_34 {
+  background-image: url("../img/icons/34.png");
+}
+
+.vertical__icon_35 {
+  background-image: url("../img/icons/no.png");
+}
+
+.vertical__icon_36 {
+  background-image: url("../img/icons/36.png");
+}
+
+.vertical__icon_37 {
+  background-image: url("../img/icons/37.png");
+}
+
+.vertical__icon_38 {
+  background-image: url("../img/icons/38.png");
+}
+
+.vertical__icon_41 {
+  background-image: url("../img/icons/no.png");
+}
+
+.vertical__icon_42 {
+  background-image: url("../img/icons/no.png");
+}
+
+.vertical__icon_43 {
+  background-image: url("../img/icons/no.png");
+}
+
+.vertical__icon_51 {
+  background-image: url("../img/icons/51.png");
+}
+
+.vertical__icon_52 {
+  background-image: url("../img/icons/52.png");
+}
+
+.vertical__icon_61 {
+  background-image: url("../img/icons/61.png");
+}
+
+.vertical__icon_71 {
+  background-image: url("../img/icons/71.png");
+}
+
+.vertical__icon_72 {
+  background-image: url("../img/icons/72.png");
+}
+
+.vertical__icon_73 {
+  background-image: url("../img/icons/73.png");
+}
+
+.vertical__icon_74 {
+  background-image: url("../img/icons/74.png");
+}
+
+.vertical__icon_75 {
+  background-image: url("../img/icons/75.png");
+}
+
+.vertical__icon_81 {
+  background-image: url("../img/icons/no.png");
+}
+
+.vertical__text {
+  text-transform: uppercase;
+  text-align: left;
+  -webkit-transition: font-size 0.1s ease;
+  -o-transition: font-size 0.1s ease;
+  transition: font-size 0.1s ease;
+}
+
+.vertical__undertext {
+  text-transform: none;
+}
+
+.typeflip {
+  background-color: #fff;
+}
