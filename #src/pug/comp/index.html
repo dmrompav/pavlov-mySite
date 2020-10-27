@@ -7,6 +7,8 @@
 	<div class="wave wave_5 wave_rev"></div>
 	<div class="wave wave_6 wave_rev"></div>
 </div>
+<button class="arrow arrow_left"><< </button>
+<button class="arrow arrow_right">>></button>
 <nav class="horizontal">
 	<button class="horizontal__button horizontal__button_1 horizontal__selected">
 		<div class="horizontal__icon horizontal__icon_1"></div>
@@ -96,7 +98,9 @@
 			<h3 class="vertical__text">Прочее<br/><span class="vertical__undertext">PerfectPixel, адаптивность, кроссбраузерность</span></h3>
 		</button>
 		<button class="vertical__button vertical__button_8 vertical__selectable">
-			<div class="vertical__icon vertical__icon_39 inprocess"></div>
+			<div class="vertical__icon vertical__icon_39 inprocess">
+				<div class="inprocess__loader"></div>
+			</div>
 			<h3 class="vertical__text">PHP<br/><span class="vertical__undertext">В процессе...</span></h3>
 		</button>
 	</nav>
@@ -157,9 +161,11 @@
 			<div class="vertical__icon vertical__icon_81"></div>
 			<h3 class="vertical__text">Language<br/><span class="vertical__undertext">Russian</span></h3>
 		</button>
-		<button class="vertical__button vertical__button_2 vertical__selectable">
-			<div class="vertical__icon vertical__icon_82 typeflip"></div>
-			<div class="vertical__icon vertical__icon_82 typeflip typeflip-reverse"></div>
+		<button class="vertical__button vertical__button_2 vertical__selectable typeflip">
+			<div class="vertical__icon vertical__icon_82">
+				<div class="flip flip__blue"></div>
+				<div class="flip flip__red"></div>
+			</div>
 			<h3 class="vertical__text">Цветовая тема<br/><span class="vertical__undertext"></span></h3>
 		</button>
 	</nav>
