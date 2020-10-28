@@ -13,6 +13,9 @@ body {
 	font-size: 18px;
 	overflow: hidden;
 }
+a, a:visited{
+	color: #f7f1e3;
+}
 .waves {
 }
 .wave {
@@ -91,7 +94,7 @@ body {
 	position: fixed;
 	display: flex;
 	align-items: start;
-	transition: left 0.2s ease-in-out;
+	transition: left 0.2s ease-in-out, top 0.2s ease, opacity 0.1s;
 
 	&__button {
 		
@@ -139,7 +142,7 @@ body {
 }
 .allvertical {
 	position: relative;
-	transition: left 0.2s ease-in-out;
+	transition: left 0.2s ease-in-out, opacity 0.1s;
 }
 .vertical {
 	z-index: 10;
@@ -151,7 +154,7 @@ body {
 	width: 0;
 	opacity: 0;
 	overflow: hidden;
-	transition: opacity 1s ease-out, top 0.2s ease;
+	transition: opacity 0.5s ease-out, top 0.2s ease;
 
 	&_1 {left: 0px;	width: auto; opacity: 1;}
 	&_2 {left: 200px;}
@@ -163,7 +166,8 @@ body {
 	&_8 {left: 1400px;}
 
 	&__button {
-		min-width: 320px;
+		min-width: 95vw;
+		max-width: 400px;
 		display: flex;
 		align-items: center;
 		justify-content: start;
@@ -227,7 +231,7 @@ body {
 		height: 70px;
 		background-repeat: no-repeat;
 		background-size: 100%;
-		transition: transform 0.1s ease-in-out, filter 0.1s ease;
+		transition: transform 0.1s ease-in-out;
 
 		&_11 {background-image: url("../img/icons/11.jpg");border-radius: 50%;}
 		&_12 {background-image: url("../img/icons/12.png");}
@@ -286,6 +290,8 @@ body {
 .typelink {
 }
 .typeflip {
+	position: relative;
+	perspective: 300px;
 
 	&>.vertical__icon {
 		filter: none;
@@ -298,12 +304,14 @@ body {
 	}
 }
 .flip {
-	width: 100%;
-	height: 100%;
+	width: 70px;
+	height: 70px;
 	position: absolute;
 	backface-visibility: hidden;
 	border: 3px solid $w;
 	border-radius: 30%;
+	transition: transform 0.3s ease-in-out;
+
 
 	&__blue {
 		background-color: $db;
@@ -321,12 +329,14 @@ body {
 	height: 100vh;
 	display: flex;
 	justify-content: center;
+	align-items: center;
 }
 .tapfield {
 	position: fixed;
 	z-index: 29;
 	width: 100vw;
-	height: 100vh;
+	height: 0;
+	overflow: hidden;
 	cursor: pointer;
 }
 .group {
@@ -335,6 +345,7 @@ body {
 	width: 1200px;
 	max-width: 80vw;
 	height: 100vh;
+	transform: scale(0);
 
 	&_1 {}
 	&_2 {}
@@ -345,15 +356,30 @@ body {
 	&_7 {}
 	&_8 {}
 }
+.close {
+	z-index: 50;
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	font-size: 34px;
+	font-family: sans-serif;
+	color: #f7f1e3;
+	cursor: pointer;
+
+}
 .info {
+	z-index: 40;
+	position: absolute;
 	width: 100%;
 	height: 100%;
+	padding: 30px;
 	overflow-x: hidden;
 	overflow-y: visible;
-	background-color: rgba(0, 0, 0, 0.1);
-	margin: 0 auto 0 auto;
+	background-color: rgba(0, 0, 0, 0.3);
+	margin: auto auto auto auto;
 	transform: scale(0);
-	opacity: 1;
+	opacity: 0;
+	transition: transform 0.3s ease;
 
 	&__1 {
 		&_1 {}
@@ -492,7 +518,7 @@ body {
 			height: 100px;
 			background-repeat: none;
 			background-size: 100%;
-			transition: transform 0.1s ease-in-out, filter 0.1s ease;
+			transition: transform 0.1s ease-in-out;
 	
 			&_1 {background-image: url('../img/1.png');}	
 			&_2 {background-image: url('../img/2.png');}	
