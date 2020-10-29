@@ -21,7 +21,7 @@ a, a:visited{
 .wave {
 	background-image: url("../img/wave.png");
 	position: fixed;
-	width: 10000px;
+	width: 6000px;
 	height: 218px;
 	top: 400px;
 	opacity: 0.07;
@@ -94,9 +94,10 @@ a, a:visited{
 	position: fixed;
 	display: flex;
 	align-items: start;
-	transition: left 0.2s ease-in-out, top 0.2s ease, opacity 0.1s;
+	transition: left 0.2s ease-in-out, top 0.2s, opacity 0.1s;
 
 	&__button {
+		-webkit-tap-highlight-color: transparent;
 		
 		&_1 {
 		}
@@ -142,7 +143,7 @@ a, a:visited{
 }
 .allvertical {
 	position: relative;
-	transition: left 0.2s ease-in-out, opacity 0.1s;
+	transition: left 0.2s ease, opacity 0.1s;
 }
 .vertical {
 	z-index: 10;
@@ -154,7 +155,7 @@ a, a:visited{
 	width: 0;
 	opacity: 0;
 	overflow: hidden;
-	transition: opacity 0.5s ease-out, top 0.2s ease;
+	transition: opacity 0.5s ease, top 0.2s ease;
 
 	&_1 {left: 0px;	width: auto; opacity: 1;}
 	&_2 {left: 150px;}
@@ -166,12 +167,13 @@ a, a:visited{
 	&_8 {left: 1050px;}
 
 	&__button {
+		-webkit-tap-highlight-color: transparent;
 		min-width: 95vw;
 		max-width: 400px;
 		display: flex;
 		align-items: center;
 		justify-content: start;
-		transition: opacity 0.1s ease, margin-top 0.2s ease-in-out;
+		transition: opacity 0.1s, margin-top 0.2s ease;
 
 		&_1 {
 		}
@@ -231,7 +233,7 @@ a, a:visited{
 		height: 70px;
 		background-repeat: no-repeat;
 		background-size: 100%;
-		transition: transform 0.1s ease-in-out;
+		transition: transform 0.1s ease;
 
 		&_11 {background-image: url("../img/icons/11.jpg");border-radius: 50%;}
 		&_12 {background-image: url("../img/icons/12.png");}
@@ -264,7 +266,7 @@ a, a:visited{
 	&__text {
 		text-transform: uppercase;
 		text-align: left;
-		transition: font-size 0.1s ease;
+		transition: font-size 0.1s;
 	}
 
 	&__undertext {
@@ -291,9 +293,9 @@ a, a:visited{
 }
 .typeflip {
 	position: relative;
-	perspective: 300px;
 
 	&>.vertical__icon {
+		perspective: 100px;
 		filter: none;
 	}
 	&:hover {
@@ -310,7 +312,7 @@ a, a:visited{
 	backface-visibility: hidden;
 	border: 3px solid $w;
 	border-radius: 30%;
-	transition: transform 0.3s ease-in-out;
+	transition: transform 0.3s ease;
 
 
 	&__blue {
@@ -367,7 +369,7 @@ a, a:visited{
 .info {
 	z-index: 40;
 	position: fixed;
-	width: 1200px;
+	width: 800px;
 	max-width: 80vw;
 	padding: 50px 10px;
 	overflow-x: hidden;
@@ -462,7 +464,7 @@ a, a:visited{
 
 // !@MEDIA ==============================================
 // waves Y position: height =============================
-@media (max-height: 620px) {
+@media (max-height: 820px) {
 	.wave {
 		top: 140px;
 
@@ -480,7 +482,17 @@ a, a:visited{
 
 		&__button {
 			width: 150px;
-			transition: opacity 0.1s ease;
+			transition: opacity 0.1s;
+
+			&_7 {
+				.horizontal__icon {
+					animation: long-pulse 15s infinite;
+				}
+
+				&:hover {
+					animation: none;
+				}
+			}
 		}
 
 		&__selected {
@@ -514,7 +526,7 @@ a, a:visited{
 			height: 100px;
 			background-repeat: none;
 			background-size: 100%;
-			transition: transform 0.1s ease-in-out;
+			transition: transform 0.1s;
 	
 			&_1 {background-image: url('../img/1.png');}	
 			&_2 {background-image: url('../img/2.png');}	
@@ -528,7 +540,7 @@ a, a:visited{
 	
 		&__text {
 			margin-top: 10px;
-			transition: transform 0.2s ease-in-out;
+			transition: transform 0.2s;
 		}
 	}
 
@@ -555,6 +567,9 @@ a, a:visited{
 
 // modile =================================================
 @media (max-width: 767px) {
+	.wave {
+		width: 4000px;
+	}
 
 	.horizontal {
 		top: 30px;
@@ -606,4 +621,16 @@ a, a:visited{
 	100% {
 		transform: rotate(360deg)
 	}
+}
+
+@keyframes long-pulse {
+	100% {transform: scale(1);filter: grayscale(90%);}
+	98% {transform: scale(1.4);filter: grayscale(40%);}
+	96% {transform: scale(0.7);filter: grayscale(90%);}
+	94% {transform: scale(1.5);filter: grayscale(40%);}
+	92% {transform: scale(0.6);filter: grayscale(90%);}
+	90% {transform: scale(1.6);filter: grayscale(40%);}
+	88% {transform: scale(0.5);filter: grayscale(40%);}
+	86% {transform: scale(1);filter: grayscale(90%);}
+	0% {transform: scale(1);filter: grayscale(90%);}
 }

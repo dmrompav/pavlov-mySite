@@ -1,5 +1,15 @@
 "use strict";
 
+// ДОСТУП КО ВСЕМ ЭЛЕМЕНТАМ
+// ДИНАМИЧ АДАПТИВ И РЕСАЙЗ
+// ПЕРВЫЕ EVENT LISTENERS (CLICK)
+// ФУНКЦИИ
+// сокращения: 
+// H - horizontal, 
+// V - vertical, 
+// A - arrowl,
+// trans - перемещение;
+// СКРОЛЛ
 // !Получаем доступ ко всем элементам =====================
 var arrowl = document.querySelector('.arrow_left'),
     arrowr = document.querySelector('.arrow_right'),
@@ -19,11 +29,13 @@ for (var i = 0; i < ver.length; i++) {
 
 for (var _i = 0; _i < group.length; _i++) {
   info[_i] = group[_i].querySelectorAll('.info');
-} // !Индексирование все элементов по Х и У +  прочие элементы================
+} // !Индексирование все элементов по Х и У + прочие элементы================
 
 
 var hind = 0,
-    vind = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    //по горизонтали
+vind = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //по вертикали
+
 var scroll = true,
     flip = 0; // !Размеры и расстояния =================================
 
@@ -59,35 +71,51 @@ function Resize() {
     hortoppos = 0.3 * vh;
     allvertoppos = 0.3 * vh;
     vertoptrans = 100;
-  }
+  } // console.log('Resized:' + ' horleftpos:' + horleftpos + '; allverleftpos:' + allverleftpos + '; horlefttrans:' + horlefttrans + 
+  // '; allverlefttrans:' + allverlefttrans + '; allvertoppos:' + allvertoppos + '; vertoptrans:' + vertoptrans);
 
-  console.log('Resized:' + ' horleftpos:' + horleftpos + '; allverleftpos:' + allverleftpos + '; horlefttrans:' + horlefttrans + '; allverlefttrans:' + allverlefttrans + '; allvertoppos:' + allvertoppos + '; vertoptrans:' + vertoptrans);
+
   Htrans();
   Vtrans();
 } // !Действие ===========================================
 
 
 for (var _i2 = 0; _i2 < horbut.length; _i2++) {
-  horbut[_i2].onclick = Hclick;
+  horbut[_i2].addEventListener('click', Hclick, false); //8 LISTENERS
+
 }
 
-for (var _i3 = 0; _i3 < ver.length; _i3++) {
-  for (var j = 0; j < verbut[_i3].length; j++) {
-    verbut[_i3][j].onclick = Vclick;
+Vlistener(); //A FEW LISTENERS
+
+arrowl.addEventListener('click', Aclick, false); //1
+
+arrowr.addEventListener('click', Aclick, false); //1
+// !Задаём функции =====================================
+// ?Установить listener:
+
+function Vlistener() {
+  for (var _i3 = 0; _i3 < verbut[hind].length; _i3++) {
+    verbut[hind][_i3].addEventListener('click', Vclick, false);
   }
 }
 
-arrowl.onclick = Aclick;
-arrowr.onclick = Aclick; // !Задаём функции =====================================
-// *Клик по Horizontal buttons
+function DelVlistener() {
+  for (var _i4 = 0; _i4 < verbut[hind].length; _i4++) {
+    verbut[hind][_i4].removeEventListener('click', Vclick, false);
+  }
+} // *Клик по Horizontal buttons
+
 
 function Hclick() {
-  for (var _i4 = 0; _i4 < horbut.length; _i4++) {
-    if (this == horbut[_i4]) {
-      hind = _i4;
+  DelVlistener();
+
+  for (var _i5 = 0; _i5 < horbut.length; _i5++) {
+    if (this == horbut[_i5]) {
+      hind = _i5;
     }
   }
 
+  Vlistener();
   Htrans();
   console.log(hind + ':' + vind[hind] + " - Hclick");
 } // *Клик по Vertical buttons
@@ -97,9 +125,9 @@ function Vclick(event) {
   if (this !== verbut[hind][vind[hind]]) {
     event.preventDefault();
 
-    for (var _i5 = 0; _i5 < verbut[hind].length; _i5++) {
-      if (this == verbut[hind][_i5]) {
-        vind[hind] = _i5;
+    for (var _i6 = 0; _i6 < verbut[hind].length; _i6++) {
+      if (this == verbut[hind][_i6]) {
+        vind[hind] = _i6;
       }
     }
 
@@ -138,7 +166,7 @@ function Vclick(event) {
 
 
 function Aclick() {
-  console.log(hind + ':' + vind[hind] + " - Aclick");
+  DelVlistener(); // console.log (hind + ':' + vind[hind] + " - Aclick")
 
   if (this == arrowl) {
     hind--;
@@ -147,6 +175,8 @@ function Aclick() {
     hind++;
     Htrans();
   }
+
+  Vlistener();
 }
 
 function Htrans() {
@@ -157,10 +187,10 @@ function Htrans() {
   hor.style.left = horx + 'px';
   allver.style.left = allverx + 'px'; // выделим выбранную кнопку
 
-  for (var _i6 = 0; _i6 < horbut.length; _i6++) {
-    horbut[_i6].classList.remove('horizontal__selected');
+  for (var _i7 = 0; _i7 < horbut.length; _i7++) {
+    horbut[_i7].classList.remove('horizontal__selected');
 
-    horbut[_i6].classList.add('horizontal__selectable');
+    horbut[_i7].classList.add('horizontal__selectable');
   }
 
   horbut[hind].classList.remove('horizontal__selectable');
@@ -176,9 +206,9 @@ function Htrans() {
   } // выберем другой вертикальный слайдер
 
 
-  for (var _i7 = 0; _i7 < ver.length; _i7++) {
-    ver[_i7].style.opacity = 0;
-    ver[_i7].style.width = 0;
+  for (var _i8 = 0; _i8 < ver.length; _i8++) {
+    ver[_i8].style.opacity = 0;
+    ver[_i8].style.width = 0;
   }
 
   ver[hind].style.opacity = 1;
@@ -191,10 +221,10 @@ function Vtrans() {
 
   ver[hind].style.top = very + 'px'; // выделим выбранную кнопку
 
-  for (var _i8 = 0; _i8 < verbut[hind].length; _i8++) {
-    verbut[hind][_i8].classList.remove('vertical__selected');
+  for (var _i9 = 0; _i9 < verbut[hind].length; _i9++) {
+    verbut[hind][_i9].classList.remove('vertical__selected');
 
-    verbut[hind][_i8].classList.add('vertical__selectable');
+    verbut[hind][_i9].classList.add('vertical__selectable');
   }
 
   verbut[hind][vind[hind]].classList.remove('vertical__selectable');
@@ -224,25 +254,32 @@ function CallInfo() {
   arrowl.style.width = "0px";
   arrowr.style.width = "0px"; //Позволить свернуть info кликом сбоку
 
-  tapfield[hind].onclick = CloseInfo; //Позволить свернуть info кликом сбоку
+  tapfield[hind].addEventListener('click', CloseInfo, false); //Позволить свернуть info крестиком
 
-  document.querySelector('.close').onclick = CloseInfo;
+  document.querySelector('.close').addEventListener('click', CloseInfo, false);
 }
 
 function CloseInfo() {
-  console.log('close info');
-  scroll = true;
+  // console.log('close info');
+  tapfield[hind].removeEventListener('click', CloseInfo, false); //разрешить скролл
+
+  scroll = true; //свернуть info
+
   group[hind].style.transform = "scale(0)";
   info[hind][vind[hind]].style.transform = "scale(0)";
   info[hind][vind[hind]].style.opacity = "0";
   main.style.zIndex = "0";
-  tapfield[hind].style.height = "0";
+  tapfield[hind].style.height = "0"; //вернуть слайдеры
+
   Vtrans();
   Htrans();
   hor.style.top = hortoppos + 'px';
   allver.style.opacity = 1;
-  hor.style.opacity = 1;
-  document.querySelector('.close').remove();
+  hor.style.opacity = 1; //убрать крестик
+
+  document.querySelector('.close').removeEventListener('click', CloseInfo, false);
+  document.querySelector('.close').remove(); //вернуть стрелки
+
   arrowl.style.width = "20px";
   arrowr.style.width = "20px";
 
@@ -292,8 +329,7 @@ function onWheel(e) {
         }
       }
 
-      Vtrans();
-      console.log(hind + ':' + vind[hind] + " - Scroll");
+      Vtrans(); // console.log(hind + ':' + vind[hind] + " - Scroll");
     }
   }
 }

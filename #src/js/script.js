@@ -1,3 +1,15 @@
+// ДОСТУП КО ВСЕМ ЭЛЕМЕНТАМ
+// ДИНАМИЧ АДАПТИВ И РЕСАЙЗ
+// ПЕРВЫЕ EVENT LISTENERS (CLICK)
+// ФУНКЦИИ
+	// сокращения: 
+		// H - horizontal, 
+		// V - vertical, 
+		// A - arrowl,
+		// trans - перемещение;
+// СКРОЛЛ
+
+
 // !Получаем доступ ко всем элементам =====================
 const
 	arrowl	= document.querySelector('.arrow_left'),
@@ -21,14 +33,14 @@ for (let i = 0; i < group.length; i++) {
 
 
 
-// !Индексирование все элементов по Х и У +  прочие элементы================
+// !Индексирование все элементов по Х и У + прочие элементы================
 var
-	hind	= 0,
-	vind	= [0,0,0,0,0,0,0,0,0,0,0,0];
+	hind	= 0,								//по горизонтали
+	vind	= [0,0,0,0,0,0,0,0,0,0,0,0];		//по вертикали
 var
 	scroll	= true,
 	flip	= 0;
-	
+
 
 
 // !Размеры и расстояния =================================
@@ -66,8 +78,8 @@ function Resize() {
 		allvertoppos	= 0.3 * vh;
 		vertoptrans		= 100;
 	}
-	console.log('Resized:' + ' horleftpos:' + horleftpos + '; allverleftpos:' + allverleftpos + '; horlefttrans:' + horlefttrans + 
-	'; allverlefttrans:' + allverlefttrans + '; allvertoppos:' + allvertoppos + '; vertoptrans:' + vertoptrans);
+	// console.log('Resized:' + ' horleftpos:' + horleftpos + '; allverleftpos:' + allverleftpos + '; horlefttrans:' + horlefttrans + 
+	// '; allverlefttrans:' + allverlefttrans + '; allvertoppos:' + allvertoppos + '; vertoptrans:' + vertoptrans);
 	Htrans();
 	Vtrans();
 }
@@ -76,26 +88,35 @@ function Resize() {
 
 // !Действие ===========================================
 for (let i = 0; i < horbut.length; i++) {
-	horbut[i].onclick = Hclick;
+	horbut[i].addEventListener('click', Hclick, false);		//8 LISTENERS
 }
-for (let i = 0; i < ver.length; i++) {
-	for (let j = 0; j < verbut[i].length; j++) {
-		verbut[i][j].onclick = Vclick;
-	}
-}
-arrowl.onclick = Aclick;
-arrowr.onclick = Aclick;
+Vlistener();												//A FEW LISTENERS
+arrowl.addEventListener('click', Aclick, false);			//1
+arrowr.addEventListener('click', Aclick, false);			//1
 
 
 
 // !Задаём функции =====================================
+// ?Установить listener:
+function Vlistener() {
+	for (let i = 0; i < verbut[hind].length; i++) {
+		verbut[hind][i].addEventListener('click', Vclick, false);
+	}
+}
+function DelVlistener() {
+	for (let i = 0; i < verbut[hind].length; i++) {
+		verbut[hind][i].removeEventListener('click', Vclick, false);
+	}
+}
 // *Клик по Horizontal buttons
 function Hclick() {
+	DelVlistener();
 	for (let i = 0; i < horbut.length; i++) {
 		if (this == horbut[i]) {
 			hind = i;
 		}
 	}
+	Vlistener();
 	Htrans();
 	console.log(hind + ':' + vind[hind] + " - Hclick");
 }
@@ -138,7 +159,8 @@ function Vclick(event) {
 }
 // *Клик по Arrows
 function Aclick() {
-	console.log (hind + ':' + vind[hind] + " - Aclick")
+	DelVlistener();
+	// console.log (hind + ':' + vind[hind] + " - Aclick")
 	if (this == arrowl) {
 		hind--;
 		Htrans();
@@ -147,6 +169,7 @@ function Aclick() {
 		hind++;
 		Htrans();
 	}
+	Vlistener();
 }
 
 function Htrans() {
@@ -218,25 +241,32 @@ function CallInfo() {
 	arrowl.style.width		= "0px";
 	arrowr.style.width		= "0px";
 	//Позволить свернуть info кликом сбоку
-	tapfield[hind].onclick = CloseInfo;
-	//Позволить свернуть info кликом сбоку
-	document.querySelector('.close').onclick = CloseInfo;
+	tapfield[hind].addEventListener('click', CloseInfo, false);
+	//Позволить свернуть info крестиком
+	document.querySelector('.close').addEventListener('click', CloseInfo, false);
 }
 
 function CloseInfo() {
-	console.log('close info');
+	// console.log('close info');
+	tapfield[hind].removeEventListener('click', CloseInfo, false);
+	//разрешить скролл
 	scroll = true;
+	//свернуть info
 	group[hind].style.transform				= "scale(0)";
 	info[hind][vind[hind]].style.transform	= "scale(0)";
 	info[hind][vind[hind]].style.opacity	= "0";
 	main.style.zIndex						= "0";
 	tapfield[hind].style.height					= "0";
+	//вернуть слайдеры
 	Vtrans();
 	Htrans();
 	hor.style.top							= hortoppos + 'px';
 	allver.style.opacity					= 1;
 	hor.style.opacity						= 1;
+	//убрать крестик
+	document.querySelector('.close').removeEventListener('click', CloseInfo, false);
 	document.querySelector('.close').remove();
+	//вернуть стрелки
 	arrowl.style.width		= "20px";
 	arrowr.style.width		= "20px";
 	if (hind == 0) {
@@ -281,7 +311,7 @@ function onWheel(e) {
 				if (delta < 0) { vind[hind]-- }
 			}
 			Vtrans();
-			console.log(hind + ':' + vind[hind] + " - Scroll");
+			// console.log(hind + ':' + vind[hind] + " - Scroll");
 		}
 	}
 }
