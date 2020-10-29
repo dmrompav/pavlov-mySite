@@ -8,7 +8,7 @@ var arrowl = document.querySelector('.arrow_left'),
     ver = document.querySelectorAll('.vertical'),
     horbut = document.querySelectorAll('.horizontal__button'),
     group = document.querySelectorAll('.group'),
-    tapfield = document.querySelector('.tapfield'),
+    tapfield = document.querySelectorAll('.tapfield'),
     main = document.querySelector('.main');
 var verbut = [],
     info = [];
@@ -47,12 +47,15 @@ function Resize() {
     horleftpos = 0;
     allverleftpos = 0;
     horlefttrans = vw;
-    allverlefttrans = 200;
+    allverlefttrans = 150;
     hortoppos = 30;
     allvertoppos = 0;
     vertoptrans = 100;
   } else {
-    horleftpos = 0.3 * vw, allverleftpos = 0.3 * vw, horlefttrans = 200, allverlefttrans = 200;
+    horleftpos = 0.3 * vw;
+    allverleftpos = 0.3 * vw;
+    horlefttrans = 150;
+    allverlefttrans = 150;
     hortoppos = 0.3 * vh;
     allvertoppos = 0.3 * vh;
     vertoptrans = 100;
@@ -206,7 +209,7 @@ function CallInfo() {
   info[hind][vind[hind]].style.transform = "scale(1)";
   info[hind][vind[hind]].style.opacity = "1";
   main.style.zIndex = "30";
-  tapfield.style.height = "100vh"; //Скрыть Hor и Ver buttons
+  tapfield[hind].style.height = "100vh"; //Скрыть Hor и Ver buttons
 
   allver.style.left = -vw + 'px';
   hor.style.top = -vh + 'px';
@@ -221,7 +224,7 @@ function CallInfo() {
   arrowl.style.width = "0px";
   arrowr.style.width = "0px"; //Позволить свернуть info кликом сбоку
 
-  tapfield.onclick = CloseInfo; //Позволить свернуть info кликом сбоку
+  tapfield[hind].onclick = CloseInfo; //Позволить свернуть info кликом сбоку
 
   document.querySelector('.close').onclick = CloseInfo;
 }
@@ -233,7 +236,7 @@ function CloseInfo() {
   info[hind][vind[hind]].style.transform = "scale(0)";
   info[hind][vind[hind]].style.opacity = "0";
   main.style.zIndex = "0";
-  tapfield.style.height = "0";
+  tapfield[hind].style.height = "0";
   Vtrans();
   Htrans();
   hor.style.top = hortoppos + 'px';

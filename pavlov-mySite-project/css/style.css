@@ -276,7 +276,7 @@ a:visited {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: start;
-  margin-left: 50px;
+  margin-left: 25px;
   width: 0;
   opacity: 0;
   overflow: hidden;
@@ -292,31 +292,31 @@ a:visited {
 }
 
 .vertical_2 {
-  left: 200px;
+  left: 150px;
 }
 
 .vertical_3 {
-  left: 400px;
+  left: 300px;
 }
 
 .vertical_4 {
-  left: 600px;
+  left: 450px;
 }
 
 .vertical_5 {
-  left: 800px;
+  left: 600px;
 }
 
 .vertical_6 {
-  left: 1000px;
+  left: 750px;
 }
 
 .vertical_7 {
-  left: 1200px;
+  left: 900px;
 }
 
 .vertical_8 {
-  left: 1400px;
+  left: 1050px;
 }
 
 .vertical__button {
@@ -557,18 +557,6 @@ a:visited {
 
 .main {
   z-index: 0;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 
 .tapfield {
@@ -583,9 +571,21 @@ a:visited {
 .group {
   z-index: 30;
   position: absolute;
-  width: 1200px;
-  max-width: 80vw;
+  width: 100vw;
   height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-transform: scale(0);
       -ms-transform: scale(0);
           transform: scale(0);
@@ -604,14 +604,13 @@ a:visited {
 
 .info {
   z-index: 40;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  padding: 30px;
+  position: fixed;
+  width: 1200px;
+  max-width: 80vw;
+  padding: 50px 10px;
   overflow-x: hidden;
   overflow-y: visible;
   background-color: rgba(0, 0, 0, 0.3);
-  margin: auto auto auto auto;
   -webkit-transform: scale(0);
       -ms-transform: scale(0);
           transform: scale(0);
@@ -654,7 +653,7 @@ a:visited {
   }
 
   .horizontal__button {
-    width: 200px;
+    width: 150px;
     -webkit-transition: opacity 0.1s ease;
     -o-transition: opacity 0.1s ease;
     transition: opacity 0.1s ease;
@@ -695,7 +694,7 @@ a:visited {
   }
 
   .horizontal__icon {
-    margin: 0 50px 0 50px;
+    margin: 0 25px 0 25px;
     width: 100px;
     height: 100px;
     background-repeat: none;
