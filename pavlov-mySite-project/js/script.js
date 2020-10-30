@@ -10,6 +10,7 @@
 // A - arrowl,
 // trans - перемещение;
 // СКРОЛЛ
+// SWIPES
 // !Получаем доступ ко всем элементам =====================
 var arrowl = document.querySelector('.arrow_left'),
     arrowr = document.querySelector('.arrow_right'),
@@ -279,7 +280,7 @@ function CloseInfo() {
     arrowl.style.width = "20px";
     arrowr.style.width = "20px";
   }
-} // *Скроллинг ======================================================
+} // !Скроллинг ======================================================
 
 
 var d = document;
@@ -320,11 +321,13 @@ function onWheel(e) {
       Vtrans(); // console.log(hind + ':' + vind[hind] + " - Scroll");
     }
   }
-} // !!!SWIPE
+} // !!!SWIPE ========================================================
 
 
 document.addEventListener('mousedown', Swipe, false);
 document.addEventListener('mousemove', MouseMove, false);
+document.addEventListener('touchstart', Swipe, false);
+document.addEventListener('touchmove', TouchMove, false);
 var X,
     Y,
     hind0,
@@ -341,9 +344,16 @@ var X,
     isClick = true,
     swiTarget = 0;
 
-function MouseMove(event) {
-  X = event.pageX;
-  Y = event.pageY; // console.log(X + ':' + Y);
+function MouseMove(e) {
+  X = e.pageX;
+  Y = e.pageY;
+  console.log(X + ':' + Y);
+}
+
+function TouchMove(e) {
+  X = e.targetTouches[0].pageX;
+  Y = e.targetTouches[0].pageY;
+  console.log(X + ':' + Y);
 }
 
 function Swipe() {
@@ -351,12 +361,13 @@ function Swipe() {
   hind0 = hind;
   vind0 = vind[hind];
   x0 = X;
-  y0 = Y;
+  y0 = Y; // определяем является ли движение по экрану свайпом и стоит ли запретить клики
+
   swipeInterval1 = setInterval(function () {
     x = X;
     y = Y;
     horswi = x - x0;
-    verswi = y - y0;
+    verswi = y - y0; // console.log(horswi);
 
     if (horswi > swi || horswi < -swi || verswi > swi || verswi < -swi) {
       isClick = false;
@@ -369,7 +380,8 @@ function Swipe() {
         console.log('vertical swipe');
       }
     }
-  }, 50);
+  }, 50); // 
+
   swipeInterval2 = setInterval(function () {
     if (swiTarget !== 0) {
       clearInterval(swipeInterval1);
@@ -377,8 +389,7 @@ function Swipe() {
       if (swiTarget == "hor") {
         var ind, indtrans;
         indtrans = (horswi - horswi % swi) / swi;
-        ind = hind0 - indtrans;
-        console.log(indtrans);
+        ind = hind0 - indtrans; // console.log(indtrans);
 
         if (ind <= 0) {
           hind = 0;
@@ -395,8 +406,7 @@ function Swipe() {
         var _ind, _indtrans;
 
         _indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
-        _ind = vind0 - _indtrans;
-        console.log(vind0);
+        _ind = vind0 - _indtrans; // console.log(vind0);
 
         if (_ind <= 0) {
           vind[hind] = 0;
@@ -413,6 +423,7 @@ function Swipe() {
     }
   }, 50);
   document.addEventListener('mouseup', EndSwipe, false);
+  document.addEventListener('touchend', EndSwipe, false);
 }
 
 function EndSwipe() {
