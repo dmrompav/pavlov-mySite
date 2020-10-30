@@ -90,76 +90,68 @@ function Resize() {
 for (let i = 0; i < horbut.length; i++) {
 	horbut[i].addEventListener('click', Hclick, false);		//8 LISTENERS
 }
-Vlistener();												//A FEW LISTENERS
+for (let i = 0; i < ver.length; i++) {
+	for (let j = 0; j < verbut[i].length; j++) {
+		verbut[i][j].addEventListener('click', Vclick, false);		//a lot of LISTENERS
+	}
+}
 arrowl.addEventListener('click', Aclick, false);			//1
 arrowr.addEventListener('click', Aclick, false);			//1
 
 
 
 // !Задаём функции =====================================
-// ?Установить listener:
-function Vlistener() {
-	for (let i = 0; i < verbut[hind].length; i++) {
-		verbut[hind][i].addEventListener('click', Vclick, false);
-	}
-}
-function DelVlistener() {
-	for (let i = 0; i < verbut[hind].length; i++) {
-		verbut[hind][i].removeEventListener('click', Vclick, false);
-	}
-}
 // *Клик по Horizontal buttons
 function Hclick() {
-	DelVlistener();
 	for (let i = 0; i < horbut.length; i++) {
 		if (this == horbut[i]) {
 			hind = i;
 		}
 	}
-	Vlistener();
 	Htrans();
 	console.log(hind + ':' + vind[hind] + " - Hclick");
 }
 // *Клик по Vertical buttons
 function Vclick(event) {
-	if (this !== verbut[hind][vind[hind]]) {
-		event.preventDefault();
-		for (let i = 0; i < verbut[hind].length; i++) {
-			if (this == verbut[hind][i]) {
-				vind[hind] = i;
+	if(isClick) {
+		if (this !== verbut[hind][vind[hind]]) {
+			event.preventDefault();
+			for (let i = 0; i < verbut[hind].length; i++) {
+				if (this == verbut[hind][i]) {
+					vind[hind] = i;
+				}
 			}
+			Vtrans();
+			console.log(hind + ':' + vind[hind] + " - Vclick");
 		}
-		Vtrans();
-		console.log(hind + ':' + vind[hind] + " - Vclick");
-	}
-	else {
-		if(!this.classList.contains('typenoclick') && !this.classList.contains('typelink')) {
-			if (this.classList.contains('typeflip')) {
-				let f = this.querySelectorAll('.flip');
-				if (flip == 0) {
-					flip = 1;
-					f[0].style.transform = "rotateY(180deg)";
-					f[1].style.transform = "rotateY(360deg)";
+		else {
+			if(!this.classList.contains('typenoclick') && !this.classList.contains('typelink')) {
+				if (this.classList.contains('typeflip')) {
+					let f = this.querySelectorAll('.flip');
+					if (flip == 0) {
+						flip = 1;
+						f[0].style.transform = "rotateY(180deg)";
+						f[1].style.transform = "rotateY(360deg)";
+					}
+					else {
+						flip = 0;
+						f[0].style.transform = "rotateY(0deg)";
+						f[1].style.transform = "rotateY(180deg)";
+					}
+					if (this.classList.contains('colortheme')) {
+						if (flip == 0) {document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";}
+						if (flip == 1) {document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";}
+					}
 				}
 				else {
-					flip = 0;
-					f[0].style.transform = "rotateY(0deg)";
-					f[1].style.transform = "rotateY(180deg)";
+					CallInfo();
 				}
-				if (this.classList.contains('colortheme')) {
-					if (flip == 0) {document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";}
-					if (flip == 1) {document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";}
-				}
-			}
-			else {
-				CallInfo();
 			}
 		}
 	}
 }
 // *Клик по Arrows
 function Aclick() {
-	DelVlistener();
 	// console.log (hind + ':' + vind[hind] + " - Aclick")
 	if (this == arrowl) {
 		hind--;
@@ -169,7 +161,6 @@ function Aclick() {
 		hind++;
 		Htrans();
 	}
-	Vlistener();
 }
 
 function Htrans() {
@@ -314,4 +305,82 @@ function onWheel(e) {
 			// console.log(hind + ':' + vind[hind] + " - Scroll");
 		}
 	}
+}
+
+// !!!SWIPE
+document.addEventListener('mousedown', Swipe, false);
+document.addEventListener('mousemove', MouseMove, false);
+
+var X, Y, hind0, vind0, x0, y0, x, y,
+	horswi, verswi,
+	swipeInterval1,
+	swipeInterval2,
+	swi = 100,
+	isClick = true,
+	swiTarget = 0;
+
+function MouseMove(event) {
+	X = event.pageX;
+	Y = event.pageY;
+	// console.log(X + ':' + Y);
+}
+function Swipe() {
+	isClick = true;
+	hind0 = hind;
+	vind0 = vind[hind];
+	x0 = X;
+	y0 = Y;
+	swipeInterval1 = setInterval(() => {
+		x = X;
+		y = Y;
+		horswi	= x-x0;
+		verswi	= y-y0;
+		if(horswi > swi || horswi < -swi || verswi > swi || verswi < -swi) {
+			isClick = false;
+			if (Math.abs(horswi) > Math.abs(verswi)) {
+				swiTarget = "hor";
+				console.log('horizontal swipe');
+			}
+			else {
+				swiTarget = "ver";
+				console.log('vertical swipe');
+			}
+		}
+	}, 50)
+	swipeInterval2 = setInterval(() => {
+		if (swiTarget !== 0) {
+			clearInterval(swipeInterval1);
+			if (swiTarget == "hor") {
+				let ind, indtrans;
+				indtrans = (horswi - horswi % swi) / swi;
+				ind = hind0 - indtrans;
+				console.log(indtrans);
+				if (ind <= 0) {hind = 0}
+				else if (ind > horbut.length - 1) {hind = horbut.length - 1}
+				else {hind = ind}
+				Htrans();
+				x = X;
+				horswi	= x-x0;
+			}
+			else {
+				let ind, indtrans;
+				indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
+				ind = vind0 - indtrans;
+				console.log(vind0);
+				if (ind <= 0) {vind[hind] = 0}
+				else if (ind > verbut[hind].length - 1) {vind[hind] = verbut[hind].length - 1}
+				else {vind[hind] = ind}
+				Vtrans();
+				y = Y;
+				verswi	= y-y0;
+			}
+		}
+	}, 50)
+	document.addEventListener('mouseup', EndSwipe, false);
+}
+
+function EndSwipe() {
+	clearInterval(swipeInterval1);
+	clearInterval(swipeInterval2);
+	swiTarget = 0;
 }

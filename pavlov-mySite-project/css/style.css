@@ -325,8 +325,9 @@ a:visited {
 
 .vertical__button {
   -webkit-tap-highlight-color: transparent;
-  min-width: 95vw;
-  max-width: 400px;
+  width: 40vw;
+  max-width: 500px;
+  min-width: 300px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -625,6 +626,26 @@ a:visited {
   -o-transition: transform 0.3s ease;
   transition: transform 0.3s ease;
   transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+}
+
+@-webkit-keyframes arrow_pulse {
+  0% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes arrow_pulse {
+  0% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes inprocess {
@@ -937,8 +958,9 @@ a:visited {
     width: 20px;
     height: 50px;
     top: 30px;
-    background-color: rgba(255, 255, 255, 0.1);
     font-size: 26px;
+    -webkit-animation: arrow_pulse 1s ease-in-out infinite alternate;
+            animation: arrow_pulse 1s ease-in-out infinite alternate;
   }
 
   .arrow_left {

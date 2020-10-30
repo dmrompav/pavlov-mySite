@@ -85,80 +85,71 @@ for (var _i2 = 0; _i2 < horbut.length; _i2++) {
 
 }
 
-Vlistener(); //A FEW LISTENERS
+for (var _i3 = 0; _i3 < ver.length; _i3++) {
+  for (var j = 0; j < verbut[_i3].length; j++) {
+    verbut[_i3][j].addEventListener('click', Vclick, false); //a lot of LISTENERS
+
+  }
+}
 
 arrowl.addEventListener('click', Aclick, false); //1
 
 arrowr.addEventListener('click', Aclick, false); //1
 // !Задаём функции =====================================
-// ?Установить listener:
-
-function Vlistener() {
-  for (var _i3 = 0; _i3 < verbut[hind].length; _i3++) {
-    verbut[hind][_i3].addEventListener('click', Vclick, false);
-  }
-}
-
-function DelVlistener() {
-  for (var _i4 = 0; _i4 < verbut[hind].length; _i4++) {
-    verbut[hind][_i4].removeEventListener('click', Vclick, false);
-  }
-} // *Клик по Horizontal buttons
-
+// *Клик по Horizontal buttons
 
 function Hclick() {
-  DelVlistener();
-
-  for (var _i5 = 0; _i5 < horbut.length; _i5++) {
-    if (this == horbut[_i5]) {
-      hind = _i5;
+  for (var _i4 = 0; _i4 < horbut.length; _i4++) {
+    if (this == horbut[_i4]) {
+      hind = _i4;
     }
   }
 
-  Vlistener();
   Htrans();
   console.log(hind + ':' + vind[hind] + " - Hclick");
 } // *Клик по Vertical buttons
 
 
 function Vclick(event) {
-  if (this !== verbut[hind][vind[hind]]) {
-    event.preventDefault();
+  if (isClick) {
+    if (this !== verbut[hind][vind[hind]]) {
+      event.preventDefault();
 
-    for (var _i6 = 0; _i6 < verbut[hind].length; _i6++) {
-      if (this == verbut[hind][_i6]) {
-        vind[hind] = _i6;
+      for (var _i5 = 0; _i5 < verbut[hind].length; _i5++) {
+        if (this == verbut[hind][_i5]) {
+          vind[hind] = _i5;
+        }
       }
-    }
 
-    Vtrans();
-    console.log(hind + ':' + vind[hind] + " - Vclick");
-  } else {
-    if (!this.classList.contains('typenoclick') && !this.classList.contains('typelink')) {
-      if (this.classList.contains('typeflip')) {
-        var f = this.querySelectorAll('.flip');
+      Vtrans();
+      console.log(hind + ':' + vind[hind] + " - Vclick");
+    } else {
+      if (!this.classList.contains('typenoclick') && !this.classList.contains('typelink')) {
+        if (this.classList.contains('typeflip')) {
+          var f = this.querySelectorAll('.flip');
 
-        if (flip == 0) {
-          flip = 1;
-          f[0].style.transform = "rotateY(180deg)";
-          f[1].style.transform = "rotateY(360deg)";
-        } else {
-          flip = 0;
-          f[0].style.transform = "rotateY(0deg)";
-          f[1].style.transform = "rotateY(180deg)";
-        }
-
-        if (this.classList.contains('colortheme')) {
           if (flip == 0) {
-            document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
+            flip = 1;
+            f[0].style.transform = "rotateY(180deg)";
+            f[1].style.transform = "rotateY(360deg)";
+          } else {
+            flip = 0;
+            f[0].style.transform = "rotateY(0deg)";
+            f[1].style.transform = "rotateY(180deg)";
           }
 
-          if (flip == 1) {
-            document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";
+          if (this.classList.contains('colortheme')) {
+            if (flip == 0) {
+              document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
+            }
+
+            if (flip == 1) {
+              document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";
+            }
           }
+        } else {
+          CallInfo();
         }
-      } else {
-        CallInfo();
       }
     }
   }
@@ -166,8 +157,7 @@ function Vclick(event) {
 
 
 function Aclick() {
-  DelVlistener(); // console.log (hind + ':' + vind[hind] + " - Aclick")
-
+  // console.log (hind + ':' + vind[hind] + " - Aclick")
   if (this == arrowl) {
     hind--;
     Htrans();
@@ -175,8 +165,6 @@ function Aclick() {
     hind++;
     Htrans();
   }
-
-  Vlistener();
 }
 
 function Htrans() {
@@ -187,10 +175,10 @@ function Htrans() {
   hor.style.left = horx + 'px';
   allver.style.left = allverx + 'px'; // выделим выбранную кнопку
 
-  for (var _i7 = 0; _i7 < horbut.length; _i7++) {
-    horbut[_i7].classList.remove('horizontal__selected');
+  for (var _i6 = 0; _i6 < horbut.length; _i6++) {
+    horbut[_i6].classList.remove('horizontal__selected');
 
-    horbut[_i7].classList.add('horizontal__selectable');
+    horbut[_i6].classList.add('horizontal__selectable');
   }
 
   horbut[hind].classList.remove('horizontal__selectable');
@@ -206,9 +194,9 @@ function Htrans() {
   } // выберем другой вертикальный слайдер
 
 
-  for (var _i8 = 0; _i8 < ver.length; _i8++) {
-    ver[_i8].style.opacity = 0;
-    ver[_i8].style.width = 0;
+  for (var _i7 = 0; _i7 < ver.length; _i7++) {
+    ver[_i7].style.opacity = 0;
+    ver[_i7].style.width = 0;
   }
 
   ver[hind].style.opacity = 1;
@@ -221,10 +209,10 @@ function Vtrans() {
 
   ver[hind].style.top = very + 'px'; // выделим выбранную кнопку
 
-  for (var _i9 = 0; _i9 < verbut[hind].length; _i9++) {
-    verbut[hind][_i9].classList.remove('vertical__selected');
+  for (var _i8 = 0; _i8 < verbut[hind].length; _i8++) {
+    verbut[hind][_i8].classList.remove('vertical__selected');
 
-    verbut[hind][_i9].classList.add('vertical__selectable');
+    verbut[hind][_i8].classList.add('vertical__selectable');
   }
 
   verbut[hind][vind[hind]].classList.remove('vertical__selectable');
@@ -332,4 +320,103 @@ function onWheel(e) {
       Vtrans(); // console.log(hind + ':' + vind[hind] + " - Scroll");
     }
   }
+} // !!!SWIPE
+
+
+document.addEventListener('mousedown', Swipe, false);
+document.addEventListener('mousemove', MouseMove, false);
+var X,
+    Y,
+    hind0,
+    vind0,
+    x0,
+    y0,
+    x,
+    y,
+    horswi,
+    verswi,
+    swipeInterval1,
+    swipeInterval2,
+    swi = 100,
+    isClick = true,
+    swiTarget = 0;
+
+function MouseMove(event) {
+  X = event.pageX;
+  Y = event.pageY; // console.log(X + ':' + Y);
+}
+
+function Swipe() {
+  isClick = true;
+  hind0 = hind;
+  vind0 = vind[hind];
+  x0 = X;
+  y0 = Y;
+  swipeInterval1 = setInterval(function () {
+    x = X;
+    y = Y;
+    horswi = x - x0;
+    verswi = y - y0;
+
+    if (horswi > swi || horswi < -swi || verswi > swi || verswi < -swi) {
+      isClick = false;
+
+      if (Math.abs(horswi) > Math.abs(verswi)) {
+        swiTarget = "hor";
+        console.log('horizontal swipe');
+      } else {
+        swiTarget = "ver";
+        console.log('vertical swipe');
+      }
+    }
+  }, 50);
+  swipeInterval2 = setInterval(function () {
+    if (swiTarget !== 0) {
+      clearInterval(swipeInterval1);
+
+      if (swiTarget == "hor") {
+        var ind, indtrans;
+        indtrans = (horswi - horswi % swi) / swi;
+        ind = hind0 - indtrans;
+        console.log(indtrans);
+
+        if (ind <= 0) {
+          hind = 0;
+        } else if (ind > horbut.length - 1) {
+          hind = horbut.length - 1;
+        } else {
+          hind = ind;
+        }
+
+        Htrans();
+        x = X;
+        horswi = x - x0;
+      } else {
+        var _ind, _indtrans;
+
+        _indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
+        _ind = vind0 - _indtrans;
+        console.log(vind0);
+
+        if (_ind <= 0) {
+          vind[hind] = 0;
+        } else if (_ind > verbut[hind].length - 1) {
+          vind[hind] = verbut[hind].length - 1;
+        } else {
+          vind[hind] = _ind;
+        }
+
+        Vtrans();
+        y = Y;
+        verswi = y - y0;
+      }
+    }
+  }, 50);
+  document.addEventListener('mouseup', EndSwipe, false);
+}
+
+function EndSwipe() {
+  clearInterval(swipeInterval1);
+  clearInterval(swipeInterval2);
+  swiTarget = 0;
 }
