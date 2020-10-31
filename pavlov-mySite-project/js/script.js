@@ -322,12 +322,10 @@ function onWheel(e) {
     }
   }
 } // !!!SWIPE ========================================================
+// document.addEventListener('mousedown', Swipe, false);
+// document.addEventListener('mousemove', MouseMove, false);
 
 
-document.addEventListener('mousedown', Swipe, false);
-document.addEventListener('mousemove', MouseMove, false);
-document.addEventListener('touchstart', Swipe, false);
-document.addEventListener('touchmove', TouchMove, false);
 var X,
     Y,
     hind0,
@@ -347,16 +345,9 @@ var X,
 function MouseMove(e) {
   X = e.pageX;
   Y = e.pageY;
-  console.log(X + ':' + Y);
 }
 
-function TouchMove(e) {
-  X = e.targetTouches[0].pageX;
-  Y = e.targetTouches[0].pageY;
-  console.log(X + ':' + Y);
-}
-
-function Swipe() {
+function Swipe(e) {
   isClick = true;
   hind0 = hind;
   vind0 = vind[hind];
@@ -421,13 +412,88 @@ function Swipe() {
         verswi = y - y0;
       }
     }
-  }, 50);
-  document.addEventListener('mouseup', EndSwipe, false);
+  }, 50); // document.addEventListener('mouseup', EndSwipe, false);
+
   document.addEventListener('touchend', EndSwipe, false);
 }
 
 function EndSwipe() {
   clearInterval(swipeInterval1);
   clearInterval(swipeInterval2);
+  swiTarget = 0;
+} //=========================================
+
+
+document.addEventListener('touchstart', TouchStart, false);
+document.addEventListener('touchmove', TouchMove, false);
+document.addEventListener('touchend', TouchEnd, false);
+
+function TouchStart(event) {
+  x0 = event.touches[0].pageX;
+  y0 = event.touches[0].pageY;
+  console.log(x0 + ':' + y0);
+  isClick = true;
+  hind0 = hind;
+  vind0 = vind[hind];
+}
+
+function TouchMove(event) {
+  X = event.changedTouches[0].pageX;
+  Y = event.changedTouches[0].pageY;
+  console.log(X + ':' + Y);
+  horswi = X - x0;
+  verswi = Y - y0; // console.log(horswi);
+
+  if (horswi > swi || horswi < -swi || verswi > swi || verswi < -swi) {
+    isClick = false;
+
+    if (Math.abs(horswi) > Math.abs(verswi)) {
+      swiTarget = "hor";
+      console.log('horizontal swipe');
+    } else {
+      swiTarget = "ver";
+      console.log('vertical swipe');
+    }
+  }
+
+  if (swiTarget !== 0) {
+    if (swiTarget == "hor") {
+      var ind, indtrans;
+      indtrans = (horswi - horswi % swi) / swi;
+      ind = hind0 - indtrans; // console.log(indtrans);
+
+      if (ind <= 0) {
+        hind = 0;
+      } else if (ind > horbut.length - 1) {
+        hind = horbut.length - 1;
+      } else {
+        hind = ind;
+      }
+
+      Htrans();
+      x = X;
+      horswi = x - x0;
+    } else {
+      var _ind2, _indtrans2;
+
+      _indtrans2 = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
+      _ind2 = vind0 - _indtrans2; // console.log(vind0);
+
+      if (_ind2 <= 0) {
+        vind[hind] = 0;
+      } else if (_ind2 > verbut[hind].length - 1) {
+        vind[hind] = verbut[hind].length - 1;
+      } else {
+        vind[hind] = _ind2;
+      }
+
+      Vtrans();
+      y = Y;
+      verswi = y - y0;
+    }
+  }
+}
+
+function TouchEnd(event) {
   swiTarget = 0;
 }
