@@ -67,7 +67,7 @@ function Resize() {
 		horlefttrans 	= vw;
 		allverlefttrans	= 150;
 		hortoppos		= 30;
-		allvertoppos	= 0;
+		allvertoppos	= 100;
 		vertoptrans		= 100;
 	}
 	else {
@@ -140,8 +140,12 @@ function Vclick(event) {
 						f[1].style.transform = "rotateY(180deg)";
 					}
 					if (this.classList.contains('colortheme')) {
-						if (flip == 0) {document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";}
-						if (flip == 1) {document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";}
+						if (flip == 0) {
+							document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
+						}
+						if (flip == 1) {
+							document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";
+						}
 					}
 				}
 				else {
@@ -310,9 +314,9 @@ function onWheel(e) {
 
 
 
-// !!!SWIPE ========================================================
-// document.addEventListener('mousedown', Swipe, false);
-// document.addEventListener('mousemove', MouseMove, false);
+// !!!Mouse SWIPE ========================================================
+document.addEventListener('mousedown', Swipe, false);
+document.addEventListener('mousemove', MouseMove, false);
 
 
 var X, Y, hind0, vind0, x0, y0, x, y,
@@ -340,7 +344,7 @@ function Swipe(e) {
 		horswi	= x-x0;
 		verswi	= y-y0;
 		// console.log(horswi);
-		if(horswi > swi || horswi < -swi || verswi > swi || verswi < -swi) {
+		if(horswi > (swi/2) || horswi < -(swi/2) || verswi > (swi/2) || verswi < -(swi/2)) {
 			isClick = false;
 			if (Math.abs(horswi) > Math.abs(verswi)) {
 				swiTarget = "hor";
@@ -370,7 +374,7 @@ function Swipe(e) {
 			}
 			else {
 				let ind, indtrans;
-				indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
+				indtrans = (verswi - verswi % swi) / swi;
 				ind = vind0 - indtrans;
 				// console.log(vind0);
 				if (ind <= 0) {vind[hind] = 0}
@@ -382,18 +386,18 @@ function Swipe(e) {
 			}
 		}
 	}, 50)
-	// document.addEventListener('mouseup', EndSwipe, false);
-	document.addEventListener('touchend', EndSwipe, false);
+	document.addEventListener('mouseup', EndSwipe, false);
 }
 
 function EndSwipe() {
 	clearInterval(swipeInterval1);
 	clearInterval(swipeInterval2);
 	swiTarget = 0;
+	
 }
 
 
-//=========================================
+// !!!Touch SWIPE ========================================================
 document.addEventListener('touchstart', TouchStart, false);
 document.addEventListener('touchmove', TouchMove, false);
 document.addEventListener('touchend', TouchEnd, false);
@@ -407,13 +411,13 @@ function TouchStart(event) {
 	vind0 = vind[hind];
 }
 function TouchMove(event) {
+	event.preventDefault();
 	X = event.changedTouches[0].pageX;
 	Y = event.changedTouches[0].pageY;
 	console.log(X + ':' + Y);
 	horswi	= X-x0;
 	verswi	= Y-y0;
-	// console.log(horswi);
-	if(horswi > swi || horswi < -swi || verswi > swi || verswi < -swi) {
+	if(horswi > (swi/2) || horswi < -(swi/2) || verswi > (swi/2) || verswi < -(swi/2)) {
 		isClick = false;
 		if (Math.abs(horswi) > Math.abs(verswi)) {
 			swiTarget = "hor";

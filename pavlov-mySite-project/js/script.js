@@ -62,7 +62,7 @@ function Resize() {
     horlefttrans = vw;
     allverlefttrans = 150;
     hortoppos = 30;
-    allvertoppos = 0;
+    allvertoppos = 100;
     vertoptrans = 100;
   } else {
     horleftpos = 0.3 * vw;
@@ -321,11 +321,11 @@ function onWheel(e) {
       Vtrans(); // console.log(hind + ':' + vind[hind] + " - Scroll");
     }
   }
-} // !!!SWIPE ========================================================
-// document.addEventListener('mousedown', Swipe, false);
-// document.addEventListener('mousemove', MouseMove, false);
+} // !!!Mouse SWIPE ========================================================
 
 
+document.addEventListener('mousedown', Swipe, false);
+document.addEventListener('mousemove', MouseMove, false);
 var X,
     Y,
     hind0,
@@ -360,7 +360,7 @@ function Swipe(e) {
     horswi = x - x0;
     verswi = y - y0; // console.log(horswi);
 
-    if (horswi > swi || horswi < -swi || verswi > swi || verswi < -swi) {
+    if (horswi > swi / 2 || horswi < -(swi / 2) || verswi > swi / 2 || verswi < -(swi / 2)) {
       isClick = false;
 
       if (Math.abs(horswi) > Math.abs(verswi)) {
@@ -396,7 +396,7 @@ function Swipe(e) {
       } else {
         var _ind, _indtrans;
 
-        _indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
+        _indtrans = (verswi - verswi % swi) / swi;
         _ind = vind0 - _indtrans; // console.log(vind0);
 
         if (_ind <= 0) {
@@ -412,16 +412,15 @@ function Swipe(e) {
         verswi = y - y0;
       }
     }
-  }, 50); // document.addEventListener('mouseup', EndSwipe, false);
-
-  document.addEventListener('touchend', EndSwipe, false);
+  }, 50);
+  document.addEventListener('mouseup', EndSwipe, false);
 }
 
 function EndSwipe() {
   clearInterval(swipeInterval1);
   clearInterval(swipeInterval2);
   swiTarget = 0;
-} //=========================================
+} // !!!Touch SWIPE ========================================================
 
 
 document.addEventListener('touchstart', TouchStart, false);
@@ -438,13 +437,14 @@ function TouchStart(event) {
 }
 
 function TouchMove(event) {
+  event.preventDefault();
   X = event.changedTouches[0].pageX;
   Y = event.changedTouches[0].pageY;
   console.log(X + ':' + Y);
   horswi = X - x0;
-  verswi = Y - y0; // console.log(horswi);
+  verswi = Y - y0;
 
-  if (horswi > swi || horswi < -swi || verswi > swi || verswi < -swi) {
+  if (horswi > swi / 2 || horswi < -(swi / 2) || verswi > swi / 2 || verswi < -(swi / 2)) {
     isClick = false;
 
     if (Math.abs(horswi) > Math.abs(verswi)) {
