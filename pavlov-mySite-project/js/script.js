@@ -141,11 +141,11 @@ function Vclick(event) {
 
           if (this.classList.contains('colortheme')) {
             if (flip == 0) {
-              document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
+              document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";
             }
 
             if (flip == 1) {
-              document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";
+              document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
             }
           }
         } else {
