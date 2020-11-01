@@ -390,8 +390,8 @@ a:visited {
   min-width: 70px !important;
   border: 3px solid #f7f1e3;
   border-radius: 30%;
+  background-image: url(../img/Sprite2.png);
   background-repeat: no-repeat;
-  background-size: 100%;
   -webkit-transition: -webkit-transform 0.1s ease;
   transition: -webkit-transform 0.1s ease;
   -o-transition: transform 0.1s ease;
@@ -409,75 +409,103 @@ a:visited {
 }
 
 .vertical__icon_11 {
-  background-image: url("../img/icons/11.png");
+  background-position: -3px -3px;
 }
 
 .vertical__icon_12 {
-  background-image: url("../img/icons/12.png");
+  background-position: -3px -73px;
+}
+
+.vertical__icon_21 {
+  background-position: -73px -3px;
+}
+
+.vertical__icon_22 {
+  background-position: -73px -3px;
 }
 
 .vertical__icon_31 {
-  background-image: url("../img/icons/31.png");
+  background-position: -143px -3px;
 }
 
 .vertical__icon_32 {
-  background-image: url("../img/icons/32.png");
+  background-position: -143px -73px;
 }
 
 .vertical__icon_33 {
-  background-image: url("../img/icons/33.png");
+  background-position: -73px -73px;
 }
 
 .vertical__icon_34 {
-  background-image: url("../img/icons/34.png");
+  background-position: -3px -143px;
 }
 
 .vertical__icon_35 {
-  background-image: url("../img/icons/35.png");
+  background-position: -353px -143px;
 }
 
 .vertical__icon_36 {
-  background-image: url("../img/icons/36.png");
+  background-position: -423px -143px;
 }
 
 .vertical__icon_37 {
-  background-image: url("../img/icons/37.png");
+  background-position: -353px -73px;
 }
 
 .vertical__icon_38 {
-  background-image: url("../img/icons/38.png");
+  background-image: none;
+}
+
+.vertical__icon_39 {
+  background-image: none;
+}
+
+.vertical__icon_41 {
+  background-position: -213px -3px;
+}
+
+.vertical__icon_42 {
+  background-position: -213px -143px;
+}
+
+.vertical__icon_43 {
+  background-position: -213px -73px;
 }
 
 .vertical__icon_51 {
-  background-image: url("../img/icons/51.png");
+  background-position: -283px -3px;
 }
 
 .vertical__icon_52 {
-  background-image: url("../img/icons/52.png");
+  background-position: -283px -73px;
 }
 
 .vertical__icon_61 {
-  background-image: url("../img/icons/61.png");
+  background-position: -353px -3px;
 }
 
 .vertical__icon_71 {
-  background-image: url("../img/icons/71.png");
+  background-position: -423px -3px;
 }
 
 .vertical__icon_72 {
-  background-image: url("../img/icons/72.png");
+  background-position: -423px -73px;
 }
 
 .vertical__icon_73 {
-  background-image: url("../img/icons/73.png");
+  background-position: -493px -3px;
 }
 
 .vertical__icon_74 {
-  background-image: url("../img/icons/74.png");
+  background-position: -493px -73px;
 }
 
 .vertical__icon_75 {
-  background-image: url("../img/icons/75.png");
+  background-position: -493px -143px;
+}
+
+.vertical__icon_81 {
+  background-image: none;
 }
 
 .vertical__text {
@@ -866,9 +894,8 @@ a:visited {
     height: 100px;
     border: 4px solid #f7f1e3;
     border-radius: 30%;
+    background-image: url(../img/Sprite1.png);
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: 70%;
     -webkit-transition: -webkit-transform 0.1s;
     transition: -webkit-transform 0.1s;
     -o-transition: transform 0.1s;
@@ -877,35 +904,35 @@ a:visited {
   }
 
   .horizontal__icon_1 {
-    background-image: url("../img/1.png");
+    background-position: -4px -3px;
   }
 
   .horizontal__icon_2 {
-    background-image: url("../img/2.png");
+    background-position: -104px -3px;
   }
 
   .horizontal__icon_3 {
-    background-image: url("../img/3.png");
+    background-position: -204px -3px;
   }
 
   .horizontal__icon_4 {
-    background-image: url("../img/4.png");
+    background-position: -304px -3px;
   }
 
   .horizontal__icon_5 {
-    background-image: url("../img/5.png");
+    background-position: -404px -3px;
   }
 
   .horizontal__icon_6 {
-    background-image: url("../img/6.png");
+    background-position: -504px -3px;
   }
 
   .horizontal__icon_7 {
-    background-image: url("../img/7.png");
+    background-position: -604px -3px;
   }
 
   .horizontal__icon_8 {
-    background-image: url("../img/8.png");
+    background-position: -704px -3px;
   }
 
   .horizontal__text {

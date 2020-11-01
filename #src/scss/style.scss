@@ -242,38 +242,39 @@ a, a:visited{
 		min-width: 70px !important;
 		border: 3px solid #f7f1e3;
 		border-radius: 30%;
+		background-image: url(../img/Sprite2.png);
+		// background-size: 800%;
 		background-repeat: no-repeat;
-		background-size: 100%;
 		transition: transform 0.1s ease;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 
-		&_11 {background-image: url("../img/icons/11.png");}
-		&_12 {background-image: url("../img/icons/12.png");}
-		// &_21 {background-image: url("../img/icons/no.png");}
-		// &_22 {background-image: url("../img/icons/no.png");}
-		&_31 {background-image: url("../img/icons/31.png");}
-		&_32 {background-image: url("../img/icons/32.png");}
-		&_33 {background-image: url("../img/icons/33.png");}
-		&_34 {background-image: url("../img/icons/34.png");}
-		&_35 {background-image: url("../img/icons/35.png");}
-		&_36 {background-image: url("../img/icons/36.png");}
-		&_37 {background-image: url("../img/icons/37.png");}
-		&_38 {background-image: url("../img/icons/38.png");}
-		&_39 {}
-		// &_41 {background-image: url("../img/icons/no.png");}
-		// &_42 {background-image: url("../img/icons/no.png");}
-		// &_43 {background-image: url("../img/icons/no.png");}
-		&_51 {background-image: url("../img/icons/51.png");}
-		&_52 {background-image: url("../img/icons/52.png");}
-		&_61 {background-image: url("../img/icons/61.png");}
-		&_71 {background-image: url("../img/icons/71.png");}
-		&_72 {background-image: url("../img/icons/72.png");}
-		&_73 {background-image: url("../img/icons/73.png");}
-		&_74 {background-image: url("../img/icons/74.png");}
-		&_75 {background-image: url("../img/icons/75.png");}
-		// &_81 {background-image: url("../img/icons/no.png");}
+		&_11 {background-position: -3px -3px;}	//иконки 70х70 + 3px рамка
+		&_12 {background-position: -3px -73px;}
+		&_21 {background-position: -73px -3px;}
+		&_22 {background-position: -73px -3px;}
+		&_31 {background-position: -143px -3px;}
+		&_32 {background-position: -143px -73px;}
+		&_33 {background-position: -73px -73px;}
+		&_34 {background-position: -3px -143px;}
+		&_35 {background-position: -353px -143px;}
+		&_36 {background-position: -423px -143px;}
+		&_37 {background-position: -353px -73px;}
+		&_38 {background-image: none;}
+		&_39 {background-image: none;}
+		&_41 {background-position: -213px -3px;}
+		&_42 {background-position: -213px -143px;}
+		&_43 {background-position: -213px -73px;}
+		&_51 {background-position: -283px -3px;}
+		&_52 {background-position: -283px -73px;}
+		&_61 {background-position: -353px -3px;}
+		&_71 {background-position: -423px -3px;}
+		&_72 {background-position: -423px -73px;}
+		&_73 {background-position: -493px -3px;}
+		&_74 {background-position: -493px -73px;}
+		&_75 {background-position: -493px -143px;}
+		&_81 {background-image: none;}
 		&_82 {}
 	}
 
@@ -285,7 +286,7 @@ a, a:visited{
 	}
 
 	&__undertext {
-		text-transform: none;
+		text-transform: none; 
 	}
 }
 .internal-text {
@@ -544,19 +545,18 @@ a, a:visited{
 			height: 100px;
 			border: 4px solid #f7f1e3;
 			border-radius: 30%;
+			background-image: url(../img/Sprite1.png);
 			background-repeat: no-repeat;
-			background-position: center;
-			background-size: 70%;
 			transition: transform 0.1s;
 	
-			&_1 {background-image: url('../img/1.png');}	
-			&_2 {background-image: url('../img/2.png');}	
-			&_3 {background-image: url('../img/3.png');}	
-			&_4 {background-image: url('../img/4.png');}	
-			&_5 {background-image: url('../img/5.png');}	
-			&_6 {background-image: url('../img/6.png');}	
-			&_7 {background-image: url('../img/7.png');}	
-			&_8 {background-image: url('../img/8.png');}
+			&_1 {background-position: -4px -3px;}	
+			&_2 {background-position: -104px -3px;}	
+			&_3 {background-position: -204px -3px;}	
+			&_4 {background-position: -304px -3px;}	
+			&_5 {background-position: -404px -3px;}	
+			&_6 {background-position: -504px -3px;}	
+			&_7 {background-position: -604px -3px;}	
+			&_8 {background-position: -704px -3px;}
 		}
 	
 		&__text {
