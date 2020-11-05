@@ -1,460 +1,647 @@
-// ДОСТУП КО ВСЕМ ЭЛЕМЕНТАМ
-// ДИНАМИЧ АДАПТИВ И РЕСАЙЗ
-// ПЕРВЫЕ EVENT LISTENERS (CLICK)
-// ФУНКЦИИ
-	// сокращения: 
-		// H - horizontal, 
-		// V - vertical, 
-		// A - arrowl,
-		// trans - перемещение;
-// СКРОЛЛ
-// SWIPES
+// Получение доступа ко всем элементам HTML
+// Включить ли упрощенный режим? Значение изменяется в VerButClick
+// Нумерация элементов по X и Y + прочие элементы
+// Приветствие
+// Ресайз и динамический адаптив
+// EventListeners
+// Задаем функции клика
+// Задаем функции скролла
+// Задаем функции клавиатуры
+// Задаем функции свайпа
+// Задаем вспомогательные функции
 
-
-// !Получаем доступ ко всем элементам =====================
-const
-	arrowl	= document.querySelector('.arrow_left'),
-	arrowr	= document.querySelector('.arrow_right'),
-	hor		= document.querySelector('.horizontal'),
-	allver	= document.querySelector('.allvertical'),
-	ver		= document.querySelectorAll('.vertical'),
-	horbut	= document.querySelectorAll('.horizontal__button'),
-	group	= document.querySelectorAll('.group'),
-	tapfield= document.querySelectorAll('.tapfield'),
-	main	= document.querySelector('.main');
-var
-	verbut	= [],
-	info	= [];
+const d = document;
+// !Получение доступа ко всем элементам HTML
+const	hi		= d.querySelector('.hi'),
+		waves	= d.querySelector('.waves'),
+		wrapper	= d.querySelector('.wrapper'),
+		arrowL	= d.querySelector('.arrow_left'),
+		arrowR	= d.querySelector('.arrow_right'),
+		hor		= d.querySelector('.horizontal'),
+		allVer	= d.querySelector('.allvertical'),
+		ver		= d.querySelectorAll('.vertical'),
+		horBut	= d.querySelectorAll('.horizontal__button'),
+		group	= d.querySelectorAll('.group'),
+		tapfield= d.querySelectorAll('.tapfield'),
+		main	= d.querySelector('.main');
+var 	verBut	= [],
+		info	= [];
 for (let i = 0; i < ver.length; i++) {
-	verbut[i] 	= ver[i].querySelectorAll('.vertical__button');
+	verBut[i] 	= ver[i].querySelectorAll('.vertical__button');
 }
 for (let i = 0; i < group.length; i++) {
 	info[i] 	= group[i].querySelectorAll('.info');
 }
 
 
+// !Включить ли упрощенный режим? Значение изменяется в VerButClick
+let	local = localStorage.getItem('needWaves');
+console.log(local);
+if (local == 'false') {
+	console.log('deleted')
+	waves.remove();
+	let ct = d.querySelector('.colortheme');
+	document.body.style.background = "#000";
+	ct.classList.remove('.typeflip');
+	ct.classList.add('typenoclick');
+	ct.querySelector('.vertical__text').innerHTML = 'Не доступно';
+	let f = ct.querySelectorAll('.flip');
+	f[0].style.backgroundColor = "#000";
+	f[1].style.backgroundColor = "#000";
+	d.querySelector('.quality').querySelector('.vertical__text').innerHTML = 'Повысить качество';
+	d.querySelector('.horizontal__button_7').style.animation = 'none';
+}
 
-// !Индексирование все элементов по Х и У + прочие элементы================
-var
-	hind	= 0,								//по горизонтали
-	vind	= [0,0,0,0,0,0,0,0,0,0,0,0];		//по вертикали
-var
-	scroll	= true,
-	flip	= 0;
+
+// !Нумерация элементов по X и Y + прочие элементы
+var		hind	= 0,								//по горизонтали
+		vind	= [0,0,0,0,0,0,0,0,0,0,0,0],		//по вертикали
+		mouseDownPermission	= false,
+		clickPermission		= false,
+		scrollPermission	= false,
+		swipePermission		= false,
+		keyDownPermission	= false,
+		isPopUpOpen 		= false,
+		flip	= 0;
 
 
+// !Приветствие
+const hiOn = setTimeout(
+	() => {
+		hi.style.opacity = 1;
+		clearTimeout(hiOn);
+	}, 1000
+);
+const hiOff = setTimeout(
+	() => {
+		hi.style.opacity = 0;
+		clearTimeout(hiOff);
+	}, 3000
+);
+const wrapperOn = setTimeout(
+	() => {
+		wrapper.style.opacity = 1;
+		// разрешить управление
+		mouseDownPermission	= true;
+		clickPermission		= true;
+		scrollPermission	= true;
+		swipePermission		= true;
+		keyDownPermission	= true;
+		clearTimeout(wrapperOn);
+	}, 3500
+);
 
-// !Размеры и расстояния =================================
-var
-	vw				= window.innerWidth,
-	vh				= window.innerHeight,
-	horleftpos,
-	allverleftpos,
-	horlefttrans,
-	allverlefttrans,
-	hortoppos,
-	allvertoppos,
-	vertoptrans;
 
-Resize();
+// !Ресайз и динамический адаптив
 window.addEventListener('resize', Resize);
+
+var		vw				= window.innerWidth,
+		vh				= window.innerHeight,
+		//position
+		horLeftPos,
+		allVerLeftPos,
+		horTopPos,
+		allVerTopPos,
+		//transition
+		horLeftTrans,
+		allVerLeftTrans,
+		verTopTrans;
+
 function Resize() {
 	vw	= window.innerWidth;
 	vh	= window.innerHeight;
 	if (vw < 768) {
-		horleftpos 		= 0;
-		allverleftpos 	= 0;
-		horlefttrans 	= vw;
-		allverlefttrans	= 150;
-		hortoppos		= 30;
-		allvertoppos	= 100;
-		vertoptrans		= 100;
+		horLeftPos 		= 0;
+		allVerLeftPos 	= 0;
+		horLeftTrans 	= vw;
+		allVerLeftTrans	= 150;
+		horTopPos		= 30;
+		allVerTopPos	= 100;
+		verTopTrans		= 100;
 	}
 	else {
-		horleftpos		= 0.3 * vw;
-		allverleftpos	= 0.3 * vw;
-		horlefttrans	= 150;
-		allverlefttrans	= 150;
-		hortoppos		= 0.3 * vh;
-		allvertoppos	= 0.3 * vh;
-		vertoptrans		= 100;
+		horLeftPos		= 0.3 * vw;
+		allVerLeftPos	= 0.3 * vw;
+		horLeftTrans	= 150;
+		allVerLeftTrans	= 150;
+		horTopPos		= 0.3 * vh;
+		allVerTopPos	= 0.3 * vh;
+		verTopTrans		= 100;
 	}
-	// console.log('Resized:' + ' horleftpos:' + horleftpos + '; allverleftpos:' + allverleftpos + '; horlefttrans:' + horlefttrans + 
-	// '; allverlefttrans:' + allverlefttrans + '; allvertoppos:' + allvertoppos + '; vertoptrans:' + vertoptrans);
-	Htrans();
-	Vtrans();
 }
+Resize();
 
 
-
-// !Действие ===========================================
-for (let i = 0; i < horbut.length; i++) {
-	horbut[i].addEventListener('click', Hclick, false);		//8 LISTENERS
+// !EventListeners
+for (let i = 0; i < horBut.length; i++) {
+	horBut[i].addEventListener('click', HorButClick, false);		//a few LISTENERS
 }
 for (let i = 0; i < ver.length; i++) {
-	for (let j = 0; j < verbut[i].length; j++) {
-		verbut[i][j].addEventListener('click', Vclick, false);		//a lot of LISTENERS
+	for (let j = 0; j < verBut[i].length; j++) {
+		verBut[i][j].addEventListener('click', VerButclick, false);		//a lot of LISTENERS
 	}
 }
-arrowl.addEventListener('click', Aclick, false);			//1
-arrowr.addEventListener('click', Aclick, false);			//1
+
+if (d.addEventListener) {
+	if ('onwheel' in document) {
+		d.addEventListener("wheel", onWheel);						// IE9+, FF17+, Ch31+
+	} else if ('onmousewheel' in document) {
+		d.addEventListener("mousewheel", onWheel);					// устаревший вариант события
+	} else {
+		d.addEventListener("MozMousePixelScroll", onWheel);			// Firefox < 17
+	}
+} else {
+	d.attachEvent("onmousewheel", onWheel);							// IE8-
+}
+
+d.addEventListener('touchstart', TouchStart, false);
+d.addEventListener('touchmove', TouchMove, false);
+d.addEventListener('touchend', TouchEnd, false);
+
+d.addEventListener('mousedown', MouseDown, false);
+d.addEventListener('mousemove', MouseMove, false);
+d.addEventListener('mouseup', MouseUp, false);
+
+d.addEventListener('keydown', KeyDown, false);
 
 
+// !Задаем функции клика
+function HorButClick() {
+	// Удалим для прошлой кнопки класс selected и добавим selectable
+	// Удалим для прошлого ver класс selected и добавим selectable
+	// Определим на какую кнопку кликнули
+	// Определим новое положение left для hor и allVer
+	// Удалим для прошлой кнопки класс selectable и добавим selected
+	// Удалим для прошлого ver класс selectable и добавим selected
+	// Стрелки
 
-// !Задаём функции =====================================
-// *Клик по Horizontal buttons
-function Hclick() {
-	for (let i = 0; i < horbut.length; i++) {
-		if (this == horbut[i]) {
-			hind = i;
+	if (clickPermission) {
+		// Удалим для прошлой кнопки класс selected и добавим selectable
+		HorMakeSelectable();
+		// Удалим для прошлого ver класс selected и добавим selectable
+		AllVerMakeSelectable();
+		// Определим на какую кнопку кликнули
+		for (let i = 0; i < horBut.length; i++) {
+			if (this == horBut[i]) {
+				hind = i;
+			}
 		}
+		// Определим новое положение left для hor и allVer
+		HorTrans();
+		// Удалим для прошлой кнопки класс selectable и добавим selected
+		HorMakeSelected();
+		// Удалим для прошлого ver класс selectable и добавим selected
+		AllVerMakeSelected();
+		// Стрелки
+		ArrowsRules();
 	}
-	Htrans();
-	console.log(hind + ':' + vind[hind] + " - Hclick");
 }
-// *Клик по Vertical buttons
-function Vclick(event) {
-	if(isClick) {
-		if (this !== verbut[hind][vind[hind]]) {
+
+function VerButclick(event) {
+	// Удалим для прошлой кнопки класс selected и добавим selectable
+	// Определим на какую кнопку кликнули
+		// ЕСЛИ НЕ SELECTED то определим новое положение top для ver
+	// Удалим для прошлой кнопки класс selectable и добавим selected
+
+	if (clickPermission) {
+		// Удалим для прошлой кнопки класс selected и добавим selectable
+		VerMakeSelectable();
+		// Определим на какую кнопку кликнули
+			// ЕСЛИ НЕ SELECTED то определим новое положение top для ver
+		if (this !== verBut[hind][vind[hind]]) {
 			event.preventDefault();
-			for (let i = 0; i < verbut[hind].length; i++) {
-				if (this == verbut[hind][i]) {
+			for (let i = 0; i < verBut[hind].length; i++) {
+				if (this == verBut[hind][i]) {
 					vind[hind] = i;
 				}
 			}
-			Vtrans();
-			console.log(hind + ':' + vind[hind] + " - Vclick");
+			VerTrans();
 		}
 		else {
-			if(!this.classList.contains('typenoclick') && !this.classList.contains('typelink')) {
+			if (!this.classList.contains('typenoclick') && !this.classList.contains('typelink')) {
 				if (this.classList.contains('typeflip')) {
-					let f = this.querySelectorAll('.flip');
-					if (flip == 0) {
-						flip = 1;
-						f[0].style.transform = "rotateY(180deg)";
-						f[1].style.transform = "rotateY(360deg)";
+					FlipIcon();
+				}
+				else if (this.classList.contains('quality')) {
+					if (local == "true") {
+						localStorage.setItem('needWaves', 'false');
+						location.reload()
 					}
 					else {
-						flip = 0;
-						f[0].style.transform = "rotateY(0deg)";
-						f[1].style.transform = "rotateY(180deg)";
-					}
-					if (this.classList.contains('colortheme')) {
-						if (flip == 0) {
-							document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";
-						}
-						if (flip == 1) {
-							document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
-						}
+						localStorage.setItem('needWaves', 'true');
+						location.reload()
 					}
 				}
 				else {
-					CallInfo();
+					CallPopUp();
 				}
 			}
 		}
-	}
-}
-// *Клик по Arrows
-function Aclick() {
-	// console.log (hind + ':' + vind[hind] + " - Aclick")
-	if (this == arrowl) {
-		hind--;
-		Htrans();
-	}
-	else if (this == arrowr) {
-		hind++;
-		Htrans();
+		// Удалим для прошлой кнопки класс selectable и добавим selected
+		VerMakeSelected();
 	}
 }
 
-function Htrans() {
-	//определим на сколько перемещать слайдеры
-	let
-		horx	= horleftpos - (hind * horlefttrans),
-		allverx	= allverleftpos - (hind * allverlefttrans);
-	// переместим
-	hor.style.left = horx + 'px';
-	allver.style.left = allverx + 'px';
-	// выделим выбранную кнопку
-	for (let i = 0; i < horbut.length; i++) {
-		horbut[i].classList.remove('horizontal__selected');
-		horbut[i].classList.add('horizontal__selectable');
+// !Задаем функции скролла
+function onWheel(e) {
+	if (scrollPermission) {
+		let delta = e.deltaY || e.detail || e.wheelDelta;
+		if (verBut[hind].length > 1) {
+			if (vind[hind] < 1) {
+				if (delta > 0) {
+					VerMakeSelectable();
+					vind[hind]++
+				}
+			}
+			else if (vind[hind] < verBut[hind].length - 1) {
+				if (delta > 0) {
+					VerMakeSelectable();
+					vind[hind]++
+				}
+				else {
+					VerMakeSelectable();
+					vind[hind]--
+				}
+			}
+			else {
+				if (delta < 0) {
+					VerMakeSelectable();
+					vind[hind]--
+				}
+			}
+			VerMakeSelected();
+			VerTrans();
+		}
 	}
-	horbut[hind].classList.remove('horizontal__selectable');
-	horbut[hind].classList.add('horizontal__selected');
-	// нужны ли стрелки?
-	if (hind == 0) {
-		arrowl.style.width		= 0;
-	}
-	else if (hind == horbut.length - 1) {
-		arrowr.style.width		= 0;
-	}
-	else {
-		arrowl.style.width		= "20px";
-		arrowr.style.width		= "20px";
-	}
-	// выберем другой вертикальный слайдер
-	for (let i = 0; i < ver.length; i++) {
-		ver[i].style.opacity	= 0;
-		ver[i].style.width		= 0;
-	}
-	ver[hind].style.opacity		= 1;
-	ver[hind].style.width 		= "auto";
 }
-function Vtrans() {
-	//определим на сколько перемещать слайдеры
-	let very = 0 - (vind[hind] * vertoptrans);
-	// переместим
-	ver[hind].style.top = very + 'px';
-	// выделим выбранную кнопку
-	for (let i = 0; i < verbut[hind].length; i++) {
-		verbut[hind][i].classList.remove('vertical__selected');
-		verbut[hind][i].classList.add('vertical__selectable');
-	}
-	verbut[hind][vind[hind]].classList.remove('vertical__selectable');
-	verbut[hind][vind[hind]].classList.add('vertical__selected');
+
+
+// !Задаем функции свайпа
+var X, Y, hind0, vind0, x0, y0, x, y,
+	horSwi, verSwi,
+	swipeInterval1,
+	swipeInterval2,
+	isThisSwipe = false,
+	swi = 100,
+	swiTarget = 0;
+
+function TouchStart (e) {
+	
 }
-function CallInfo() {
-	//Запретить скролл
-	scroll = false;
-	//Развернуть Info
+function TouchMove (e) {
+
+}
+function TouchEnd (e) {
+	
+}
+function MouseDown (e) {
+	//	прослушивать mousemove
+	//	определим точку нажатия
+	//	определим является ли движение свайпом (если сильно перемещается)
+		// в какую сторону больше двигается (горизонт или вертикаль)
+	//	прослушиваем когда сильно переместится
+		//ЕСЛИ сильно перемещается
+			//ЕСЛИ горизонтально/вертикально
+				//Двигать слайдер
+	//прослушивать mouseup
+
+	if(mouseDownPermission) {
+		//	определим точку нажатия
+		isThisSwipe = false;
+		hind0 = hind;
+		vind0 = vind[hind];
+		x0 = X;
+		y0 = Y;
+		//	определим является ли движение свайпом (если сильно перемещается)
+			// в какую сторону больше двигается (горизонт или вертикаль)
+		swipeInterval1 = setInterval(() => {
+			x = X;
+			y = Y;
+			horSwi	= x-x0;
+			verSwi	= y-y0;
+			if(horSwi > (swi/2) || horSwi < -(swi/2) || verSwi > (swi/2) || verSwi < -(swi/2)) {
+				isThisSwipe			= true;
+				clickPermission		= false;
+				scrollPermission	= false;
+				keyDownPermission	= false;
+				if (Math.abs(horSwi) > Math.abs(verSwi)) {
+					swiTarget = "hor";
+					console.log('horizontal swipe');
+				}
+				else {
+					swiTarget = "ver";
+					console.log('vertical swipe');
+				}
+			}
+		}, 50)
+		//	прослушиваем когда сильно переместится
+			//ЕСЛИ сильно перемещается
+				//ЕСЛИ горизонтально/вертикально
+					//Двигать слайдер
+		swipeInterval2 = setInterval(() => {
+			if (swiTarget !== 0) {
+				clearInterval(swipeInterval1);
+				if (swiTarget == "hor") {
+					let ind, indTrans;
+					indTrans = (horSwi - horSwi % swi) / swi;
+					ind = hind0 - indTrans;
+					if (ind <= 0) {
+						HorMakeSelectable();
+						AllVerMakeSelectable();
+						hind = 0;
+						HorMakeSelected();
+						AllVerMakeSelected();
+					}
+					else if (ind > horBut.length - 1) {
+						HorMakeSelectable();
+						AllVerMakeSelectable();
+						hind = horBut.length - 1;
+						HorMakeSelected();
+						AllVerMakeSelected();
+					}
+					else {
+						HorMakeSelectable();
+						AllVerMakeSelectable();
+						hind = ind;
+						HorMakeSelected();
+						AllVerMakeSelected();
+					}
+					HorTrans();
+					x = X;
+					horSwi	= x-x0;
+				}
+				else {
+					let ind, indTrans;
+					indTrans = (verSwi - verSwi % swi) / swi;
+					ind = vind0 - indTrans;
+					if (ind <= 0) {
+						VerMakeSelectable();
+						vind[hind] = 0;
+						VerMakeSelected();
+					}
+					else if (ind > verBut[hind].length - 1) {
+						VerMakeSelectable();
+						vind[hind] = verBut[hind].length - 1;
+						VerMakeSelected();
+					}
+					else {
+						VerMakeSelectable();
+						vind[hind] = ind;
+						VerMakeSelected();
+					}
+					VerTrans();
+					y = Y;
+					verSwi	= y-y0;
+				}
+			}
+		}, 50)
+	}
+}
+function MouseMove (e) {
+	X = e.pageX;
+	Y = e.pageY;
+}
+function MouseUp (e) {
+	if(isThisSwipe) {
+		clickPermission		= true;
+		scrollPermission	= true;
+		keyDownPermission	= true;
+	}
+	clearInterval(swipeInterval1);
+	clearInterval(swipeInterval2);
+	swiTarget = 0;
+}
+
+// !Задаем функции клавиатуры
+function KeyDown(e) {
+	let key = e.key;
+	if (keyDownPermission) {
+		if (key == "ArrowLeft") {
+			if(hind < 1) {
+				//nothing
+			}
+			else if (hind < horBut.length - 1) {
+				HorMakeSelectable();
+				AllVerMakeSelectable();
+				hind--;
+				HorMakeSelected();
+				AllVerMakeSelected();
+				HorTrans();
+			}
+			else {
+				HorMakeSelectable();
+				AllVerMakeSelectable();
+				hind--;
+				HorMakeSelected();
+				AllVerMakeSelected();
+				HorTrans();
+			}
+		}
+		else if (key == "ArrowUp") {
+			if (verBut[hind].length > 1) {
+				if (vind[hind] < 1) {
+					//nothing
+				}
+				else if (vind[hind] < verBut[hind].length - 1) {
+					VerMakeSelectable();
+					vind[hind]--;
+					VerTrans();
+					VerMakeSelected();
+				}
+				else {
+					VerMakeSelectable();
+					vind[hind]--;
+					VerTrans();
+					VerMakeSelected();
+				}
+			}
+		}
+		else if (key == "ArrowRight") {
+			if(hind < 1) {
+				HorMakeSelectable();
+				AllVerMakeSelectable();
+				hind++;
+				HorMakeSelected();
+				AllVerMakeSelected();
+				HorTrans();
+			}
+			else if (hind < horBut.length - 1) {
+				HorMakeSelectable();
+				AllVerMakeSelectable();
+				hind++;
+				HorMakeSelected();
+				AllVerMakeSelected();
+				HorTrans();
+			}
+			else {
+				//nothing
+			}
+		}
+		else if (key == "ArrowDown") {
+			if (verBut[hind].length > 1) {
+				if (vind[hind] < 1) {
+					VerMakeSelectable();
+					vind[hind]++;
+					VerTrans();
+					VerMakeSelected();
+				}
+				else if (vind[hind] < verBut[hind].length - 1) {
+					VerMakeSelectable();
+					vind[hind]++;
+					VerTrans();
+					VerMakeSelected();
+				}
+				else {
+					//nothing
+				}
+			}
+		}
+		else if (e.keyCode == 13) {
+			verBut[hind][vind[hind]].click();
+		}
+	}
+}
+
+function EnterClose(e) {
+	if (e.keyCode == 27 || e.keyCode == 8) {
+		ClosePopUp();
+	}
+}
+
+
+// ?Задаем вспомогательные функции
+function AllVerMakeSelectable () {
+	ver[hind].classList.remove('allvertical__selected');
+	ver[hind].classList.add('allvertical__selectable');
+}
+function AllVerMakeSelected () {
+	ver[hind].classList.remove('allvertical__selectable');
+	ver[hind].classList.add('allvertical__selected');
+}
+function HorMakeSelectable () {
+	horBut[hind].classList.remove('horizontal__selected');
+	horBut[hind].classList.add('horizontal__selectable');
+}
+function HorMakeSelected () {
+	horBut[hind].classList.remove('horizontal__selectable');
+	horBut[hind].classList.add('horizontal__selected');
+}
+function VerMakeSelectable () {
+	verBut[hind][vind[hind]].classList.remove('vertical__selected');
+	verBut[hind][vind[hind]].classList.add('vertical__selectable');
+}
+function VerMakeSelected () {
+	verBut[hind][vind[hind]].classList.remove('vertical__selectable');
+	verBut[hind][vind[hind]].classList.add('vertical__selected');
+}
+function HorTrans() {
+	let	horX				= horLeftPos - (horLeftTrans * hind),
+		allVerX				= allVerLeftPos - (allVerLeftTrans * hind);
+		hor.style.left		= horX + "px";
+		allVer.style.left	= allVerX + "px";
+}
+function VerTrans() {
+	let verY					= 0 - (vind[hind] * verTopTrans);
+		ver[hind].style.top		= verY + "px";
+}
+function ArrowsRules() {
+	if (vw < 768) {
+		if (hind == 0) {
+			arrowL.style.width		= 0;
+			arrowR.style.width		= "20px";
+		}
+		else if (hind == horBut.length - 1) {
+			arrowR.style.width		= 0;
+			arrowL.style.width		= "20px";
+		}
+		else {
+			arrowL.style.width		= "20px";
+			arrowR.style.width		= "20px";
+		}
+	}
+}
+function CallPopUp() {
+	// Запретить управление
+	// Скрыть hor и ver
+	// Открыть info
+	// Добавить крестик
+	// Возможность выйти
+
+	isPopUpOpen = true;
+	// Запретить управление
+	clickPermission		= false;
+	scrollPermission	= false;
+	swipePermission		= false;
+	mouseDownPermission	= false;
+	// Скрыть hor, ver и arrows
+	hor.style.opacity		= 0;
+	allVer.style.opacity	= 0;
+	arrowL.style.width		= "0px";
+	arrowR.style.width		= "0px";
+	// Открыть info
 	group[hind].style.transform				= "scale(1)";
 	info[hind][vind[hind]].style.transform	= "scale(1)";
-	info[hind][vind[hind]].style.opacity	= "1";
 	main.style.zIndex						= "30";
-	tapfield[hind].style.height					= "100vh";
-	//Скрыть Hor и Ver buttons
-	allver.style.left						= -vw + 'px';
-	hor.style.top							= -vh + 'px';
-	allver.style.opacity					= 0;
-	hor.style.opacity						= 0;
+	tapfield[hind].style.height				= "100vh";
 	// Добавить крестик
 	let close = document.createElement('div');													//Вставить крестик в контент
 	close.className = "close";
 	close.innerHTML = "X";
 	info[hind][vind[hind]].prepend(close);
-	arrowl.style.width		= "0px";
-	arrowr.style.width		= "0px";
-	//Позволить свернуть info кликом сбоку
-	tapfield[hind].addEventListener('click', CloseInfo, false);
-	//Позволить свернуть info крестиком
-	document.querySelector('.close').addEventListener('click', CloseInfo, false);
+	// Возможность выйти
+	tapfield[hind].addEventListener('click', ClosePopUp, false);
+	document.querySelector('.close').addEventListener('click', ClosePopUp, false);
+	d.addEventListener('keyup', EnterClose, false);
 }
+function ClosePopUp() {
+	// удалить listeners для выхода
+	// удалить крестик
+	// свернуть info
+	// вернуть hor, ver и arrows
+	// разрешить управление
 
-function CloseInfo() {
-	// console.log('close info');
-	tapfield[hind].removeEventListener('click', CloseInfo, false);
-	//разрешить скролл
-	scroll = true;
-	//свернуть info
+	// удалить listeners для выхода
+	tapfield[hind].removeEventListener('click', ClosePopUp, false);
+	document.querySelector('.close').removeEventListener('click', ClosePopUp, false);
+	d.removeEventListener('keyup', EnterClose, false);
+	// удалить крестик
+	document.querySelector('.close').remove();
+	// свернуть info
 	group[hind].style.transform				= "scale(0)";
 	info[hind][vind[hind]].style.transform	= "scale(0)";
-	info[hind][vind[hind]].style.opacity	= "0";
 	main.style.zIndex						= "0";
-	tapfield[hind].style.height					= "0";
-	//вернуть слайдеры
-	Vtrans();
-	Htrans();
-	hor.style.top							= hortoppos + 'px';
-	allver.style.opacity					= 1;
+	tapfield[hind].style.height				= "0";
+	// вернуть hor, ver и arrows
+	allVer.style.opacity					= 1;
 	hor.style.opacity						= 1;
-	//убрать крестик
-	document.querySelector('.close').removeEventListener('click', CloseInfo, false);
-	document.querySelector('.close').remove();
-	//вернуть стрелки
-	arrowl.style.width		= "20px";
-	arrowr.style.width		= "20px";
-	if (hind == 0) {
-		arrowl.style.width		= 0;
-	}
-	else if (hind == horbut.length - 1) {
-		arrowr.style.width		= 0;
+	ArrowsRules();
+	// разрешить управление
+	clickPermission		=true;
+	scrollPermission	=true;
+	swipePermission		=true;
+	mouseDownPermission	=true;
+	keyDownPermission	=true;
+	isPopUpOpen = false;
+
+}
+function FlipIcon() {
+	let f = verBut[hind][vind[hind]].querySelectorAll('.flip');
+	if (flip == 0) {
+		flip = 1;
+		f[0].style.transform = "rotateY(180deg)";
+		f[1].style.transform = "rotateY(360deg)";
 	}
 	else {
-		arrowl.style.width		= "20px";
-		arrowr.style.width		= "20px";
+		flip = 0;
+		f[0].style.transform = "rotateY(0deg)";
+		f[1].style.transform = "rotateY(180deg)";
 	}
-}
-
-
-
-// !Скроллинг ======================================================
-const d = document;
-if (d.addEventListener) {
-	if ('onwheel' in document) {
-		d.addEventListener("wheel", onWheel);				// IE9+, FF17+, Ch31+
-	} else if ('onmousewheel' in document) {
-		d.addEventListener("mousewheel", onWheel);			// устаревший вариант события
-	} else {
-		d.addEventListener("MozMousePixelScroll", onWheel);	// Firefox < 17
-	}
-} else {
-	d.attachEvent("onmousewheel", onWheel);					// IE8-
-}
-function onWheel(e) {
-	if (scroll) {
-		let delta = e.deltaY || e.detail || e.wheelDelta;
-		if (verbut[hind].length > 1) {
-			if (vind[hind] < 1) {
-				if (delta > 0) { vind[hind]++ }
-			}
-			else if (vind[hind] < verbut[hind].length - 1) {
-				if (delta > 0) { vind[hind]++ }
-				else { vind[hind]-- }
-			}
-			else {
-				if (delta < 0) { vind[hind]-- }
-			}
-			Vtrans();
-			// console.log(hind + ':' + vind[hind] + " - Scroll");
+	if (verBut[hind][vind[hind]].classList.contains('colortheme')) {
+		if (flip == 0) {
+			document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";
+		}
+		if (flip == 1) {
+			document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
 		}
 	}
-}
-
-
-
-// !!!Mouse SWIPE ========================================================
-document.addEventListener('mousedown', Swipe, false);
-document.addEventListener('mousemove', MouseMove, false);
-
-
-var X, Y, hind0, vind0, x0, y0, x, y,
-	horswi, verswi,
-	swipeInterval1,
-	swipeInterval2,
-	swi = 100,
-	isClick = true,
-	swiTarget = 0;
-
-function MouseMove(e) {
-	X = e.pageX;
-	Y = e.pageY;
-}
-function Swipe(e) {
-	isClick = true;
-	hind0 = hind;
-	vind0 = vind[hind];
-	x0 = X;
-	y0 = Y;
-	// определяем является ли движение по экрану свайпом и стоит ли запретить клики
-	swipeInterval1 = setInterval(() => {
-		x = X;
-		y = Y;
-		horswi	= x-x0;
-		verswi	= y-y0;
-		// console.log(horswi);
-		if(horswi > (swi/2) || horswi < -(swi/2) || verswi > (swi/2) || verswi < -(swi/2)) {
-			isClick = false;
-			if (Math.abs(horswi) > Math.abs(verswi)) {
-				swiTarget = "hor";
-				console.log('horizontal swipe');
-			}
-			else {
-				swiTarget = "ver";
-				console.log('vertical swipe');
-			}
-		}
-	}, 50)
-	// 
-	swipeInterval2 = setInterval(() => {
-		if (swiTarget !== 0) {
-			clearInterval(swipeInterval1);
-			if (swiTarget == "hor") {
-				let ind, indtrans;
-				indtrans = (horswi - horswi % swi) / swi;
-				ind = hind0 - indtrans;
-				// console.log(indtrans);
-				if (ind <= 0) {hind = 0}
-				else if (ind > horbut.length - 1) {hind = horbut.length - 1}
-				else {hind = ind}
-				Htrans();
-				x = X;
-				horswi	= x-x0;
-			}
-			else {
-				let ind, indtrans;
-				indtrans = (verswi - verswi % swi) / swi;
-				ind = vind0 - indtrans;
-				// console.log(vind0);
-				if (ind <= 0) {vind[hind] = 0}
-				else if (ind > verbut[hind].length - 1) {vind[hind] = verbut[hind].length - 1}
-				else {vind[hind] = ind}
-				Vtrans();
-				y = Y;
-				verswi	= y-y0;
-			}
-		}
-	}, 50)
-	document.addEventListener('mouseup', EndSwipe, false);
-}
-
-function EndSwipe() {
-	clearInterval(swipeInterval1);
-	clearInterval(swipeInterval2);
-	swiTarget = 0;
-	
-}
-
-
-// !!!Touch SWIPE ========================================================
-document.addEventListener('touchstart', TouchStart, false);
-document.addEventListener('touchmove', TouchMove, false);
-document.addEventListener('touchend', TouchEnd, false);
-
-function TouchStart(event) {
-	x0 = event.touches[0].pageX;
-	y0 = event.touches[0].pageY;
-	console.log(x0 + ':' + y0);
-	isClick = true;
-	hind0 = hind;
-	vind0 = vind[hind];
-}
-function TouchMove(event) {
-	event.preventDefault();
-	X = event.changedTouches[0].pageX;
-	Y = event.changedTouches[0].pageY;
-	console.log(X + ':' + Y);
-	horswi	= X-x0;
-	verswi	= Y-y0;
-	if(horswi > (swi/2) || horswi < -(swi/2) || verswi > (swi/2) || verswi < -(swi/2)) {
-		isClick = false;
-		if (Math.abs(horswi) > Math.abs(verswi)) {
-			swiTarget = "hor";
-			console.log('horizontal swipe');
-		}
-		else {
-			swiTarget = "ver";
-			console.log('vertical swipe');
-		}
-	}
-	if (swiTarget !== 0) {
-		if (swiTarget == "hor") {
-			let ind, indtrans;
-			indtrans = (horswi - horswi % swi) / swi;
-			ind = hind0 - indtrans;
-			// console.log(indtrans);
-			if (ind <= 0) {hind = 0}
-			else if (ind > horbut.length - 1) {hind = horbut.length - 1}
-			else {hind = ind}
-			Htrans();
-			x = X;
-			horswi	= x-x0;
-		}
-		else {
-			let ind, indtrans;
-			indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
-			ind = vind0 - indtrans;
-			// console.log(vind0);
-			if (ind <= 0) {vind[hind] = 0}
-			else if (ind > verbut[hind].length - 1) {vind[hind] = verbut[hind].length - 1}
-			else {vind[hind] = ind}
-			Vtrans();
-			y = Y;
-			verswi	= y-y0;
-		}
-	}
-}
-function TouchEnd(event) {
-	swiTarget = 0;
 }

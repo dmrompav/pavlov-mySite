@@ -120,7 +120,29 @@ a:visited {
   color: #f7f1e3;
 }
 
+.hi {
+  position: fixed;
+  font-size: 70px;
+  top: 50vh;
+  left: 50vw;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  opacity: 0;
+  -webkit-transition: opacity 0.5s ease;
+  -o-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+}
+
+.waves {
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: #fff;
+}
+
 .wave {
+  z-index: 0;
   background-image: url("../img/wave.png");
   position: fixed;
   width: 6000px;
@@ -226,6 +248,13 @@ a:visited {
   width: 0;
 }
 
+.wrapper {
+  opacity: 0;
+  -webkit-transition: opacity 0.5s;
+  -o-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+}
+
 .horizontal {
   z-index: 20;
   position: fixed;
@@ -235,9 +264,9 @@ a:visited {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: start;
-  -webkit-transition: left 0.2s ease-in-out, top 0.2s, opacity 0.1s;
-  -o-transition: left 0.2s ease-in-out, top 0.2s, opacity 0.1s;
-  transition: left 0.2s ease-in-out, top 0.2s, opacity 0.1s;
+  -webkit-transition: left 0.2s, top 0.2s, opacity 0.1s;
+  -o-transition: left 0.2s, top 0.2s, opacity 0.1s;
+  transition: left 0.2s, top 0.2s, opacity 0.1s;
 }
 
 .horizontal__button {
@@ -259,19 +288,29 @@ a:visited {
   text-transform: uppercase;
   font-size: 24px;
   margin-top: 10px;
-  -webkit-transition: -webkit-transform 0.2s ease-in-out;
-  transition: -webkit-transform 0.2s ease-in-out;
-  -o-transition: transform 0.2s ease-in-out;
-  transition: transform 0.2s ease-in-out;
-  transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  -o-transition: transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
   text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 40px #ffffff;
 }
 
 .allvertical {
   position: relative;
-  -webkit-transition: left 0.3s ease, opacity 0.2s;
-  -o-transition: left 0.3s ease, opacity 0.2s;
-  transition: left 0.3s ease, opacity 0.2s;
+  -webkit-transition: left 0.3s, opacity 0.2s;
+  -o-transition: left 0.3s, opacity 0.2s;
+  transition: left 0.3s, opacity 0.2s;
+}
+
+.allvertical__selected {
+  width: auto;
+  opacity: 1;
+}
+
+.allvertical__selectable {
+  width: 0;
+  opacity: 0;
 }
 
 .vertical {
@@ -288,18 +327,14 @@ a:visited {
       -ms-flex-align: start;
           align-items: start;
   margin-left: 25px;
-  width: 0;
-  opacity: 0;
   overflow: hidden;
-  -webkit-transition: opacity 0.5s ease, top 0.2s ease-in-out;
-  -o-transition: opacity 0.5s ease, top 0.2s ease-in-out;
-  transition: opacity 0.5s ease, top 0.2s ease-in-out;
+  -webkit-transition: opacity 0.5s, top 0.2s;
+  -o-transition: opacity 0.5s, top 0.2s;
+  transition: opacity 0.5s, top 0.2s;
 }
 
 .vertical_1 {
   left: 0px;
-  width: auto;
-  opacity: 1;
 }
 
 .vertical_2 {
@@ -344,9 +379,9 @@ a:visited {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: start;
-  -webkit-transition: opacity 0.1s, margin-top 0.2s ease;
-  -o-transition: opacity 0.1s, margin-top 0.2s ease;
-  transition: opacity 0.1s, margin-top 0.2s ease;
+  -webkit-transition: opacity 0.1s, margin-top 0.2s;
+  -o-transition: opacity 0.1s, margin-top 0.2s;
+  transition: opacity 0.1s, margin-top 0.2s;
 }
 
 .vertical__selected {
@@ -392,11 +427,11 @@ a:visited {
   border-radius: 30%;
   background-image: url(../img/sprite2.png);
   background-repeat: no-repeat;
-  -webkit-transition: -webkit-transform 0.1s ease;
-  transition: -webkit-transform 0.1s ease;
-  -o-transition: transform 0.1s ease;
-  transition: transform 0.1s ease;
-  transition: transform 0.1s ease, -webkit-transform 0.1s ease;
+  -webkit-transition: -webkit-transform 0.1s;
+  transition: -webkit-transform 0.1s;
+  -o-transition: transform 0.1s;
+  transition: transform 0.1s;
+  transition: transform 0.1s, -webkit-transform 0.1s;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -552,6 +587,21 @@ a:visited {
           animation: inprocess 1s linear infinite;
 }
 
+.typenoclick > .vertical__icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: end;
+  color: #b33939;
+  font-size: 60px;
+  font-weight: 900;
+}
+
 .typeflip {
   position: relative;
 }
@@ -577,11 +627,11 @@ a:visited {
           backface-visibility: hidden;
   border: 3px solid #f7f1e3;
   border-radius: 30%;
-  -webkit-transition: -webkit-transform 0.3s ease;
-  transition: -webkit-transform 0.3s ease;
-  -o-transition: transform 0.3s ease;
-  transition: transform 0.3s ease;
-  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: -webkit-transform 0.5s;
+  -o-transition: transform 0.5s;
+  transition: transform 0.5s;
+  transition: transform 0.5s, -webkit-transform 0.5s;
 }
 
 .flip__red {
@@ -649,16 +699,15 @@ a:visited {
   padding: 50px 20px;
   overflow-x: hidden;
   overflow-y: visible;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(60, 60, 60, 0.3);
   -webkit-transform: scale(0);
       -ms-transform: scale(0);
           transform: scale(0);
-  opacity: 0;
-  -webkit-transition: -webkit-transform 0.3s ease;
-  transition: -webkit-transform 0.3s ease;
-  -o-transition: transform 0.3s ease;
-  transition: transform 0.3s ease;
-  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  -o-transition: transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
 }
 
 @-webkit-keyframes arrow_pulse {
@@ -709,64 +758,46 @@ a:visited {
   100% {
     -webkit-transform: scale(1);
             transform: scale(1);
-    -webkit-filter: grayscale(90%);
-            filter: grayscale(90%);
   }
 
   98% {
     -webkit-transform: scale(1.3);
             transform: scale(1.3);
-    -webkit-filter: grayscale(40%);
-            filter: grayscale(40%);
   }
 
   96% {
     -webkit-transform: scale(0.8);
             transform: scale(0.8);
-    -webkit-filter: grayscale(90%);
-            filter: grayscale(90%);
   }
 
   94% {
     -webkit-transform: scale(1.4);
             transform: scale(1.4);
-    -webkit-filter: grayscale(40%);
-            filter: grayscale(40%);
   }
 
   92% {
     -webkit-transform: scale(0.7);
             transform: scale(0.7);
-    -webkit-filter: grayscale(90%);
-            filter: grayscale(90%);
   }
 
   90% {
     -webkit-transform: scale(1.5);
             transform: scale(1.5);
-    -webkit-filter: grayscale(40%);
-            filter: grayscale(40%);
   }
 
   88% {
     -webkit-transform: scale(0.6);
             transform: scale(0.6);
-    -webkit-filter: grayscale(40%);
-            filter: grayscale(40%);
   }
 
   86% {
     -webkit-transform: scale(1);
             transform: scale(1);
-    -webkit-filter: grayscale(90%);
-            filter: grayscale(90%);
   }
 
   0% {
     -webkit-transform: scale(1);
             transform: scale(1);
-    -webkit-filter: grayscale(90%);
-            filter: grayscale(90%);
   }
 }
 
@@ -774,64 +805,46 @@ a:visited {
   100% {
     -webkit-transform: scale(1);
             transform: scale(1);
-    -webkit-filter: grayscale(90%);
-            filter: grayscale(90%);
   }
 
   98% {
     -webkit-transform: scale(1.3);
             transform: scale(1.3);
-    -webkit-filter: grayscale(40%);
-            filter: grayscale(40%);
   }
 
   96% {
     -webkit-transform: scale(0.8);
             transform: scale(0.8);
-    -webkit-filter: grayscale(90%);
-            filter: grayscale(90%);
   }
 
   94% {
     -webkit-transform: scale(1.4);
             transform: scale(1.4);
-    -webkit-filter: grayscale(40%);
-            filter: grayscale(40%);
   }
 
   92% {
     -webkit-transform: scale(0.7);
             transform: scale(0.7);
-    -webkit-filter: grayscale(90%);
-            filter: grayscale(90%);
   }
 
   90% {
     -webkit-transform: scale(1.5);
             transform: scale(1.5);
-    -webkit-filter: grayscale(40%);
-            filter: grayscale(40%);
   }
 
   88% {
     -webkit-transform: scale(0.6);
             transform: scale(0.6);
-    -webkit-filter: grayscale(40%);
-            filter: grayscale(40%);
   }
 
   86% {
     -webkit-transform: scale(1);
             transform: scale(1);
-    -webkit-filter: grayscale(90%);
-            filter: grayscale(90%);
   }
 
   0% {
     -webkit-transform: scale(1);
             transform: scale(1);
-    -webkit-filter: grayscale(90%);
-            filter: grayscale(90%);
   }
 }
 
@@ -851,6 +864,11 @@ a:visited {
   .horizontal__button_7 {
     -webkit-animation: long-pulse 15s infinite;
             animation: long-pulse 15s infinite;
+  }
+
+  .horizontal__button_7 > .horizontal__icon {
+    -webkit-filter: grayscale(0) !important;
+            filter: grayscale(0) !important;
   }
 
   .horizontal__button_7:hover {
