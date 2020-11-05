@@ -38,16 +38,14 @@ for (var _i = 0; _i < group.length; _i++) {
 
 
 var local = localStorage.getItem('needWaves');
-console.log(local);
 
 if (local == 'false') {
-  console.log('deleted');
   waves.remove();
   var ct = d.querySelector('.colortheme');
-  document.body.style.background = "#000";
+  document.body.style.background = "#111";
   ct.classList.remove('.typeflip');
   ct.classList.add('typenoclick');
-  ct.querySelector('.vertical__text').innerHTML = 'Не доступно';
+  ct.querySelector('.vertical__text').innerHTML = 'Недоступно';
   var f = ct.querySelectorAll('.flip');
   f[0].style.backgroundColor = "#000";
   f[1].style.backgroundColor = "#000";
@@ -121,6 +119,10 @@ function Resize() {
     allVerTopPos = 0.3 * vh;
     verTopTrans = 100;
   }
+
+  HorTrans();
+  VerTrans();
+  ArrowsRules();
 }
 
 Resize(); // !EventListeners
@@ -151,10 +153,10 @@ if (d.addEventListener) {
 
 d.addEventListener('touchstart', TouchStart, false);
 d.addEventListener('touchmove', TouchMove, false);
-d.addEventListener('touchend', TouchEnd, false);
-d.addEventListener('mousedown', MouseDown, false);
-d.addEventListener('mousemove', MouseMove, false);
-d.addEventListener('mouseup', MouseUp, false);
+d.addEventListener('touchend', TouchEnd, false); // d.addEventListener('mousedown', MouseDown, false);
+// d.addEventListener('mousemove', MouseMove, false);
+// d.addEventListener('mouseup', MouseUp, false);
+
 d.addEventListener('keydown', KeyDown, false); // !Задаем функции клика
 
 function HorButClick() {
@@ -272,139 +274,155 @@ var X,
     y0,
     x,
     y,
-    horSwi,
-    verSwi,
+    horswi,
+    verswi,
     swipeInterval1,
     swipeInterval2,
-    isThisSwipe = false,
     swi = 100,
-    swiTarget = 0;
+    clickPermission = true,
+    swiTarget = 0; // function MouseMove(e) {
+// 	X = e.pageX;
+// 	Y = e.pageY;
+// }
+// function MouseDown(e) {
+// 	clickPermission = true;
+// 	hind0 = hind;
+// 	vind0 = vind[hind];
+// 	x0 = X;
+// 	y0 = Y;
+// 	// определяем является ли движение по экрану свайпом и стоит ли запретить клики
+// 	swipeInterval1 = setInterval(() => {
+// 		x = X;
+// 		y = Y;
+// 		horswi	= x-x0;
+// 		verswi	= y-y0;
+// 		if(horswi > (swi/2) || horswi < -(swi/2) || verswi > (swi/2) || verswi < -(swi/2)) {
+// 			clickPermission = false;
+// 			if (Math.abs(horswi) > Math.abs(verswi)) {
+// 				swiTarget = "hor";
+// 			}
+// 			else {
+// 				swiTarget = "ver";
+// 			}
+// 		}
+// 	}, 50)
+// 	swipeInterval2 = setInterval(() => {
+// 		if (swiTarget !== 0) {
+// 			clearInterval(swipeInterval1);
+// 			if (swiTarget == "hor") {
+// 				let ind, indtrans;
+// 				indtrans = (horswi - horswi % swi) / swi;
+// 				ind = hind0 - indtrans;
+// 				if (ind <= 0) {hind = 0}
+// 				else if (ind > horBut.length - 1) {hind = horBut.length - 1}
+// 				else {hind = ind}
+// 				HorTrans();
+// 				x = X;
+// 				horswi	= x-x0;
+// 			}
+// 			else {
+// 				let ind, indtrans;
+// 				indtrans = (verswi - verswi % swi) / swi;
+// 				ind = vind0 - indtrans;
+// 				if (ind <= 0) {vind[hind] = 0}
+// 				else if (ind > verBut[hind].length - 1) {vind[hind] = verBut[hind].length - 1}
+// 				else {vind[hind] = ind}
+// 				VerTrans();
+// 				y = Y;
+// 				verswi	= y-y0;
+// 			}
+// 		}
+// 	}, 50)
+// 	document.addEventListener('mouseup', MouseUp, false);
+// }
+// function MouseUp() {
+// 	clearInterval(swipeInterval1);
+// 	clearInterval(swipeInterval2);
+// 	swiTarget = 0;
+// }
 
-function TouchStart(e) {}
+function TouchStart(event) {
+  clickPermission = true;
+  x0 = event.touches[0].pageX;
+  y0 = event.touches[0].pageY;
+  clickPermission = true;
+  hind0 = hind;
+  vind0 = vind[hind];
+}
 
-function TouchMove(e) {}
+function TouchMove(event) {
+  event.preventDefault();
+  X = event.changedTouches[0].pageX;
+  Y = event.changedTouches[0].pageY;
+  horswi = X - x0;
+  verswi = Y - y0;
 
-function TouchEnd(e) {}
+  if (horswi > swi / 2 || horswi < -(swi / 2) || verswi > swi / 2 || verswi < -(swi / 2)) {
+    clickPermission = false;
 
-function MouseDown(e) {
-  //	прослушивать mousemove
-  //	определим точку нажатия
-  //	определим является ли движение свайпом (если сильно перемещается)
-  // в какую сторону больше двигается (горизонт или вертикаль)
-  //	прослушиваем когда сильно переместится
-  //ЕСЛИ сильно перемещается
-  //ЕСЛИ горизонтально/вертикально
-  //Двигать слайдер
-  //прослушивать mouseup
-  if (mouseDownPermission) {
-    //	определим точку нажатия
-    isThisSwipe = false;
-    hind0 = hind;
-    vind0 = vind[hind];
-    x0 = X;
-    y0 = Y; //	определим является ли движение свайпом (если сильно перемещается)
-    // в какую сторону больше двигается (горизонт или вертикаль)
+    if (Math.abs(horswi) > Math.abs(verswi)) {
+      swiTarget = "hor";
+    } else {
+      swiTarget = "ver";
+    }
+  }
 
-    swipeInterval1 = setInterval(function () {
-      x = X;
-      y = Y;
-      horSwi = x - x0;
-      verSwi = y - y0;
+  if (swiTarget !== 0) {
+    if (swiTarget == "hor") {
+      if (vw < 768) {
+        HorMakeSelectable();
+        AllVerMakeSelectable();
 
-      if (horSwi > swi / 2 || horSwi < -(swi / 2) || verSwi > swi / 2 || verSwi < -(swi / 2)) {
-        isThisSwipe = true;
-        clickPermission = false;
-        scrollPermission = false;
-        keyDownPermission = false;
-
-        if (Math.abs(horSwi) > Math.abs(verSwi)) {
-          swiTarget = "hor";
-          console.log('horizontal swipe');
-        } else {
-          swiTarget = "ver";
-          console.log('vertical swipe');
+        if (horswi < 0 && hind0 < horBut.length - 1) {
+          hind = hind0 + 1;
+        } else if (horswi > 0 && hind0 > 0) {
+          hind = hind0 - 1;
         }
-      }
-    }, 50); //	прослушиваем когда сильно переместится
-    //ЕСЛИ сильно перемещается
-    //ЕСЛИ горизонтально/вертикально
-    //Двигать слайдер
 
-    swipeInterval2 = setInterval(function () {
-      if (swiTarget !== 0) {
-        clearInterval(swipeInterval1);
+        HorMakeSelected();
+        AllVerMakeSelected();
+        HorTrans();
+      } else {
+        var ind, indtrans;
+        indtrans = (horswi - horswi % swi) / swi;
+        ind = hind0 - indtrans;
+        HorMakeSelectable();
+        AllVerMakeSelectable();
 
-        if (swiTarget == "hor") {
-          var ind, indTrans;
-          indTrans = (horSwi - horSwi % swi) / swi;
-          ind = hind0 - indTrans;
-
-          if (ind <= 0) {
-            HorMakeSelectable();
-            AllVerMakeSelectable();
-            hind = 0;
-            HorMakeSelected();
-            AllVerMakeSelected();
-          } else if (ind > horBut.length - 1) {
-            HorMakeSelectable();
-            AllVerMakeSelectable();
-            hind = horBut.length - 1;
-            HorMakeSelected();
-            AllVerMakeSelected();
-          } else {
-            HorMakeSelectable();
-            AllVerMakeSelectable();
-            hind = ind;
-            HorMakeSelected();
-            AllVerMakeSelected();
-          }
-
-          HorTrans();
-          x = X;
-          horSwi = x - x0;
+        if (ind <= 0) {
+          hind = 0;
+        } else if (ind > horBut.length - 1) {
+          hind = horBut.length - 1;
         } else {
-          var _ind, _indTrans;
-
-          _indTrans = (verSwi - verSwi % swi) / swi;
-          _ind = vind0 - _indTrans;
-
-          if (_ind <= 0) {
-            VerMakeSelectable();
-            vind[hind] = 0;
-            VerMakeSelected();
-          } else if (_ind > verBut[hind].length - 1) {
-            VerMakeSelectable();
-            vind[hind] = verBut[hind].length - 1;
-            VerMakeSelected();
-          } else {
-            VerMakeSelectable();
-            vind[hind] = _ind;
-            VerMakeSelected();
-          }
-
-          VerTrans();
-          y = Y;
-          verSwi = y - y0;
+          hind = ind;
         }
+
+        HorMakeSelected();
+        AllVerMakeSelected();
+        HorTrans();
       }
-    }, 50);
+    } else {
+      var _ind, _indtrans;
+
+      _indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
+      _ind = vind0 - _indtrans;
+      VerMakeSelectable();
+
+      if (_ind <= 0) {
+        vind[hind] = 0;
+      } else if (_ind > verBut[hind].length - 1) {
+        vind[hind] = verBut[hind].length - 1;
+      } else {
+        vind[hind] = _ind;
+      }
+
+      VerMakeSelected();
+      VerTrans();
+    }
   }
 }
 
-function MouseMove(e) {
-  X = e.pageX;
-  Y = e.pageY;
-}
-
-function MouseUp(e) {
-  if (isThisSwipe) {
-    clickPermission = true;
-    scrollPermission = true;
-    keyDownPermission = true;
-  }
-
-  clearInterval(swipeInterval1);
-  clearInterval(swipeInterval2);
+function TouchEnd(event) {
   swiTarget = 0;
 } // !Задаем функции клавиатуры
 

@@ -415,7 +415,7 @@ a:visited {
 }
 
 .vertical__selectable:hover > .vertical__text {
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .vertical__icon {
@@ -587,21 +587,6 @@ a:visited {
           animation: inprocess 1s linear infinite;
 }
 
-.typenoclick > .vertical__icon {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: end;
-  color: #b33939;
-  font-size: 60px;
-  font-weight: 900;
-}
-
 .typeflip {
   position: relative;
 }
@@ -694,12 +679,13 @@ a:visited {
 .info {
   z-index: 40;
   position: fixed;
+  font-size: 18px;
   width: 800px;
   max-width: 90vw;
   padding: 50px 20px;
   overflow-x: hidden;
   overflow-y: visible;
-  background-color: rgba(60, 60, 60, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
   -webkit-transform: scale(0);
       -ms-transform: scale(0);
           transform: scale(0);
