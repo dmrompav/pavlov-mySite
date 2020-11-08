@@ -2,6 +2,7 @@
 
 // Получение доступа ко всем элементам HTML
 // Включить ли упрощенный режим? Значение изменяется в VerButClick
+// Выбор темы
 // Нумерация элементов по X и Y + прочие элементы
 // Приветствие
 // Ресайз и динамический адаптив
@@ -37,9 +38,9 @@ for (var _i = 0; _i < group.length; _i++) {
 } // !Включить ли упрощенный режим? Значение изменяется в VerButClick
 
 
-var local = localStorage.getItem('needWaves');
+var localQuality = localStorage.getItem('needQuality');
 
-if (local == 'false') {
+if (localQuality == 'false') {
   waves.remove();
   var ct = d.querySelector('.colortheme');
   document.body.style.background = "#111";
@@ -48,9 +49,22 @@ if (local == 'false') {
   ct.querySelector('.vertical__text').innerHTML = 'Недоступно';
   var f = ct.querySelectorAll('.flip');
   f[0].style.backgroundColor = "#000";
-  f[1].style.backgroundColor = "#000";
   d.querySelector('.quality').querySelector('.vertical__text').innerHTML = 'Повысить качество';
   d.querySelector('.horizontal__button_7').style.animation = 'none';
+} // !Выбор темы
+
+
+var flip = 0,
+    localColor = localStorage.getItem('colorTheme');
+
+if (localColor == 'blue' && localQuality !== 'false') {
+  flip = 1;
+  document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
+
+  var _f = d.querySelector('.colortheme').querySelectorAll('.flip');
+
+  _f[0].style.transform = "rotateY(180deg)";
+  _f[1].style.transform = "rotateY(360deg)";
 } // !Нумерация элементов по X и Y + прочие элементы
 
 
@@ -63,8 +77,7 @@ mouseDownPermission = false,
     scrollPermission = false,
     swipePermission = false,
     keyDownPermission = false,
-    isPopUpOpen = false,
-    flip = 0; // !Приветствие
+    isPopUpOpen = false; // !Приветствие
 
 var hiOn = setTimeout(function () {
   hi.style.opacity = 1;
@@ -134,7 +147,7 @@ for (var _i2 = 0; _i2 < horBut.length; _i2++) {
 
 for (var _i3 = 0; _i3 < ver.length; _i3++) {
   for (var j = 0; j < verBut[_i3].length; j++) {
-    verBut[_i3][j].addEventListener('click', VerButclick, false); //a lot of LISTENERS
+    verBut[_i3][j].addEventListener('click', VerButClick, false); //a lot of LISTENERS
 
   }
 }
@@ -151,9 +164,11 @@ if (d.addEventListener) {
   d.attachEvent("onmousewheel", onWheel); // IE8-
 }
 
-d.addEventListener('touchstart', TouchStart, false);
-d.addEventListener('touchmove', TouchMove, false);
-d.addEventListener('touchend', TouchEnd, false); // d.addEventListener('mousedown', MouseDown, false);
+setTimeout(function () {
+  d.addEventListener('touchstart', TouchStart, false);
+  d.addEventListener('touchmove', TouchMove, false);
+  d.addEventListener('touchend', TouchEnd, false);
+}, 0); // d.addEventListener('mousedown', MouseDown, false);
 // d.addEventListener('mousemove', MouseMove, false);
 // d.addEventListener('mouseup', MouseUp, false);
 
@@ -190,46 +205,55 @@ function HorButClick() {
   }
 }
 
-function VerButclick(event) {
+function VerButClick(event) {
+  // Вызовем ли popup
   // Удалим для прошлой кнопки класс selected и добавим selectable
   // Определим на какую кнопку кликнули
-  // ЕСЛИ НЕ SELECTED то определим новое положение top для ver
+  // передвинем Ver
   // Удалим для прошлой кнопки класс selectable и добавим selected
   if (clickPermission) {
-    // Удалим для прошлой кнопки класс selected и добавим selectable
-    VerMakeSelectable(); // Определим на какую кнопку кликнули
-    // ЕСЛИ НЕ SELECTED то определим новое положение top для ver
+    var timeout;
 
     if (this !== verBut[hind][vind[hind]]) {
-      event.preventDefault();
+      timeout = true;
+    } // Удалим для прошлой кнопки класс selected и добавим selectable
 
-      for (var _i5 = 0; _i5 < verBut[hind].length; _i5++) {
-        if (this == verBut[hind][_i5]) {
-          vind[hind] = _i5;
-        }
+
+    VerMakeSelectable(); // Определим на какую кнопку кликнули
+
+    for (var _i5 = 0; _i5 < verBut[hind].length; _i5++) {
+      if (this == verBut[hind][_i5]) {
+        vind[hind] = _i5;
       }
+    } // передвинем Ver
 
-      VerTrans();
-    } else {
-      if (!this.classList.contains('typenoclick') && !this.classList.contains('typelink')) {
-        if (this.classList.contains('typeflip')) {
-          FlipIcon();
-        } else if (this.classList.contains('quality')) {
-          if (local == "true") {
-            localStorage.setItem('needWaves', 'false');
-            location.reload();
-          } else {
-            localStorage.setItem('needWaves', 'true');
-            location.reload();
-          }
+
+    VerTrans(); // Удалим для прошлой кнопки класс selectable и добавим selected
+
+    VerMakeSelected(); // Вызовем ли popup
+
+    if (!this.classList.contains('typenoclick') && !this.classList.contains('typelink')) {
+      if (this.classList.contains('typeflip')) {
+        FlipIcon();
+      } else if (this.classList.contains('quality')) {
+        if (localQuality == "false") {
+          localStorage.setItem('needQuality', 'true');
+          location.reload();
+        } else {
+          localStorage.setItem('needQuality', 'false');
+          location.reload();
+        }
+      } else {
+        if (timeout) {
+          var CallPopUpTime = setTimeout(function () {
+            CallPopUp();
+            clearTimeout(CallPopUpTime);
+          }, 200);
         } else {
           CallPopUp();
         }
       }
-    } // Удалим для прошлой кнопки класс selectable и добавим selected
-
-
-    VerMakeSelected();
+    }
   }
 } // !Задаем функции скролла
 
@@ -280,66 +304,84 @@ var X,
     swipeInterval2,
     swi = 100,
     clickPermission = true,
-    swiTarget = 0; // function MouseMove(e) {
-// 	X = e.pageX;
-// 	Y = e.pageY;
-// }
-// function MouseDown(e) {
-// 	clickPermission = true;
-// 	hind0 = hind;
-// 	vind0 = vind[hind];
-// 	x0 = X;
-// 	y0 = Y;
-// 	// определяем является ли движение по экрану свайпом и стоит ли запретить клики
-// 	swipeInterval1 = setInterval(() => {
-// 		x = X;
-// 		y = Y;
-// 		horswi	= x-x0;
-// 		verswi	= y-y0;
-// 		if(horswi > (swi/2) || horswi < -(swi/2) || verswi > (swi/2) || verswi < -(swi/2)) {
-// 			clickPermission = false;
-// 			if (Math.abs(horswi) > Math.abs(verswi)) {
-// 				swiTarget = "hor";
-// 			}
-// 			else {
-// 				swiTarget = "ver";
-// 			}
-// 		}
-// 	}, 50)
-// 	swipeInterval2 = setInterval(() => {
-// 		if (swiTarget !== 0) {
-// 			clearInterval(swipeInterval1);
-// 			if (swiTarget == "hor") {
-// 				let ind, indtrans;
-// 				indtrans = (horswi - horswi % swi) / swi;
-// 				ind = hind0 - indtrans;
-// 				if (ind <= 0) {hind = 0}
-// 				else if (ind > horBut.length - 1) {hind = horBut.length - 1}
-// 				else {hind = ind}
-// 				HorTrans();
-// 				x = X;
-// 				horswi	= x-x0;
-// 			}
-// 			else {
-// 				let ind, indtrans;
-// 				indtrans = (verswi - verswi % swi) / swi;
-// 				ind = vind0 - indtrans;
-// 				if (ind <= 0) {vind[hind] = 0}
-// 				else if (ind > verBut[hind].length - 1) {vind[hind] = verBut[hind].length - 1}
-// 				else {vind[hind] = ind}
-// 				VerTrans();
-// 				y = Y;
-// 				verswi	= y-y0;
-// 			}
-// 		}
-// 	}, 50)
-// 	document.addEventListener('mouseup', MouseUp, false);
-// }
-// function MouseUp() {
-// 	clearInterval(swipeInterval1);
-// 	clearInterval(swipeInterval2);
-// 	swiTarget = 0;
-// }
+    swiTarget = 0;
+
+function MouseMove(e) {
+  X = e.pageX;
+  Y = e.pageY;
+}
+
+function MouseDown(e) {
+  clickPermission = true;
+  hind0 = hind;
+  vind0 = vind[hind];
+  x0 = X;
+  y0 = Y; // определяем является ли движение по экрану свайпом и стоит ли запретить клики
+
+  swipeInterval1 = setInterval(function () {
+    x = X;
+    y = Y;
+    horswi = x - x0;
+    verswi = y - y0;
+
+    if (horswi > swi / 2 || horswi < -(swi / 2) || verswi > swi / 2 || verswi < -(swi / 2)) {
+      clickPermission = false;
+
+      if (Math.abs(horswi) > Math.abs(verswi)) {
+        swiTarget = "hor";
+      } else {
+        swiTarget = "ver";
+      }
+    }
+  }, 50);
+  swipeInterval2 = setInterval(function () {
+    if (swiTarget !== 0) {
+      clearInterval(swipeInterval1);
+
+      if (swiTarget == "hor") {
+        var ind, indtrans;
+        indtrans = (horswi - horswi % swi) / swi;
+        ind = hind0 - indtrans;
+
+        if (ind <= 0) {
+          hind = 0;
+        } else if (ind > horBut.length - 1) {
+          hind = horBut.length - 1;
+        } else {
+          hind = ind;
+        }
+
+        HorTrans();
+        x = X;
+        horswi = x - x0;
+      } else {
+        var _ind, _indtrans;
+
+        _indtrans = (verswi - verswi % swi) / swi;
+        _ind = vind0 - _indtrans;
+
+        if (_ind <= 0) {
+          vind[hind] = 0;
+        } else if (_ind > verBut[hind].length - 1) {
+          vind[hind] = verBut[hind].length - 1;
+        } else {
+          vind[hind] = _ind;
+        }
+
+        VerTrans();
+        y = Y;
+        verswi = y - y0;
+      }
+    }
+  }, 50);
+  document.addEventListener('mouseup', MouseUp, false);
+}
+
+function MouseUp() {
+  clearInterval(swipeInterval1);
+  clearInterval(swipeInterval2);
+  swiTarget = 0;
+}
 
 function TouchStart(event) {
   clickPermission = true;
@@ -402,18 +444,18 @@ function TouchMove(event) {
         HorTrans();
       }
     } else {
-      var _ind, _indtrans;
+      var _ind2, _indtrans2;
 
-      _indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
-      _ind = vind0 - _indtrans;
+      _indtrans2 = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
+      _ind2 = vind0 - _indtrans2;
       VerMakeSelectable();
 
-      if (_ind <= 0) {
+      if (_ind2 <= 0) {
         vind[hind] = 0;
-      } else if (_ind > verBut[hind].length - 1) {
+      } else if (_ind2 > verBut[hind].length - 1) {
         vind[hind] = verBut[hind].length - 1;
       } else {
-        vind[hind] = _ind;
+        vind[hind] = _ind2;
       }
 
       VerMakeSelected();
@@ -643,12 +685,14 @@ function FlipIcon() {
   }
 
   if (verBut[hind][vind[hind]].classList.contains('colortheme')) {
-    if (flip == 0) {
+    if (localColor == 'blue') {
+      localStorage.setItem('colorTheme', 'red');
       document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";
-    }
-
-    if (flip == 1) {
+    } else {
+      localStorage.setItem('colorTheme', 'blue');
       document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
     }
+
+    localColor = localStorage.getItem('colorTheme');
   }
 }

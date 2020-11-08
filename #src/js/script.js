@@ -1,5 +1,6 @@
 // Получение доступа ко всем элементам HTML
 // Включить ли упрощенный режим? Значение изменяется в VerButClick
+// Выбор темы
 // Нумерация элементов по X и Y + прочие элементы
 // Приветствие
 // Ресайз и динамический адаптив
@@ -35,8 +36,8 @@ for (let i = 0; i < group.length; i++) {
 
 
 // !Включить ли упрощенный режим? Значение изменяется в VerButClick
-let	local = localStorage.getItem('needWaves');
-if (local == 'false') {
+let	localQuality = localStorage.getItem('needQuality');
+if (localQuality == 'false') {
 	waves.remove();
 	let ct = d.querySelector('.colortheme');
 	document.body.style.background = "#111";
@@ -45,9 +46,18 @@ if (local == 'false') {
 	ct.querySelector('.vertical__text').innerHTML = 'Недоступно';
 	let f = ct.querySelectorAll('.flip');
 	f[0].style.backgroundColor = "#000";
-	f[1].style.backgroundColor = "#000";
 	d.querySelector('.quality').querySelector('.vertical__text').innerHTML = 'Повысить качество';
 	d.querySelector('.horizontal__button_7').style.animation = 'none';
+}
+// !Выбор темы
+let flip = 0,
+	localColor = localStorage.getItem('colorTheme');
+if (localColor == 'blue' && (localQuality !== 'false')) {
+	flip = 1;
+	document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
+	let f = d.querySelector('.colortheme').querySelectorAll('.flip');
+	f[0].style.transform = "rotateY(180deg)";
+	f[1].style.transform = "rotateY(360deg)";	
 }
 
 
@@ -59,8 +69,7 @@ var		hind	= 0,								//по горизонтали
 		scrollPermission	= false,
 		swipePermission		= false,
 		keyDownPermission	= false,
-		isPopUpOpen 		= false,
-		flip	= 0;
+		isPopUpOpen 		= false;
 
 
 // !Приветствие
@@ -135,11 +144,11 @@ Resize();
 
 // !EventListeners
 for (let i = 0; i < horBut.length; i++) {
-	horBut[i].addEventListener('click', HorButClick, false);		//a few LISTENERS
+	horBut[i].addEventListener('click', HorButClick, false);			//a few LISTENERS
 }
 for (let i = 0; i < ver.length; i++) {
 	for (let j = 0; j < verBut[i].length; j++) {
-		verBut[i][j].addEventListener('click', VerButclick, false);		//a lot of LISTENERS
+		verBut[i][j].addEventListener('click', VerButClick, false);		//a lot of LISTENERS
 	}
 }
 
@@ -155,9 +164,11 @@ if (d.addEventListener) {
 	d.attachEvent("onmousewheel", onWheel);							// IE8-
 }
 
-d.addEventListener('touchstart', TouchStart, false);
-d.addEventListener('touchmove', TouchMove, false);
-d.addEventListener('touchend', TouchEnd, false);
+setTimeout(function() {
+	d.addEventListener('touchstart', TouchStart, false);
+	d.addEventListener('touchmove', TouchMove, false);
+	d.addEventListener('touchend', TouchEnd, false);
+}, 0)
 
 // d.addEventListener('mousedown', MouseDown, false);
 // d.addEventListener('mousemove', MouseMove, false);
@@ -198,48 +209,59 @@ function HorButClick() {
 	}
 }
 
-function VerButclick(event) {
+function VerButClick(event) {
+	// Вызовем ли popup
 	// Удалим для прошлой кнопки класс selected и добавим selectable
 	// Определим на какую кнопку кликнули
-		// ЕСЛИ НЕ SELECTED то определим новое положение top для ver
+	// передвинем Ver
 	// Удалим для прошлой кнопки класс selectable и добавим selected
 
 	if (clickPermission) {
+		let timeout;
+		if (this !== verBut[hind][vind[hind]]) {
+			timeout = true;
+		}
 		// Удалим для прошлой кнопки класс selected и добавим selectable
 		VerMakeSelectable();
 		// Определим на какую кнопку кликнули
-			// ЕСЛИ НЕ SELECTED то определим новое положение top для ver
-		if (this !== verBut[hind][vind[hind]]) {
-			event.preventDefault();
-			for (let i = 0; i < verBut[hind].length; i++) {
-				if (this == verBut[hind][i]) {
-					vind[hind] = i;
+		for (let i = 0; i < verBut[hind].length; i++) {
+			if (this == verBut[hind][i]) {
+				vind[hind] = i;
+			}
+		}
+		// передвинем Ver
+		VerTrans();
+		// Удалим для прошлой кнопки класс selectable и добавим selected
+		VerMakeSelected();
+		// Вызовем ли popup
+		if (!this.classList.contains('typenoclick') && !this.classList.contains('typelink')) {
+			if (this.classList.contains('typeflip')) {
+				FlipIcon();
+			}
+			else if (this.classList.contains('quality')) {
+				if (localQuality == "false") {
+					localStorage.setItem('needQuality', 'true');
+					location.reload()
+				}
+				else {
+					localStorage.setItem('needQuality', 'false');
+					location.reload()
 				}
 			}
-			VerTrans();
-		}
-		else {
-			if (!this.classList.contains('typenoclick') && !this.classList.contains('typelink')) {
-				if (this.classList.contains('typeflip')) {
-					FlipIcon();
-				}
-				else if (this.classList.contains('quality')) {
-					if (local == "true") {
-						localStorage.setItem('needWaves', 'false');
-						location.reload()
-					}
-					else {
-						localStorage.setItem('needWaves', 'true');
-						location.reload()
-					}
+			else {
+				if (timeout) {
+					const CallPopUpTime = setTimeout(
+						() => {
+							CallPopUp();
+							clearTimeout(CallPopUpTime);
+						}, 200
+					);
 				}
 				else {
 					CallPopUp();
 				}
 			}
 		}
-		// Удалим для прошлой кнопки класс selectable и добавим selected
-		VerMakeSelected();
 	}
 }
 
@@ -286,68 +308,68 @@ var X, Y, hind0, vind0, x0, y0, x, y,
 	clickPermission = true,
 	swiTarget = 0;
 
-// function MouseMove(e) {
-// 	X = e.pageX;
-// 	Y = e.pageY;
-// }
-// function MouseDown(e) {
-// 	clickPermission = true;
-// 	hind0 = hind;
-// 	vind0 = vind[hind];
-// 	x0 = X;
-// 	y0 = Y;
-// 	// определяем является ли движение по экрану свайпом и стоит ли запретить клики
-// 	swipeInterval1 = setInterval(() => {
-// 		x = X;
-// 		y = Y;
-// 		horswi	= x-x0;
-// 		verswi	= y-y0;
-// 		if(horswi > (swi/2) || horswi < -(swi/2) || verswi > (swi/2) || verswi < -(swi/2)) {
-// 			clickPermission = false;
-// 			if (Math.abs(horswi) > Math.abs(verswi)) {
-// 				swiTarget = "hor";
-// 			}
-// 			else {
-// 				swiTarget = "ver";
-// 			}
-// 		}
-// 	}, 50)
-// 	swipeInterval2 = setInterval(() => {
-// 		if (swiTarget !== 0) {
-// 			clearInterval(swipeInterval1);
-// 			if (swiTarget == "hor") {
-// 				let ind, indtrans;
-// 				indtrans = (horswi - horswi % swi) / swi;
-// 				ind = hind0 - indtrans;
-// 				if (ind <= 0) {hind = 0}
-// 				else if (ind > horBut.length - 1) {hind = horBut.length - 1}
-// 				else {hind = ind}
-// 				HorTrans();
-// 				x = X;
-// 				horswi	= x-x0;
-// 			}
-// 			else {
-// 				let ind, indtrans;
-// 				indtrans = (verswi - verswi % swi) / swi;
-// 				ind = vind0 - indtrans;
-// 				if (ind <= 0) {vind[hind] = 0}
-// 				else if (ind > verBut[hind].length - 1) {vind[hind] = verBut[hind].length - 1}
-// 				else {vind[hind] = ind}
-// 				VerTrans();
-// 				y = Y;
-// 				verswi	= y-y0;
-// 			}
-// 		}
-// 	}, 50)
-// 	document.addEventListener('mouseup', MouseUp, false);
-// }
+function MouseMove(e) {
+	X = e.pageX;
+	Y = e.pageY;
+}
+function MouseDown(e) {
+	clickPermission = true;
+	hind0 = hind;
+	vind0 = vind[hind];
+	x0 = X;
+	y0 = Y;
+	// определяем является ли движение по экрану свайпом и стоит ли запретить клики
+	swipeInterval1 = setInterval(() => {
+		x = X;
+		y = Y;
+		horswi	= x-x0;
+		verswi	= y-y0;
+		if(horswi > (swi/2) || horswi < -(swi/2) || verswi > (swi/2) || verswi < -(swi/2)) {
+			clickPermission = false;
+			if (Math.abs(horswi) > Math.abs(verswi)) {
+				swiTarget = "hor";
+			}
+			else {
+				swiTarget = "ver";
+			}
+		}
+	}, 50)
+	swipeInterval2 = setInterval(() => {
+		if (swiTarget !== 0) {
+			clearInterval(swipeInterval1);
+			if (swiTarget == "hor") {
+				let ind, indtrans;
+				indtrans = (horswi - horswi % swi) / swi;
+				ind = hind0 - indtrans;
+				if (ind <= 0) {hind = 0}
+				else if (ind > horBut.length - 1) {hind = horBut.length - 1}
+				else {hind = ind}
+				HorTrans();
+				x = X;
+				horswi	= x-x0;
+			}
+			else {
+				let ind, indtrans;
+				indtrans = (verswi - verswi % swi) / swi;
+				ind = vind0 - indtrans;
+				if (ind <= 0) {vind[hind] = 0}
+				else if (ind > verBut[hind].length - 1) {vind[hind] = verBut[hind].length - 1}
+				else {vind[hind] = ind}
+				VerTrans();
+				y = Y;
+				verswi	= y-y0;
+			}
+		}
+	}, 50)
+	document.addEventListener('mouseup', MouseUp, false);
+}
 
-// function MouseUp() {
-// 	clearInterval(swipeInterval1);
-// 	clearInterval(swipeInterval2);
-// 	swiTarget = 0;
+function MouseUp() {
+	clearInterval(swipeInterval1);
+	clearInterval(swipeInterval2);
+	swiTarget = 0;
 	
-// }
+}
 
 function TouchStart(event) {
 	clickPermission = true;
@@ -629,7 +651,6 @@ function ClosePopUp() {
 	mouseDownPermission	= true;
 	keyDownPermission	= true;
 	isPopUpOpen = false;
-
 }
 function FlipIcon() {
 	let f = verBut[hind][vind[hind]].querySelectorAll('.flip');
@@ -644,11 +665,14 @@ function FlipIcon() {
 		f[1].style.transform = "rotateY(180deg)";
 	}
 	if (verBut[hind][vind[hind]].classList.contains('colortheme')) {
-		if (flip == 0) {
+		if (localColor == 'blue') {
+			localStorage.setItem('colorTheme', 'red');
 			document.body.style.background = "linear-gradient(#000 0%, #b33939 40%, #b33939 60%, #000 100%)";
 		}
-		if (flip == 1) {
+		else {
+			localStorage.setItem('colorTheme', 'blue');
 			document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
 		}
+		localColor = localStorage.getItem('colorTheme');
 	}
 }

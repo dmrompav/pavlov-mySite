@@ -379,43 +379,9 @@ a:visited {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: start;
-  -webkit-transition: opacity 0.1s, margin-top 0.2s;
-  -o-transition: opacity 0.1s, margin-top 0.2s;
-  transition: opacity 0.1s, margin-top 0.2s;
-}
-
-.vertical__selected {
-  opacity: 1;
-  margin-top: 150px;
-}
-
-.vertical__selectable {
-  opacity: 0.7;
-  font-size: 14px;
-}
-
-.vertical__selectable > .vertical__icon {
-  -webkit-transform: scale(0.8);
-      -ms-transform: scale(0.8);
-          transform: scale(0.8);
-  -webkit-filter: grayscale(80%);
-          filter: grayscale(80%);
-}
-
-.vertical__selectable:hover {
-  opacity: 0.9;
-}
-
-.vertical__selectable:hover > .vertical__icon {
-  -webkit-transform: scale(1);
-      -ms-transform: scale(1);
-          transform: scale(1);
-  -webkit-filter: grayscale(60%);
-          filter: grayscale(60%);
-}
-
-.vertical__selectable:hover > .vertical__text {
-  font-size: 22px;
+  -webkit-transition: margin-top 0.2s;
+  -o-transition: margin-top 0.2s;
+  transition: margin-top 0.2s;
 }
 
 .vertical__icon {
@@ -595,8 +561,8 @@ a:visited {
   border: none;
   -webkit-perspective: 100px;
           perspective: 100px;
-  -webkit-filter: none;
-          filter: none;
+  -webkit-filter: grayscale(0) !important;
+          filter: grayscale(0) !important;
 }
 
 .typeflip:hover > .vertical__icon {
@@ -842,9 +808,6 @@ a:visited {
 
   .horizontal__button {
     width: 150px;
-    -webkit-transition: opacity 0.1s;
-    -o-transition: opacity 0.1s;
-    transition: opacity 0.1s;
   }
 
   .horizontal__button_7 {
@@ -862,14 +825,6 @@ a:visited {
             animation: none;
   }
 
-  .horizontal__selected {
-    opacity: 1;
-  }
-
-  .horizontal__selectable {
-    opacity: 0.7;
-  }
-
   .horizontal__selectable > .horizontal__icon {
     -webkit-transform: scale(0.8);
         -ms-transform: scale(0.8);
@@ -878,16 +833,12 @@ a:visited {
             filter: grayscale(80%);
   }
 
-  .horizontal__selectable:hover {
-    opacity: 0.9;
-  }
-
   .horizontal__selectable:hover > .horizontal__icon {
     -webkit-transform: scale(1);
         -ms-transform: scale(1);
             transform: scale(1);
-    -webkit-filter: grayscale(60%);
-            filter: grayscale(60%);
+    -webkit-filter: grayscale(50%);
+            filter: grayscale(50%);
   }
 
   .horizontal__selectable:hover > .horizontal__text {
@@ -967,6 +918,34 @@ a:visited {
 
   .vertical__text {
     font-size: 20px;
+  }
+
+  .vertical__selected {
+    margin-top: 150px;
+  }
+
+  .vertical__selectable {
+    font-size: 14px;
+  }
+
+  .vertical__selectable > .vertical__icon {
+    -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+            transform: scale(0.8);
+    -webkit-filter: grayscale(80%);
+            filter: grayscale(80%);
+  }
+
+  .vertical__selectable:hover > .vertical__icon {
+    -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+            transform: scale(1);
+    -webkit-filter: grayscale(50%);
+            filter: grayscale(50%);
+  }
+
+  .vertical__selectable:hover > .vertical__text {
+    font-size: 22px;
   }
 
   .info-txt {
