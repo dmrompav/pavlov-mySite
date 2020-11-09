@@ -14,6 +14,7 @@
 const d = document;
 // !Получение доступа ко всем элементам HTML
 const	hi		= d.querySelector('.hi'),
+		win		= d.querySelectorAll('.win'),
 		waves	= d.querySelector('.waves'),
 		wrapper	= d.querySelector('.wrapper'),
 		arrowL	= d.querySelector('.arrow_left'),
@@ -164,11 +165,11 @@ if (d.addEventListener) {
 	d.attachEvent("onmousewheel", onWheel);							// IE8-
 }
 
+d.addEventListener('touchstart', TouchStart, false);
 setTimeout(function() {
-	d.addEventListener('touchstart', TouchStart, false);
 	d.addEventListener('touchmove', TouchMove, false);
-	d.addEventListener('touchend', TouchEnd, false);
 }, 0)
+d.addEventListener('touchend', TouchEnd, false);
 
 // d.addEventListener('mousedown', MouseDown, false);
 // d.addEventListener('mousemove', MouseMove, false);
@@ -185,7 +186,6 @@ function HorButClick() {
 	// Определим новое положение left для hor и allVer
 	// Удалим для прошлой кнопки класс selectable и добавим selected
 	// Удалим для прошлого ver класс selectable и добавим selected
-	// Стрелки
 
 	if (clickPermission) {
 		// Удалим для прошлой кнопки класс selected и добавим selectable
@@ -204,8 +204,6 @@ function HorButClick() {
 		HorMakeSelected();
 		// Удалим для прошлого ver класс selectable и добавим selected
 		AllVerMakeSelected();
-		// Стрелки
-		ArrowsRules();
 	}
 }
 
@@ -568,6 +566,8 @@ function HorTrans() {
 		allVerX				= allVerLeftPos - (allVerLeftTrans * hind);
 		hor.style.left		= horX + "px";
 		allVer.style.left	= allVerX + "px";
+	WinChange();
+	ArrowsRules()
 }
 function VerTrans() {
 	let verY					= 0 - (vind[hind] * verTopTrans);
@@ -588,6 +588,12 @@ function ArrowsRules() {
 			arrowR.style.width		= "20px";
 		}
 	}
+}
+function WinChange() {
+	for (let i = 0; i < win.length; i++) {
+		win[i].classList.remove('win_selected');
+	}
+	win[hind].classList.add('win_selected');
 }
 function CallPopUp() {
 	// Запретить управление

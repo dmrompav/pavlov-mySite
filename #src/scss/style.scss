@@ -90,7 +90,11 @@ a, a:visited{
 		left: -5814px;
 	}
 }
-
+.windowselector {
+	position: fixed;
+	height: 0;
+	overflow: hidden;
+}
 .arrow{
 	z-index: 21;
 	position: absolute;
@@ -249,10 +253,14 @@ a, a:visited{
 		align-items: center;
 		justify-content: center;
 
-		&_11 {background-position: -3px -3px;}	//иконки 70х70 + 3px рамка
+		&_11 {background-position: -493px -213px;}	//иконки 70х70 + 3px рамка
 		&_12 {background-position: -3px -73px;}
 		&_21 {background-position: -73px -3px;}
 		&_22 {background-position: -73px -3px;}
+		&_23 {background-position: -73px -3px;}
+		&_24 {background-position: -73px -3px;}
+		&_25 {background-position: -73px -3px;}
+		&_26 {background-position: -73px -3px;}
 		&_31 {background-position: -143px -3px;}
 		&_32 {background-position: -143px -73px;}
 		&_33 {background-position: -73px -73px;}
@@ -275,6 +283,8 @@ a, a:visited{
 		&_75 {background-position: -493px -143px;}
 		&_81 {background-image: none;}
 		&_82 {background-image: none;}
+		&_82 {background-position: -493px -143px;}
+
 	}
 
 	&__text {
@@ -389,7 +399,7 @@ a, a:visited{
 .info {
 	z-index: 40;
 	position: fixed;
-	font-size: 18px;
+	font-size: 20px;
 	width: 800px;
 	max-width: 90vw;
 	padding: 50px 20px;
@@ -398,6 +408,14 @@ a, a:visited{
 	background-color: rgba(0, 0, 0, 0.3);
 	transform: scale(0);
 	transition: transform 0.3s;
+
+	&-txt {
+
+		&>a {
+			color: aqua;
+			text-decoration: underline;
+		}
+	}
 
 	&__1 {
 		&_1 {}
@@ -505,10 +523,6 @@ a, a:visited{
 
 			&_7 {
 				animation: long-pulse 15s infinite;
-
-				&>.horizontal__icon {
-					filter: grayscale(0) !important;
-				}
 
 				&:hover {
 					animation: none;
@@ -675,6 +689,37 @@ a, a:visited{
 	.allvertical {
 		left: 0;
 		top: 100px;
+	}
+
+	.windowselector {
+		opacity: 0.8;
+		z-index: 0;
+		height: 20px;
+		width: 89px;
+		bottom: 10px;
+		left: 50%;
+		transform: translate(-50%, 0);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.win {
+		width: 7px;
+		height: 7px;
+		background-color: grey;
+		border-radius: 50%;
+		transition: width 0.1s, height 0.1s, background-color 0.1s;
+
+		&_selectable {
+
+		}
+
+		&_selected {
+		width: 12px;
+		height: 12px;
+		background-color: #fff;
+		}
 	}
 }
 
