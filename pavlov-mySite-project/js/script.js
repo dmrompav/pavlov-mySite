@@ -167,13 +167,15 @@ if (d.addEventListener) {
 
 d.addEventListener('touchstart', TouchStart, false);
 setTimeout(function () {
-  d.addEventListener('touchmove', TouchMove, false);
+  d.addEventListener('touchmove', TouchMove, false); //? Правильно ли???
 }, 0);
-d.addEventListener('touchend', TouchEnd, false); // d.addEventListener('mousedown', MouseDown, false);
-// d.addEventListener('mousemove', MouseMove, false);
-// d.addEventListener('mouseup', MouseUp, false);
-
-d.addEventListener('keydown', KeyDown, false); // !Задаем функции клика
+d.addEventListener('touchend', TouchEnd, false);
+d.addEventListener('mousedown', MouseDown, false);
+d.addEventListener('mousemove', MouseMove, false);
+d.addEventListener('mouseup', MouseUp, false);
+d.addEventListener('keydown', KeyDown, false);
+arrowL.addEventListener('click', ArrowLClick, false);
+arrowR.addEventListener('click', ArrowRClick, false); // !Задаем функции клика
 
 function HorButClick() {
   // Удалим для прошлой кнопки класс selected и добавим selectable
@@ -234,13 +236,7 @@ function VerButClick(event) {
       if (this.classList.contains('typeflip')) {
         FlipIcon();
       } else if (this.classList.contains('quality')) {
-        if (localQuality == "false") {
-          localStorage.setItem('needQuality', 'true');
-          location.reload();
-        } else {
-          localStorage.setItem('needQuality', 'false');
-          location.reload();
-        }
+        Quality();
       } else {
         if (timeout) {
           var CallPopUpTime = setTimeout(function () {
@@ -252,6 +248,28 @@ function VerButClick(event) {
         }
       }
     }
+  }
+}
+
+function ArrowLClick() {
+  if (hind > 0) {
+    HorMakeSelectable();
+    AllVerMakeSelectable();
+    hind--;
+    HorMakeSelected();
+    AllVerMakeSelected();
+    HorTrans();
+  }
+}
+
+function ArrowRClick() {
+  if (hind < horBut.length) {
+    HorMakeSelectable();
+    AllVerMakeSelectable();
+    hind++;
+    HorMakeSelected();
+    AllVerMakeSelected();
+    HorTrans();
   }
 } // !Задаем функции скролла
 
@@ -702,5 +720,15 @@ function FlipIcon() {
     }
 
     localColor = localStorage.getItem('colorTheme');
+  }
+}
+
+function Quality() {
+  if (localQuality == "false") {
+    localStorage.setItem('needQuality', 'true');
+    location.reload();
+  } else {
+    localStorage.setItem('needQuality', 'false');
+    location.reload();
   }
 }

@@ -155,27 +155,30 @@ for (let i = 0; i < ver.length; i++) {
 
 if (d.addEventListener) {
 	if ('onwheel' in document) {
-		d.addEventListener("wheel", onWheel);						// IE9+, FF17+, Ch31+
+		d.addEventListener("wheel", onWheel);										// IE9+, FF17+, Ch31+
 	} else if ('onmousewheel' in document) {
-		d.addEventListener("mousewheel", onWheel);					// устаревший вариант события
+		d.addEventListener("mousewheel", onWheel);									// устаревший вариант события
 	} else {
-		d.addEventListener("MozMousePixelScroll", onWheel);			// Firefox < 17
+		d.addEventListener("MozMousePixelScroll", onWheel);							// Firefox < 17
 	}
 } else {
-	d.attachEvent("onmousewheel", onWheel);							// IE8-
+	d.attachEvent("onmousewheel", onWheel);											// IE8-
 }
 
 d.addEventListener('touchstart', TouchStart, false);
 setTimeout(function() {
-	d.addEventListener('touchmove', TouchMove, false);
+	d.addEventListener('touchmove', TouchMove, false);					//? Правильно ли???
 }, 0)
 d.addEventListener('touchend', TouchEnd, false);
 
-// d.addEventListener('mousedown', MouseDown, false);
-// d.addEventListener('mousemove', MouseMove, false);
-// d.addEventListener('mouseup', MouseUp, false);
+d.addEventListener('mousedown', MouseDown, false);
+d.addEventListener('mousemove', MouseMove, false);
+d.addEventListener('mouseup', MouseUp, false);
 
 d.addEventListener('keydown', KeyDown, false);
+
+arrowL.addEventListener('click', ArrowLClick, false);
+arrowR.addEventListener('click', ArrowRClick, false);
 
 
 // !Задаем функции клика
@@ -237,14 +240,7 @@ function VerButClick(event) {
 				FlipIcon();
 			}
 			else if (this.classList.contains('quality')) {
-				if (localQuality == "false") {
-					localStorage.setItem('needQuality', 'true');
-					location.reload()
-				}
-				else {
-					localStorage.setItem('needQuality', 'false');
-					location.reload()
-				}
+				Quality();
 			}
 			else {
 				if (timeout) {
@@ -262,7 +258,26 @@ function VerButClick(event) {
 		}
 	}
 }
-
+function ArrowLClick() {
+	if (hind > 0) {
+		HorMakeSelectable();
+		AllVerMakeSelectable();
+		hind--;
+		HorMakeSelected();
+		AllVerMakeSelected();
+		HorTrans();
+	}
+}
+function ArrowRClick() {
+	if (hind < horBut.length) {
+		HorMakeSelectable();
+		AllVerMakeSelectable();
+		hind++;
+		HorMakeSelected();
+		AllVerMakeSelected();
+		HorTrans();
+	}
+}
 // !Задаем функции скролла
 function onWheel(e) {
 	if (scrollPermission) {
@@ -680,5 +695,15 @@ function FlipIcon() {
 			document.body.style.background = "linear-gradient(#000 0%, #40407a 40%, #40407a 60%, #000 100%)";
 		}
 		localColor = localStorage.getItem('colorTheme');
+	}
+}
+function Quality() {
+	if (localQuality == "false") {
+		localStorage.setItem('needQuality', 'true');
+		location.reload()
+	}
+	else {
+		localStorage.setItem('needQuality', 'false');
+		location.reload()
 	}
 }
