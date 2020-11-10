@@ -17,6 +17,7 @@ var d = document; // !Получение доступа ко всем элеме
 var hi = d.querySelector('.hi'),
     win = d.querySelectorAll('.win'),
     waves = d.querySelector('.waves'),
+    ci = d.querySelector('.control-info'),
     wrapper = d.querySelector('.wrapper'),
     arrowL = d.querySelector('.arrow_left'),
     arrowR = d.querySelector('.arrow_right'),
@@ -78,7 +79,8 @@ mouseDownPermission = false,
     scrollPermission = false,
     swipePermission = false,
     keyDownPermission = false,
-    isPopUpOpen = false; // !Приветствие
+    isPopUpOpen = false,
+    wasEnterUp = true; // !Приветствие
 
 var hiOn = setTimeout(function () {
   hi.style.opacity = 1;
@@ -97,7 +99,10 @@ var wrapperOn = setTimeout(function () {
   swipePermission = true;
   keyDownPermission = true;
   clearTimeout(wrapperOn);
-}, 3500); // !Ресайз и динамический адаптив
+}, 3500);
+var ciOff = setTimeout(function () {
+  ci.remove();
+}, 10000); // !Ресайз и динамический адаптив
 
 window.addEventListener('resize', Resize);
 var vw = window.innerWidth,
@@ -174,6 +179,7 @@ d.addEventListener('mousedown', MouseDown, false);
 d.addEventListener('mousemove', MouseMove, false);
 d.addEventListener('mouseup', MouseUp, false);
 d.addEventListener('keydown', KeyDown, false);
+d.addEventListener('keyup', EnterClose, false);
 arrowL.addEventListener('click', ArrowLClick, false);
 arrowR.addEventListener('click', ArrowRClick, false); // !Задаем функции клика
 
@@ -352,29 +358,45 @@ function MouseDown(e) {
   }, 50);
   swipeInterval2 = setInterval(function () {
     if (swiTarget !== 0) {
-      clearInterval(swipeInterval1);
-
       if (swiTarget == "hor") {
-        var ind, indtrans;
-        indtrans = (horswi - horswi % swi) / swi;
-        ind = hind0 - indtrans;
+        if (vw < 768) {
+          HorMakeSelectable();
+          AllVerMakeSelectable();
 
-        if (ind <= 0) {
-          hind = 0;
-        } else if (ind > horBut.length - 1) {
-          hind = horBut.length - 1;
+          if (horswi < 0 && hind0 < horBut.length - 1) {
+            hind = hind0 + 1;
+          } else if (horswi > 0 && hind0 > 0) {
+            hind = hind0 - 1;
+          }
+
+          HorMakeSelected();
+          AllVerMakeSelected();
+          HorTrans();
         } else {
-          hind = ind;
-        }
+          var ind, indtrans;
+          indtrans = (horswi - horswi % swi) / swi;
+          ind = hind0 - indtrans;
+          HorMakeSelectable();
+          AllVerMakeSelectable();
 
-        HorTrans();
-        x = X;
-        horswi = x - x0;
+          if (ind <= 0) {
+            hind = 0;
+          } else if (ind > horBut.length - 1) {
+            hind = horBut.length - 1;
+          } else {
+            hind = ind;
+          }
+
+          HorMakeSelected();
+          AllVerMakeSelected();
+          HorTrans();
+        }
       } else {
         var _ind, _indtrans;
 
-        _indtrans = (verswi - verswi % swi) / swi;
+        _indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
         _ind = vind0 - _indtrans;
+        VerMakeSelectable();
 
         if (_ind <= 0) {
           vind[hind] = 0;
@@ -384,9 +406,8 @@ function MouseDown(e) {
           vind[hind] = _ind;
         }
 
+        VerMakeSelected();
         VerTrans();
-        y = Y;
-        verswi = y - y0;
       }
     }
   }, 50);
@@ -554,15 +575,19 @@ function KeyDown(e) {
         }
       }
     } else if (e.keyCode == 13) {
-      verBut[hind][vind[hind]].click();
+      if (!isPopUpOpen && wasEnterUp) {
+        wasEnterUp = false;
+        verBut[hind][vind[hind]].click();
+      } else if (isPopUpOpen && wasEnterUp) {
+        wasEnterUp = false;
+        ClosePopUp();
+      }
     }
   }
 }
 
-function EnterClose(e) {
-  if (e.keyCode == 27 || e.keyCode == 8) {
-    ClosePopUp();
-  }
+function EnterClose() {
+  wasEnterUp = true;
 } // ?Задаем вспомогательные функции
 
 
@@ -664,7 +689,6 @@ function CallPopUp() {
 
   tapfield[hind].addEventListener('click', ClosePopUp, false);
   document.querySelector('.close').addEventListener('click', ClosePopUp, false);
-  d.addEventListener('keyup', EnterClose, false);
 }
 
 function ClosePopUp() {
@@ -675,8 +699,7 @@ function ClosePopUp() {
   // разрешить управление
   // удалить listeners для выхода
   tapfield[hind].removeEventListener('click', ClosePopUp, false);
-  document.querySelector('.close').removeEventListener('click', ClosePopUp, false);
-  d.removeEventListener('keyup', EnterClose, false); // удалить крестик
+  document.querySelector('.close').removeEventListener('click', ClosePopUp, false); // удалить крестик
 
   document.querySelector('.close').remove(); // свернуть info
 

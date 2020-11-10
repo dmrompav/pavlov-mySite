@@ -16,6 +16,7 @@ const d = document;
 const	hi		= d.querySelector('.hi'),
 		win		= d.querySelectorAll('.win'),
 		waves	= d.querySelector('.waves'),
+		ci		= d.querySelector('.control-info'),
 		wrapper	= d.querySelector('.wrapper'),
 		arrowL	= d.querySelector('.arrow_left'),
 		arrowR	= d.querySelector('.arrow_right'),
@@ -70,7 +71,8 @@ var		hind	= 0,								//по горизонтали
 		scrollPermission	= false,
 		swipePermission		= false,
 		keyDownPermission	= false,
-		isPopUpOpen 		= false;
+		isPopUpOpen 		= false,
+		wasEnterUp			= true;
 
 
 // !Приветствие
@@ -97,6 +99,11 @@ const wrapperOn = setTimeout(
 		keyDownPermission	= true;
 		clearTimeout(wrapperOn);
 	}, 3500
+);
+const ciOff = setTimeout(
+	() => {
+		ci.remove();
+	}, 10000
 );
 
 
@@ -176,6 +183,7 @@ d.addEventListener('mousemove', MouseMove, false);
 d.addEventListener('mouseup', MouseUp, false);
 
 d.addEventListener('keydown', KeyDown, false);
+d.addEventListener('keyup', EnterClose, false);
 
 arrowL.addEventListener('click', ArrowLClick, false);
 arrowR.addEventListener('click', ArrowRClick, false);
@@ -349,28 +357,44 @@ function MouseDown(e) {
 	}, 50)
 	swipeInterval2 = setInterval(() => {
 		if (swiTarget !== 0) {
-			clearInterval(swipeInterval1);
 			if (swiTarget == "hor") {
-				let ind, indtrans;
-				indtrans = (horswi - horswi % swi) / swi;
-				ind = hind0 - indtrans;
-				if (ind <= 0) {hind = 0}
-				else if (ind > horBut.length - 1) {hind = horBut.length - 1}
-				else {hind = ind}
-				HorTrans();
-				x = X;
-				horswi	= x-x0;
+				if (vw < 768) {
+					HorMakeSelectable();
+					AllVerMakeSelectable();
+					if(horswi < 0 && hind0 < horBut.length - 1) {
+						hind = hind0 + 1;
+					}
+					else if (horswi > 0 && hind0 > 0) {
+						hind = hind0 - 1;
+					}
+					HorMakeSelected();
+					AllVerMakeSelected();
+					HorTrans();
+				}
+				else {
+					let ind, indtrans;
+					indtrans = (horswi - horswi % swi) / swi;
+					ind = hind0 - indtrans;
+					HorMakeSelectable();
+					AllVerMakeSelectable();
+					if (ind <= 0) {hind = 0}
+					else if (ind > horBut.length - 1) {hind = horBut.length - 1}
+					else {hind = ind}
+					HorMakeSelected();
+					AllVerMakeSelected();
+					HorTrans();
+				}
 			}
 			else {
 				let ind, indtrans;
-				indtrans = (verswi - verswi % swi) / swi;
+				indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
 				ind = vind0 - indtrans;
+				VerMakeSelectable();
 				if (ind <= 0) {vind[hind] = 0}
 				else if (ind > verBut[hind].length - 1) {vind[hind] = verBut[hind].length - 1}
 				else {vind[hind] = ind}
+				VerMakeSelected();
 				VerTrans();
-				y = Y;
-				verswi	= y-y0;
 			}
 		}
 	}, 50)
@@ -539,15 +563,20 @@ function KeyDown(e) {
 			}
 		}
 		else if (e.keyCode == 13) {
-			verBut[hind][vind[hind]].click();
+			if (!isPopUpOpen && wasEnterUp) {
+				wasEnterUp = false;
+				verBut[hind][vind[hind]].click();
+			}
+			else if (isPopUpOpen && wasEnterUp) {
+				wasEnterUp = false;
+				ClosePopUp();
+			}
 		}
+
 	}
 }
-
-function EnterClose(e) {
-	if (e.keyCode == 27 || e.keyCode == 8) {
-		ClosePopUp();
-	}
+function EnterClose() {
+	wasEnterUp = true;
 }
 
 
@@ -582,7 +611,7 @@ function HorTrans() {
 		hor.style.left		= horX + "px";
 		allVer.style.left	= allVerX + "px";
 	WinChange();
-	ArrowsRules()
+	ArrowsRules();
 }
 function VerTrans() {
 	let verY					= 0 - (vind[hind] * verTopTrans);
@@ -641,7 +670,6 @@ function CallPopUp() {
 	// Возможность выйти
 	tapfield[hind].addEventListener('click', ClosePopUp, false);
 	document.querySelector('.close').addEventListener('click', ClosePopUp, false);
-	d.addEventListener('keyup', EnterClose, false);
 }
 function ClosePopUp() {
 	// удалить listeners для выхода
@@ -653,7 +681,6 @@ function ClosePopUp() {
 	// удалить listeners для выхода
 	tapfield[hind].removeEventListener('click', ClosePopUp, false);
 	document.querySelector('.close').removeEventListener('click', ClosePopUp, false);
-	d.removeEventListener('keyup', EnterClose, false);
 	// удалить крестик
 	document.querySelector('.close').remove();
 	// свернуть info

@@ -977,6 +977,14 @@ a:visited {
   .info-txt {
     font-size: 20px;
   }
+
+  .control-info {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    width: 100vw;
+    text-align: center;
+  }
 }
 
 @media (max-width: 767px) {
@@ -1076,6 +1084,13 @@ a:visited {
     width: 12px;
     height: 12px;
     background-color: #fff;
+  }
+
+  .control-info {
+    position: absolute;
+    top: -25px;
+    width: 100vw;
+    text-align: center;
   }
 }
 
