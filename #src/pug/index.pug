@@ -122,7 +122,7 @@
 				.vertical__icon.vertical__icon_37
 				h3.vertical__text DX
 					br
-					span.vertical__undertext Git, Gulp, VSCode, Emmet, DevTools
+					span.vertical__undertext Gulp, VSCode, Emmet
 			button.vertical__button.vertical__button_8.vertical__selectable
 				.vertical__icon.vertical__icon_38
 					.internal-text ...
@@ -139,6 +139,7 @@
 		nav.vertical.vertical_4.allvertical__selectable
 			div.vertical__button.vertical__button_1.vertical__selected.typenoclick
 				.vertical__icon.vertical__icon_41
+					.inprocess__loader
 				h3.vertical__text Грокаем Алгоритмы
 					br
 					span.vertical__undertext Адитья Бхаргава
@@ -149,6 +150,7 @@
 			//- 		span.vertical__undertext Никольский А.П.
 			div.vertical__button.vertical__button_3.vertical__selectable.typenoclick
 				.vertical__icon.vertical__icon_43
+					.inprocess__loader
 				h3.vertical__text Выразительный JavaScript
 					br
 					span.vertical__undertext Марейн Хавербек
@@ -159,8 +161,9 @@
 				h3.vertical__text Стандартное
 					br
 					span.vertical__undertext hh.ru
-			a(href="#" download).vertical__button.vertical__button_2.vertical__selectable.typelink
+			a(href="#").vertical__button.vertical__button_2.vertical__selectable.typelink
 				.vertical__icon.vertical__icon_52
+					.inprocess__loader
 				h3.vertical__text Креативное (--мб)
 					br
 					span.vertical__undertext В процессе
@@ -241,13 +244,13 @@ main.main
 				|	Данный сайт создан в целях демонстрации моих навыков для потенциальных работодателей и заказчиков.
 				br
 				br
-				|	Интерфейс выполнен по подобию PlayStation3. Возможно добавление новых разделов без изменения существующей структуры JS. Сам сайт адаптивен, быстро загружается и работает во всех современных браузерах.
+				|	Интерфейс выполнен по подобию PlayStation3. Возможно добавление новых разделов без изменения JS кода. Сам сайт адаптивен, быстро загружается и работает во всех современных браузерах.
 				br
 				br
-				|	Сайт создан на HTML, CSS и чистом JavaScript 2015 с использованием Gulp, Pug, SCSS и Babel. HTML и CSS прошли валидацию и соответствуют стандарту. 
+				|	Сайт создан на HTML, CSS и чистом JavaScript 2015 с использованием Gulp, Pug, SCSS и Babel. 
 				br
 				br
-				a(href="https://github.com/dmrompav/pavlov-mySite",target="_blank") - Посмотреть сборку и исходный код можно здесь -
+				a(href="https://github.com/dmrompav/pavlov-mySite",target="_blank") - Посмотреть исходный код можно здесь -
 			.info-icon.info-icon__1_2
 	article.group.group_2
 		.tapfield
@@ -334,7 +337,7 @@ main.main
 				br
 				br
 			.info-txt
-				|	Знаком с семантикой, хотя слегка страдаю "div-оизмом"), при необходимости проведу проверку валидатором.
+				|	Знаком с семантикой, хотя слегка страдаю "div-оизмом"). При необходимости проведу проверку валидатором.
 				br
 				br
 				|	Использую как Pug, так и стандартный html + emmet
@@ -374,7 +377,7 @@ main.main
 				|	Могу самостоятельно исправить все проблемы с изображениями/ иконками возникающие в работе. Хорошо рисую, имею графический планшет.
 				br
 				br
-				|	Figm'ой пользуюсь на базовом уровне - умею работать макеты.
+				|	Figm'ой пользуюсь на базовом уровне - умею работать с макетами.
 			.info-icon.info-icon__3_6
 		section.info.info__3_7
 			h4.info-title
@@ -385,14 +388,11 @@ main.main
 				|	Прирос к VSCode, полностью настроил под себя. 
 				br
 				br
-				|	Пользуюсь Git как через консоль, так и через прочие интерфейсы. Документацию читал, могу не только бездумно "пушить"
-				br
-				br
 				|	Могу настроить Gulp. 
 				a(href="https://github.com/dmrompav/MyGulp",target="_blank") Моя сборка
 				br
 				br
-				|	Постоянно работаю с Emmet.
+				|	Использую сокращения Emmet.
 			.info-icon.info-icon__3_7
 		section.info.info__3_8
 			h4.info-title
@@ -402,12 +402,9 @@ main.main
 			.info-txt
 				|	Могу сделать сайт адаптивным, как с использованием @media-запросов, так и более сложные варианты с JS. 
 				br
-				|	Компилирую CSS с autoprefixer - поэтому сайт работает во всех браузерах. 
+				|	Компилирую CSS с autoprefixer. 
 				br
 				|	Правильно вставлю SVG с альтернативным вариантом. Могу отредактировать в Illustrator.
-				br
-				br
-				|	Использую как Pug, так и стандартный html + emmet
 			.info-icon.info-icon__3_8
 	article.group.group_4
 		.tapfield
@@ -459,6 +456,7 @@ main.main
 		.tapfield
 		section.info.info__8_1
 			.info-txt
+				|	В процессе
 			.info-icon.info-icon__8_1
 		//- section.info.info__8_2
 		//- 	.info-txt

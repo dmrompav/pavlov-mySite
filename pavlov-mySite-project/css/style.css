@@ -420,7 +420,7 @@ a:visited {
 }
 
 .vertical__icon_12 {
-  background-position: -3px -73px;
+  background-position: 0px -72px;
 }
 
 .vertical__icon_21 {
@@ -676,7 +676,9 @@ a:visited {
   max-width: 90vw;
   padding: 50px 20px;
   overflow-x: hidden;
-  overflow-y: visible;
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.3);
   -webkit-transform: scale(0);
       -ms-transform: scale(0);
@@ -980,7 +982,7 @@ a:visited {
 
   .control-info {
     position: fixed;
-    top: 20px;
+    top: 15vh;
     left: 0;
     width: 100vw;
     text-align: center;

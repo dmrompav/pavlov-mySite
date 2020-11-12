@@ -66,11 +66,11 @@ if (localColor == 'blue' && (localQuality !== 'false')) {
 // !Нумерация элементов по X и Y + прочие элементы
 var		hind	= 0,								//по горизонтали
 		vind	= [0,0,0,0,0,0,0,0,0,0,0,0],		//по вертикали
-		mouseDownPermission	= false,
-		clickPermission		= false,
-		scrollPermission	= false,
-		swipePermission		= false,
-		keyDownPermission	= false,
+		mouseDownPermission	= true,
+		clickPermission		= true,
+		scrollPermission	= true,
+		swipePermission		= true,
+		keyDownPermission	= true,
 		isPopUpOpen 		= false,
 		wasEnterUp			= true;
 
@@ -92,11 +92,47 @@ const wrapperOn = setTimeout(
 	() => {
 		wrapper.style.opacity = 1;
 		// разрешить управление
-		mouseDownPermission	= true;
-		clickPermission		= true;
-		scrollPermission	= true;
-		swipePermission		= true;
-		keyDownPermission	= true;
+		function Permission() {
+			console.log(clickPermission)
+			// !EventListeners
+			for (let i = 0; i < horBut.length; i++) {
+				horBut[i].addEventListener('click', HorButClick, false);			//a few LISTENERS
+			}
+			for (let i = 0; i < ver.length; i++) {
+				for (let j = 0; j < verBut[i].length; j++) {
+					verBut[i][j].addEventListener('click', VerButClick, false);		//a lot of LISTENERS
+				}
+			}
+
+			if (d.addEventListener) {
+				if ('onwheel' in document) {
+					d.addEventListener("wheel", onWheel);										// IE9+, FF17+, Ch31+
+				} else if ('onmousewheel' in document) {
+					d.addEventListener("mousewheel", onWheel);									// устаревший вариант события
+				} else {
+					d.addEventListener("MozMousePixelScroll", onWheel);							// Firefox < 17
+				}
+			} else {
+				d.attachEvent("onmousewheel", onWheel);											// IE8-
+			}
+
+			d.addEventListener('touchstart', TouchStart, false);
+			setTimeout(function() {
+				d.addEventListener('touchmove', TouchMove, false);					//? Правильно ли???
+			}, 0)
+			d.addEventListener('touchend', TouchEnd, false);
+
+			d.addEventListener('mousedown', MouseDown, false);
+			d.addEventListener('mousemove', MouseMove, false);
+			d.addEventListener('mouseup', MouseUp, false);
+
+			d.addEventListener('keydown', KeyDown, false);
+			d.addEventListener('keyup', EnterClose, false);
+
+			arrowL.addEventListener('click', ArrowLClick, false);
+			arrowR.addEventListener('click', ArrowRClick, false);
+		}
+		Permission();
 		clearTimeout(wrapperOn);
 	}, 3500
 );
@@ -148,45 +184,6 @@ function Resize() {
 	ArrowsRules();
 }
 Resize();
-
-
-// !EventListeners
-for (let i = 0; i < horBut.length; i++) {
-	horBut[i].addEventListener('click', HorButClick, false);			//a few LISTENERS
-}
-for (let i = 0; i < ver.length; i++) {
-	for (let j = 0; j < verBut[i].length; j++) {
-		verBut[i][j].addEventListener('click', VerButClick, false);		//a lot of LISTENERS
-	}
-}
-
-if (d.addEventListener) {
-	if ('onwheel' in document) {
-		d.addEventListener("wheel", onWheel);										// IE9+, FF17+, Ch31+
-	} else if ('onmousewheel' in document) {
-		d.addEventListener("mousewheel", onWheel);									// устаревший вариант события
-	} else {
-		d.addEventListener("MozMousePixelScroll", onWheel);							// Firefox < 17
-	}
-} else {
-	d.attachEvent("onmousewheel", onWheel);											// IE8-
-}
-
-d.addEventListener('touchstart', TouchStart, false);
-setTimeout(function() {
-	d.addEventListener('touchmove', TouchMove, false);					//? Правильно ли???
-}, 0)
-d.addEventListener('touchend', TouchEnd, false);
-
-d.addEventListener('mousedown', MouseDown, false);
-d.addEventListener('mousemove', MouseMove, false);
-d.addEventListener('mouseup', MouseUp, false);
-
-d.addEventListener('keydown', KeyDown, false);
-d.addEventListener('keyup', EnterClose, false);
-
-arrowL.addEventListener('click', ArrowLClick, false);
-arrowR.addEventListener('click', ArrowRClick, false);
 
 
 // !Задаем функции клика
@@ -347,6 +344,8 @@ function MouseDown(e) {
 		verswi	= y-y0;
 		if(horswi > (swi/2) || horswi < -(swi/2) || verswi > (swi/2) || verswi < -(swi/2)) {
 			clickPermission = false;
+			scrollPermission = false;
+			keyDownPermission	= false;
 			if (Math.abs(horswi) > Math.abs(verswi)) {
 				swiTarget = "hor";
 			}
@@ -357,7 +356,7 @@ function MouseDown(e) {
 	}, 50)
 	swipeInterval2 = setInterval(() => {
 		if (swiTarget !== 0) {
-			if (swiTarget == "hor") {
+			if (swiTarget == "hor" && !isPopUpOpen) {
 				if (vw < 768) {
 					HorMakeSelectable();
 					AllVerMakeSelectable();
@@ -385,7 +384,7 @@ function MouseDown(e) {
 					HorTrans();
 				}
 			}
-			else {
+			else if (swiTarget == "ver" && !isPopUpOpen) {
 				let ind, indtrans;
 				indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
 				ind = vind0 - indtrans;
@@ -405,7 +404,14 @@ function MouseUp() {
 	clearInterval(swipeInterval1);
 	clearInterval(swipeInterval2);
 	swiTarget = 0;
-	
+	const permission = setTimeout(
+		() => {
+			clickPermission = true;
+			scrollPermission = true;
+			keyDownPermission	= true;
+			clearTimeout(permission);
+		}, 50
+	);
 }
 
 function TouchStart(event) {
@@ -424,6 +430,8 @@ function TouchMove(event) {
 	verswi	= Y-y0;
 	if(horswi > (swi/2) || horswi < -(swi/2) || verswi > (swi/2) || verswi < -(swi/2)) {
 		clickPermission = false;
+		scrollPermission = false;
+		keyDownPermission = false;
 		if (Math.abs(horswi) > Math.abs(verswi)) {
 			swiTarget = "hor";
 		}
@@ -432,7 +440,7 @@ function TouchMove(event) {
 		}
 	}
 	if (swiTarget !== 0) {
-		if (swiTarget == "hor") {
+		if (swiTarget == "hor" && !isPopUpOpen) {
 			if (vw < 768) {
 				HorMakeSelectable();
 				AllVerMakeSelectable();
@@ -460,7 +468,7 @@ function TouchMove(event) {
 				HorTrans();
 			}
 		}
-		else {
+		else if (swiTarget == "ver" && !isPopUpOpen) {
 			let ind, indtrans;
 			indtrans = (verswi - verswi % (swi * 0.5)) / (swi * 0.5);
 			ind = vind0 - indtrans;
@@ -475,14 +483,17 @@ function TouchMove(event) {
 }
 function TouchEnd(event) {
 	swiTarget = 0;
+	clickPermission = true;
+	scrollPermission = true;
+	keyDownPermission	= true;
 }
 
 
 // !Задаем функции клавиатуры
 function KeyDown(e) {
 	let key = e.key;
-	if (keyDownPermission) {
-		if (key == "ArrowLeft") {
+	if (key == "ArrowLeft") {
+		if (keyDownPermission && !isPopUpOpen) {
 			if(hind < 1) {
 				//nothing
 			}
@@ -503,7 +514,9 @@ function KeyDown(e) {
 				HorTrans();
 			}
 		}
-		else if (key == "ArrowUp") {
+	}
+	else if (key == "ArrowUp") {
+		if (keyDownPermission && !isPopUpOpen) {
 			if (verBut[hind].length > 1) {
 				if (vind[hind] < 1) {
 					//nothing
@@ -522,7 +535,9 @@ function KeyDown(e) {
 				}
 			}
 		}
-		else if (key == "ArrowRight") {
+	}
+	else if (key == "ArrowRight") {
+		if (keyDownPermission && !isPopUpOpen) {
 			if(hind < 1) {
 				HorMakeSelectable();
 				AllVerMakeSelectable();
@@ -543,7 +558,9 @@ function KeyDown(e) {
 				//nothing
 			}
 		}
-		else if (key == "ArrowDown") {
+	}
+	else if (key == "ArrowDown") {
+		if (keyDownPermission && !isPopUpOpen) {
 			if (verBut[hind].length > 1) {
 				if (vind[hind] < 1) {
 					VerMakeSelectable();
@@ -562,21 +579,23 @@ function KeyDown(e) {
 				}
 			}
 		}
-		else if (e.keyCode == 13) {
-			if (!isPopUpOpen && wasEnterUp) {
-				wasEnterUp = false;
-				verBut[hind][vind[hind]].click();
-			}
-			else if (isPopUpOpen && wasEnterUp) {
-				wasEnterUp = false;
-				ClosePopUp();
-			}
+	}
+	else if (e.keyCode == 13) {
+		if (!isPopUpOpen && wasEnterUp) {
+			console.log('');
+			wasEnterUp = false;
+			verBut[hind][vind[hind]].click();
 		}
-
+		else if (isPopUpOpen && wasEnterUp) {
+			wasEnterUp = false;
+			ClosePopUp();
+		}
 	}
 }
-function EnterClose() {
+function EnterClose(e) {
+	if (e.keyCode == 13) {
 	wasEnterUp = true;
+	}
 }
 
 
@@ -652,6 +671,7 @@ function CallPopUp() {
 	scrollPermission	= false;
 	swipePermission		= false;
 	mouseDownPermission	= false;
+	keyDownPermission	= false;
 	// Скрыть hor, ver и arrows
 	hor.style.opacity		= 0;
 	allVer.style.opacity	= 0;
