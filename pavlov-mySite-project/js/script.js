@@ -37,8 +37,9 @@ for (var i = 0; i < ver.length; i++) {
 
 for (var _i = 0; _i < group.length; _i++) {
   info[_i] = group[_i].querySelectorAll('.info');
-} // !Включить ли упрощенный режим? Значение изменяется в VerButClick
+}
 
+console.log(horBut); // !Включить ли упрощенный режим? Значение изменяется в VerButClick
 
 var localQuality = localStorage.getItem('needQuality');
 
