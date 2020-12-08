@@ -36,9 +36,6 @@ for (let i = 0; i < group.length; i++) {
 	info[i] 	= group[i].querySelectorAll('.info');
 }
 
-console.log(horBut)
-
-
 // !Включить ли упрощенный режим? Значение изменяется в VerButClick
 let	localQuality = localStorage.getItem('needQuality');
 if (localQuality == 'false') {
@@ -95,7 +92,6 @@ const wrapperOn = setTimeout(
 		wrapper.style.opacity = 1;
 		// разрешить управление
 		function Permission() {
-			console.log(clickPermission)
 			// !EventListeners
 			for (let i = 0; i < horBut.length; i++) {
 				horBut[i].addEventListener('click', HorButClick, false);			//a few LISTENERS
@@ -584,7 +580,6 @@ function KeyDown(e) {
 	}
 	else if (e.keyCode == 13) {
 		if (!isPopUpOpen && wasEnterUp) {
-			console.log('');
 			wasEnterUp = false;
 			verBut[hind][vind[hind]].click();
 		}
